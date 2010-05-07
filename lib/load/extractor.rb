@@ -32,9 +32,9 @@ class Extractor
       deputy[:nationality] = doc.css("#ctl15_ctlNarodnost").first.content.to_s.strip
       deputy[:domicile] = doc.css("#ctl15_ctlBydlisko").first.content.to_s.strip
       deputy[:region] = doc.css("#ctl15_ctlKraj").first.content.to_s.strip
-      deputy[:email] = doc.css("#ctl15_ctlEmail").first.content.to_s.strip unless (doc.css("#ctl15_ctlEmail").first.nil? or doc.css("#ctl15_ctlEmail").first.content.to_s.length < 4)
+      deputy[:email] = doc.css("#ctl15_ctlEmail").first.content.to_s.strip unless (doc.css("#ctl15_ctlEmail").first.nil? or doc.css("#ctl15_ctlEmail").first.content.to_s.strip.length < 5)
 #      length < 4 pretoze moze obsahovat znaky ako "", " ", ",", "()", atd.
-      deputy[:contact_person] = doc.css("#ctl15_ctlContactPerson").first.content.to_s.strip unless (doc.css("#ctl15_ctlContactPerson").first.nil? or doc.css("#ctl15_ctlContactPerson").first.content.to_s.length < 4)
+      deputy[:contact_person] = doc.css("#ctl15_ctlContactPerson").first.content.to_s.strip unless (doc.css("#ctl15_ctlContactPerson").first.nil? or doc.css("#ctl15_ctlContactPerson").first.content.to_s.strip.length < 5)
       puts "deputy details for lastname:#{deputy[:lastname]} extracted"
       return deputy
   end
