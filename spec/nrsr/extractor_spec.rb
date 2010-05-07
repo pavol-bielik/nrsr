@@ -39,7 +39,7 @@ describe Extractor do
       deputy[:contact_person].nil?.should == true
     end
 
-    it "should extract deputy info without contact" do
+    it "should extract deputy info without email" do
       deputy = Extractor.extract_deputy(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/deputy_info_without_email.html"))
       deputy[:degree].should == "Ing."
       deputy[:lastname].should == "Hradecký"
