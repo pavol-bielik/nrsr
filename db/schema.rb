@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100507175807) do
+ActiveRecord::Schema.define(:version => 20100507191643) do
 
   create_table "deputies", :force => true do |t|
     t.string   "degree"
@@ -26,5 +26,45 @@ ActiveRecord::Schema.define(:version => 20100507175807) do
   end
 
   add_index "deputies", ["id"], :name => "index_deputies_on_id", :unique => true
+
+  create_table "statutes", :force => true do |t|
+    t.integer "parent_id"
+    t.string  "type"
+    t.string  "state"
+    t.string  "result"
+    t.text    "subject"
+    t.date    "date"
+  end
+
+  create_table "votes", :force => true do |t|
+    t.integer "voting_id"
+    t.integer "deputy_id"
+    t.string  "choice",    :limit => 10
+    t.string  "party",     :limit => 100
+  end
+
+  add_index "votes", ["deputy_id"], :name => "index_votes_on_deputy_id"
+  add_index "votes", ["id"], :name => "index_votes_on_id", :unique => true
+  add_index "votes", ["voting_id"], :name => "index_votes_on_voting_id"
+
+  create_table "votings", :force => true do |t|
+    t.integer  "statute_id"
+    t.integer  "period",              :limit => 2, :precision => 2, :scale => 0
+    t.text     "subject"
+    t.integer  "meeting_no"
+    t.integer  "number_no"
+    t.datetime "happened_at"
+    t.integer  "attending_count",     :limit => 3, :precision => 3, :scale => 0
+    t.integer  "voting_count",        :limit => 3, :precision => 3, :scale => 0
+    t.integer  "pro_count",           :limit => 3, :precision => 3, :scale => 0
+    t.integer  "against_count",       :limit => 3, :precision => 3, :scale => 0
+    t.integer  "hold_count",          :limit => 3, :precision => 3, :scale => 0
+    t.integer  "not_voting_count",    :limit => 3, :precision => 3, :scale => 0
+    t.integer  "not_attending_count", :limit => 3, :precision => 3, :scale => 0
+    t.integer  "popularity"
+  end
+
+  add_index "votings", ["popularity"], :name => "index_votings_on_popularity"
+  add_index "votings", ["statute_id"], :name => "index_votings_on_statute_id"
 
 end

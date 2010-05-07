@@ -3,6 +3,7 @@ require RAILS_ROOT + "/lib/load/extractor"
 require 'fileutils'
 
 class Deputy < ActiveRecord::Base
+  has_many :votes, :class_name => "Vote"
 
   def self.create_deputies
     actual_deputies_html = Connector.download_actual_deputies_list_html

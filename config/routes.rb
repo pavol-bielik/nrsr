@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :votes
+
+  map.resources :votings
+
+  map.resources :statutes
+
   map.resources :deputies
 
   # The priority is based upon order of creation: first created -> highest priority.
