@@ -6,9 +6,9 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 PHOTOS_DIR = File.dirname(__FILE__) + "/../public/images/photos" unless defined?(PHOTOS_DIR)
 FileUtils.mkdir_p(PHOTOS_DIR) unless File.directory?(PHOTOS_DIR)
 
-
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
@@ -43,3 +43,5 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
+
+require File.dirname(__FILE__) + "/initializers/requires"

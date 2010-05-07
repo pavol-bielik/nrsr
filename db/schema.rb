@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20100507191643) do
     t.string  "result"
     t.text    "subject"
     t.date    "date"
+    t.string  "doc"
   end
 
   create_table "votes", :force => true do |t|
@@ -49,10 +50,9 @@ ActiveRecord::Schema.define(:version => 20100507191643) do
 
   create_table "votings", :force => true do |t|
     t.integer  "statute_id"
-    t.integer  "period",              :limit => 2, :precision => 2, :scale => 0
     t.text     "subject"
     t.integer  "meeting_no"
-    t.integer  "number_no"
+    t.integer  "voting_no"
     t.datetime "happened_at"
     t.integer  "attending_count",     :limit => 3, :precision => 3, :scale => 0
     t.integer  "voting_count",        :limit => 3, :precision => 3, :scale => 0

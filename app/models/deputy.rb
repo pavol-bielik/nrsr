@@ -1,5 +1,5 @@
-require RAILS_ROOT + "/lib/load/connector"
-require RAILS_ROOT + "/lib/load/extractor"
+#require RAILS_ROOT + "/lib/load/connector"
+#require RAILS_ROOT + "/lib/load/extractor"
 require 'fileutils'
 
 class Deputy < ActiveRecord::Base

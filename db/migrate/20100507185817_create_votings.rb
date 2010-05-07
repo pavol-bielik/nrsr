@@ -4,10 +4,9 @@ class CreateVotings < ActiveRecord::Migration
     create_table(:votings, :options => options) do |t|
       t.integer :id
       t.integer :statute_id
-      t.decimal :period             , :precision => 2, :scale => 0
       t.text :subject, :limit => "1000"
       t.integer :meeting_no
-      t.integer :number_no
+      t.integer :voting_no
       t.datetime :happened_at
       t.decimal :attending_count    , :precision => 3, :scale => 0
       t.decimal :voting_count       , :precision => 3, :scale => 0
