@@ -106,7 +106,7 @@ describe Extractor do
     end
 
     it "should parse info from secret voting" do
-      voting = Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/secret_voting_info.html"))
+      voting = Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_info_secret.html"))
       voting[:meeting_no].should == 44
       voting[:voting_no].should == nil
       voting[:happened_at].should == DateTime.civil(2009, 12, 9)
@@ -120,13 +120,13 @@ describe Extractor do
     end
 
     it "should return empty votes from secret voting" do
-      votes = Extractor.extract_votes(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/secret_voting_info.html"))
+      votes = Extractor.extract_votes(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_info_secret.html"))
       votes.empty?.should == true
     end
 
 
     it "should return nil on invalid voting" do
-      voting = Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/empty_voting_info.html"))
+      voting = Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_info_empty.html"))
       voting.nil?.should == true
     end
 
@@ -136,6 +136,63 @@ describe Extractor do
 
      voting2 = Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_2.html"))
      voting2.nil?.should == true 
+    end
+
+    it "should extract voting ids from html" do
+     voting_ids = Extractor.extract_voting_ids(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_list.html"))
+     voting_ids.should == [26827, 26828, 26834, 26835, 26836, 26837, 26838] 
+    end
+
+    it "should return [] from empty voting list html" do
+     voting_ids = Extractor.extract_voting_ids(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_list_empty.html"))
+     voting_ids.empty?.should == true
+    end
+
+  end
+
+  describe "Statute" do
+
+    it "should parse statute info with parent" do
+      statute = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/statute_info_with_parent.html"))
+      statute.should == {
+              :id => 1526,
+              :parent_id => 1440,
+              :subject => "Zákon z 10. marca 2010, ktorým sa zriaďuje Slovenský historický ústav v Ríme, vrátený prezidentom Slovenskej republiky na opätovné prerokovanie Národnou radou Slovenskej republiky",
+              :type => "Zákon vrátený prezidentom",
+              :state => "Uzavretá úloha",
+              :result => "(NZ nebol schválený)",
+              :date => DateTime.civil(2010, 3, 26)
+              }
+    end
+
+    it "should parse statute info without parent with document" do
+      statute = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/statute_info_without_parent.html"))
+      statute.should == {
+              :id => 1528,
+              :subject => "Vládny návrh zákona, ktorým sa mení zákon č. 313/2009 Z. z. o vinohradníctve a vinárstve",
+              :type => "Novela zákona",
+              :state => "Redakcia",
+              :result => "(NZ postúpil do redakcie)",
+              :date => DateTime.civil(2010, 4, 1),
+              :doc => "Dynamic/Download.aspx?DocID=344845"
+              }
+    end
+
+    it "should parse statute in evidence" do
+      statute = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/statute_info_in_evidence.html"))
+      statute.should == {
+              :state => "Evidencia",
+              :result => "(Tlač evidovaná v podateľni)",
+              :subject => "Návrh vlády na skrátené legislatívne konanie o vládnom návrhu zákona, ktorým sa mení zákon č. 313/2009 Z. z. o vinohradníctve a vinárstve"
+              }
+    end
+
+    it "should return nil on invalid pages" do
+     voting1 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_1.html"))
+     voting1.nil?.should == true
+
+     voting2 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_2.html"))
+     voting2.nil?.should == true
     end
 
   end

@@ -9,6 +9,40 @@ class Extractor
     return true
   end
 
+  #extrahuje informacie o legislativnom procese pre dany zakon, novelu zakona, ...
+  def self.extract_statute(html)
+    doc = Nokogiri::HTML(html)
+    return nil unless valid_page?(doc)
+
+    statute = {}
+    statute[:state] = doc.css("#ctl15__ProcessStateLabel").first.content.to_s
+    statute[:result] = doc.css("#ctl15__CurrentResultLabel").first.content.to_s
+    statute[:subject] = doc.css("#ctl15__SslpNameLabel").first.content.to_s
+
+    return statute if /evidencia/i =~ statute[:state]
+
+    statute[:type] = doc.css("#ctl15_ctl00__CategoryNameLabel").first.content.to_s
+    time = doc.css("#ctl15_ctl00__DatumDoruceniaLabel").first.content.match(/(\d+)\. (\d+)\. (\d+)/)
+    statute[:date] = Date.civil(time[3].to_i, time[2].to_i, time[1].to_i)
+    statute[:id] = doc.css("#ctl15_ctl00__CptLink").first.content.to_i
+    statute[:parent_id] = doc.css("#ctl15_ctl00__LastCptLink").first.content.to_i unless (doc.css("#ctl15_ctl00__LastCptLink").first.nil? or doc.css("#ctl15_ctl00__LastCptLink").first.content.to_s.strip.empty?)
+    statute[:doc] = doc.xpath('//*[(@id = "ctl15_ctl06__documentsList__sslpListPanel")]//a').first[:href].to_s unless doc.xpath('//*[(@id = "ctl15_ctl06__documentsList__sslpListPanel")]//a').first.nil?
+    #statute[:votings_link] = doc.css("#ctl15__hlasovaniaLink").first[:href].to_s
+    
+    puts "statute info id:#{statute[:id]} extracted"
+    return statute
+  end
+
+  #Extractor.extract_voting_ids(Connector.download_statute_votings_list_html(1528))
+  #extrahuje zoznam ids hlasovani z html
+  def self.extract_voting_ids(text)
+    votingidregexp = /hlasklub&amp;ID=(\d+)/
+    voting_ids = []
+    text.scan(votingidregexp){|x| voting_ids << x[0].to_i}
+    puts "#{voting_ids.length} voting ids extracted"
+    return voting_ids
+  end
+
   #extrahuje zoznam ids aktualnych poslancov (return) z html
   def self.extract_actual_deputies_ids(text)
     deputyidregexp = /PoslanecID=(\d+)/

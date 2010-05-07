@@ -12,6 +12,16 @@ class Connector
 #    return Nokogiri::HTML(open(url)).to_s
 #  end
 
+  def self.download_statute_votings_list_html(id)
+    url = "http://www.nrsr.sk/Default.aspx?sid=schodze/hlasovanie/vyhladavanie_vysledok&ZakZborID=13&CisObdobia=4&Popis=&CPT=#{id}&CisSchodze=&DatumOd=&DatumDo=&FullText=False"
+    return self.download(url)
+  end
+
+  def self.download_statute_info_html(id)
+    url = "http://www.nrsr.sk/Default.aspx?sid=zakony/zakon&ZakZborID=13&CisObdobia=4&CPT=#{id}"
+    return self.download(url)
+  end
+
   #stiahne html (return) pre pocet obdobi
   def self.download_period_count_html
     url = "http://www.nrsr.sk/default.aspx?sid=schodze/hlasovanie/vyhladavanie"
