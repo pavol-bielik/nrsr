@@ -113,8 +113,9 @@ class Extractor
           unless spans.empty?
             vote = spans.first.content.tr("[] ", "")
             person = row.css("a").first.content
+            person_id = row.css("a").first[:href].to_s.match(/(\d+)/)[1].to_i
             votes[party] ||= []
-            votes[party] << [vote, person]
+            votes[party] << [vote, person_id, person]
           end
         end
       end
