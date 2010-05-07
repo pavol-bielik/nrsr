@@ -53,6 +53,11 @@ describe Extractor do
       deputy[:contact_person].nil?.should == true
     end
 
+    it "should return nil contact on invalid contact" do
+      deputy = Extractor.extract_deputy(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/deputy_info_with_invalid_contact.html"))
+      deputy[:contact_person].nil?.should == true
+    end
+
     it "should return nil on invalid pages" do
      deputy1 = Extractor.extract_deputy(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_1.html"))
      deputy1.nil?.should == true
