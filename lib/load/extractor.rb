@@ -121,6 +121,18 @@ class Extractor
       end
       return votes
   end
+
+  #Extractor.extract_last_statute_id(Connector.download_last_statute_html)
+  def self.extract_last_statute_id(html)
+    doc = Nokogiri::HTML(html)
+    return nil unless valid_page?(doc)
+
+    match = doc.to_s.match(/CisObdobia=4&amp;ID=(\d*?)"/)
+    return nil if match.nil?
+    puts "last statute id:#{match[1].to_i}"
+    return match[1].to_i
+    #Default.aspx?sid=zakony/cpt&ZakZborID=13&CisObdobia=4&ID=1534
+  end
   
   #extrahuje pocet obdobi (return) z vyberu
   def self.extract_period_count(text)

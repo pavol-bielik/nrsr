@@ -12,6 +12,12 @@ class Connector
 #    return Nokogiri::HTML(open(url)).to_s
 #  end
 
+  def self.download_last_statute_html
+    date = Date.today - 90
+    url = "http://www.nrsr.sk/Default.aspx?sid=zakony/sslp_result&StateID=&CategoryID=-1&PredkladatelID=-1&Predkladatel=&Nazov=&CPT=&CisObdobia=4&DatumOd=#{date.year}-#{date.month}-#{date.day}%200:0:0&DatumDo=2100-1-1%200:0:0&FullText=False"
+    return self.download(url)
+  end
+
   def self.download_statute_votings_list_html(id)
     url = "http://www.nrsr.sk/Default.aspx?sid=schodze/hlasovanie/vyhladavanie_vysledok&ZakZborID=13&CisObdobia=4&Popis=&CPT=#{id}&CisSchodze=&DatumOd=&DatumDo=&FullText=False"
     return self.download(url)
@@ -61,7 +67,7 @@ class Connector
     return self.download(url)
   end 
   #stiahne html (return) pre hlasovanie podla klubov
-  def self.download_voting_html(voting_id)
+  def self.download_voting_info_html(voting_id)
     url = "http://www.nrsr.sk/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=#{voting_id}"
     return self.download(url)
   end
