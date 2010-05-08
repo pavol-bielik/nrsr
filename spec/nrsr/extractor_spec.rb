@@ -64,6 +64,9 @@ describe Extractor do
 
      deputy2 = Extractor.extract_deputy(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_2.html"))
      deputy2.nil?.should == true
+
+     deputy3 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_3.html"))
+     deputy3.nil?.should == true
     end
 
   end
@@ -135,7 +138,10 @@ describe Extractor do
      voting1.nil?.should == true
 
      voting2 = Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_2.html"))
-     voting2.nil?.should == true 
+     voting2.nil?.should == true
+
+     voting3 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_3.html"))
+     voting3.nil?.should == true
     end
 
     it "should extract voting ids from html" do
@@ -188,11 +194,14 @@ describe Extractor do
     end
 
     it "should return nil on invalid pages" do
-     voting1 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_1.html"))
-     voting1.nil?.should == true
+     statute1 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_1.html"))
+     statute1.nil?.should == true
 
-     voting2 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_2.html"))
-     voting2.nil?.should == true
+     statute2 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_2.html"))
+     statute2.nil?.should == true
+
+     statute3 = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/error_page_3.html"))
+     statute3.nil?.should == true 
     end
 
     it "should get last statute id" do

@@ -54,7 +54,7 @@ class Downloader
         when Net::HTTPRedirection then
           return download(response['location'])
         else
-          response.error!
+          #response.error!
         end     
       rescue Exception
         puts $!
