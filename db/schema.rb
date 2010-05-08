@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20100507191643) do
 
   create_table "statutes", :force => true do |t|
     t.integer "parent_id"
-    t.string  "type"
+    t.string  "statute_type"
     t.string  "state"
     t.string  "result"
     t.text    "subject"

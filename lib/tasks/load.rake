@@ -9,7 +9,7 @@ namespace :load do
   task(:statute_create_with_dependecies => :environment) do
     statute_id = 1526
     while true do
-      statute = Statute.create_statute(statute_id)
+      statute = Statute.create_or_update(statute_id)
       break if statute.nil?
       voting_list = Connector.download_statute_votings_list_html(statute_id)
       break if voting_list.nil?

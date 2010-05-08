@@ -6,7 +6,7 @@ class Voting < ActiveRecord::Base
 
   def self.create_voting(id, statute=nil)
     return nil if Voting.exists?(id)
-    voting_html = Connector.download_voting_html(id)
+    voting_html = Connector.download_voting_info_html(id)
     voting_attr = Extractor.extract_voting(voting_html)
     return nil if voting_attr.nil?
     voting = Voting.new(voting_attr)

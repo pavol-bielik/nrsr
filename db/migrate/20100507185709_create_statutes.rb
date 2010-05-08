@@ -4,7 +4,7 @@ class CreateStatutes < ActiveRecord::Migration
     create_table(:statutes, :options => options) do |t|
       t.integer :id
       t.integer :parent_id
-      t.string :type
+      t.string :statute_type
       t.string :state
       t.string :result
       t.text :subject, :limit => "1000"
