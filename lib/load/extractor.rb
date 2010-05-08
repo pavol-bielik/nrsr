@@ -4,6 +4,7 @@ class Extractor
 
   #kontrola ci stranka nie je chybne hlasenie
   def self.valid_page?(doc)
+    return nil if (!doc.css("h1").first.nil? and doc.css("h1").first.content.to_s.strip == "Bad Request")    
     return nil if (!doc.css("h1").first.nil? and doc.css("h1").first.content.to_s.strip == "Neočakávaná chyba")
     return nil if (!doc.css("#ctlErrorLabel").first.nil? and doc.css("#ctlErrorLabel").first.content.to_s.match(/Chyba na stránke/i))
     return true
