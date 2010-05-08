@@ -5,7 +5,7 @@ class CreateVotes < ActiveRecord::Migration
       t.integer :id
       t.integer :voting_id
       t.integer :deputy_id
-      t.string :choice, :limit => "10"
+      t.string :vote, :limit => "10"
       t.string :party, :limit => "100"
     end
     add_index :votes, [:id], :unique => true

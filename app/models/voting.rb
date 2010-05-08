@@ -5,29 +5,18 @@ class Voting < ActiveRecord::Base
   DEFAULT_POPULARITY = 1000
 
   def self.create_voting(id, statute=nil)
-    return if Voting.exists?(id)
+    return nil if Voting.exists?(id)
     voting_html = Connector.download_voting_html(id)
     voting_attr = Extractor.extract_voting(voting_html)
-    return if voting_attr.nil?
+    return nil if voting_attr.nil?
     voting = Voting.new(voting_attr)
     voting.id = id
     voting.statute_id = statute unless statute.nil?
     voting.popularity = DEFAULT_POPULARITY
     voting.save
+    puts "voting #{id} created"
+    return voting_html
+#    Vote.process_votes(voting_html,id)
   end
-
-  def self.process_votes(html, voting=nil)
-    all_votes = Extractor.extract_votes(html)
-    return if all_votes.empty?
-
-    all_votes.each do |party, votes|
-      votes.each do |vote|
-#         Voting.create(:voting_id => voting,
-#                       :deputy_id => Deputy.find_)
-      end
-    end
-
-  end
-
 
 end
