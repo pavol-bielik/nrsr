@@ -195,6 +195,11 @@ describe Extractor do
      voting2.nil?.should == true
     end
 
+    it "should get last statute id" do
+      statute_id = Extractor.extract_last_statute_id(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/statute_list.html"))
+      statute_id.should == 1534      
+    end
+
   end
 
 end
