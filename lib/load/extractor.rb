@@ -21,7 +21,7 @@ class Extractor
 
     return statute if /evidencia/i =~ statute[:state]
 
-    statute[:type] = doc.css("#ctl15_ctl00__CategoryNameLabel").first.content.to_s
+    statute[:statute_type] = doc.css("#ctl15_ctl00__CategoryNameLabel").first.content.to_s
     time = doc.css("#ctl15_ctl00__DatumDoruceniaLabel").first.content.match(/(\d+)\. (\d+)\. (\d+)/)
     statute[:date] = Date.civil(time[3].to_i, time[2].to_i, time[1].to_i)
     statute[:id] = doc.css("#ctl15_ctl00__CptLink").first.content.to_i

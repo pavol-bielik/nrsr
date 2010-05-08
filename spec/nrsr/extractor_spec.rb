@@ -158,7 +158,7 @@ describe Extractor do
               :id => 1526,
               :parent_id => 1440,
               :subject => "Zákon z 10. marca 2010, ktorým sa zriaďuje Slovenský historický ústav v Ríme, vrátený prezidentom Slovenskej republiky na opätovné prerokovanie Národnou radou Slovenskej republiky",
-              :type => "Zákon vrátený prezidentom",
+              :statute_type => "Zákon vrátený prezidentom",
               :state => "Uzavretá úloha",
               :result => "(NZ nebol schválený)",
               :date => DateTime.civil(2010, 3, 26)
@@ -170,7 +170,7 @@ describe Extractor do
       statute.should == {
               :id => 1528,
               :subject => "Vládny návrh zákona, ktorým sa mení zákon č. 313/2009 Z. z. o vinohradníctve a vinárstve",
-              :type => "Novela zákona",
+              :statute_type => "Novela zákona",
               :state => "Redakcia",
               :result => "(NZ postúpil do redakcie)",
               :date => DateTime.civil(2010, 4, 1),
