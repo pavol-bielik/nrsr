@@ -1,8 +1,7 @@
 class Voting < ActiveRecord::Base
   has_many :votes, :class_name => "Vote"
+  has_many :user_votes, :class_name => "UserVote"
   belongs_to :statute
-
-  DEFAULT_POPULARITY = 1000
 
   def self.create_voting(id, statute=nil)
     return nil if Voting.exists?(id)
