@@ -1,18 +1,20 @@
-<h1>Listing votings</h1>
+<h1>Zoznam hlasovaní</h1>
+
+Pocet hlasovani: <%= @count %>
 
 <table>
+  <% i = 0 %>
   <tr>
+    <th class="first">Dátum</th>
+    <th>Názov</th>
   </tr>
 
 <% @votings.each do |voting| %>
-  <tr>
-    <td><%= link_to 'Show', voting %></td>
-    <td><%= link_to 'Edit', edit_voting_path(voting) %></td>
-    <td><%= link_to 'Destroy', voting, :confirm => 'Are you sure?', :method => :delete %></td>
+  <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
+    <td class="first"><%= voting.happened_at %></td>
+    <td><%= voting.subject %></td>
+    <td><%= link_to 'Info', voting %></td>
   </tr>
+  <% i += 1 %>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New voting', new_voting_path %>

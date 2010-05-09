@@ -33,8 +33,4 @@ class Deputy < ActiveRecord::Base
     super(File.basename(file.path))
   end
 
-  def photo
-    return File.open("data/photos/#{super()}", "rb")
-  end
-
 end

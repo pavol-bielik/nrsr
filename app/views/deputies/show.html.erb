@@ -1,3 +1,68 @@
+<h1><%= @deputy.firstname + " " + @deputy.lastname %></h1>
 
-<%= link_to 'Edit', edit_deputy_path(@deputy) %> |
-<%= link_to 'Back', deputies_path %>
+<div class="poslanec">
+
+    <div class="foto">
+        <%= image_tag("/images/photos/#{@deputy.photo}") %>
+    </div>
+
+
+<table>
+
+  <tr class="row-a">
+    <td class="first">Titul:</td>
+    <td><%= @deputy.degree %></td>
+  </tr>
+
+  <tr class="row-b">
+    <td class="first">Meno:</td>
+    <td><%= @deputy.firstname %></td>
+  </tr>
+
+  <tr class="row-a">
+    <td class="first">Priezvisko:</td>
+    <td><%= @deputy.lastname %></td>
+  </tr>
+
+  <tr class="row-b">
+    <td class="first">Kandidoval(a) za:</td>
+    <td><%= @deputy.party %></td>
+  </tr>
+
+  <tr class="row-a">
+    <td class="first">Dátum narodenia:</td>
+    <td><%= @deputy.born %></td>
+  </tr>
+
+  <tr class="row-b">
+    <td class="first">Národnosť:</td>
+    <td><%= @deputy.nationality %></td>
+  </tr>
+
+  <tr class="row-a">
+    <td class="first">Bydlisko:</td>
+    <td><%= @deputy.domicile %></td>
+  </tr>
+
+  <tr class="row-b">
+    <td class="first">Región:</td>
+    <td><%= @deputy.region %></td>
+  </tr>
+
+  <% unless @deputy.email.nil? %>
+  <tr class="row-a">
+    <td class="first">Email:</td>
+    <td><%= @deputy.email %></td>
+  </tr>
+  <% end %>
+
+  <% unless @deputy.contact_person.nil? %>
+  <tr class="row-a">
+    <td class="first">Kont. osoba:</td>
+    <td><%= @deputy.contact_person %></td>
+  </tr>
+  <% end %>
+  
+</table>
+
+</div>   

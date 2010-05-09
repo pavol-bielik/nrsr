@@ -2,7 +2,8 @@ class StatutesController < ApplicationController
   # GET /statutes
   # GET /statutes.xml
   def index
-    @statutes = Statute.all
+    #@statutes = Statute.all
+    @statutes = Statute.find(:all, :conditions => "state <> 'Evidencia'")
 
     respond_to do |format|
       format.html # index.html.erb
