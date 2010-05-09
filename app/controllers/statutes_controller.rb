@@ -15,6 +15,7 @@ class StatutesController < ApplicationController
   # GET /statutes/1.xml
   def show
     @statute = Statute.find(params[:id])
+    @votings = Voting.find(:all, :conditions => ["statute_id = ?", @statute.id], :order => "popularity DESC")
 
     respond_to do |format|
       format.html # show.html.erb

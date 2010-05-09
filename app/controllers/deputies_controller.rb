@@ -2,6 +2,7 @@ class DeputiesController < ApplicationController
   # GET /deputies
   # GET /deputies.xml
   def index
+    @title = "Poslanci"
     @deputies = Deputy.all(:order => "party")
 
     respond_to do |format|
@@ -14,6 +15,7 @@ class DeputiesController < ApplicationController
   # GET /deputies/1.xml
   def show
     @deputy = Deputy.find(params[:id])
+    @title = "Poslanec | " + @deputy.firstname + " " + @deputy.lastname
 
     respond_to do |format|
       format.html # show.html.erb

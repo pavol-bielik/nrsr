@@ -1,3 +1,68 @@
+<p>
+  <b>Subject:</b>
+  <%=h @voting.subject %>
+</p>
 
-<%= link_to 'Edit', edit_voting_path(@voting) %> |
-<%= link_to 'Back', votings_path %>
+<p>
+  <b>Meeting number:</b>
+  <%=h @voting.meeting_no %>
+</p>
+
+<p>
+  <b>Number:</b>
+  <%=h @voting.voting_no %>
+</p>
+
+<p>
+  <b>Happened at:</b>
+  <%=h @voting.happened_at %>
+</p>
+
+<p>
+  <b>Attending count:</b>
+  <%=h @voting.attending_count %>
+</p>
+
+<p>
+  <b>Attending count:</b>
+  <%=h @voting.voting_count %>
+</p>
+
+<p>
+  <b>Attending count:</b>
+  <%=h @voting.pro_count %>
+</p>
+
+
+<p>
+  <b>Attending count:</b>
+  <%=h @voting.against_count %>
+</p>
+
+<p>
+  <b>Attending count:</b>
+  <%=h @voting.hold_count %>
+</p>
+
+<p>
+  <b>Attending count:</b>
+  <%=h @voting.not_voting_count %>
+</p>
+
+<p>
+  <b>Attending count:</b>
+  <%=h @voting.not_attending_count %>
+</p>
+
+<% if current_user %>
+    <% form_tag(vote_voting_path(@voting), :method => :put) do %>
+      <h3>Vas nazor?</h3>
+      <%= @user_vote.vote == "Z" ? radio_button_tag(:my_vote, "Z", true, "class" => "radio") : radio_button_tag(:my_vote, "Z", false, "class" => "radio") %>
+      <%= label_tag(:za, "Za") %>
+      <%= @user_vote.vote == "P" ? radio_button_tag(:my_vote, "P", true, "class" => "radio") : radio_button_tag(:my_vote, "P", false, "class" => "radio") %>
+      <%= label_tag(:proti, "Proti") %>
+      <%= submit_tag "Vote", "class" => "button" %>
+    <% end %>
+<% end %>
+
+<%= render :partial => "votes", :object => @votes %>

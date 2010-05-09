@@ -1,0 +1,10 @@
+<h1>Login</h1>
+
+<% form_for @user_session, :url => user_sessions_path, :html => { :class => "register" } do |f| %>
+  <%= f.error_messages %>
+  <%= f.label :login %>
+  <%= f.text_field :login %>
+  <%= f.label :password %>
+  <%= f.password_field :password %><br /><br />
+  <%= f.submit "Login", "class" => "button" %>
+<% end %>

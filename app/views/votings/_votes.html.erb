@@ -1,0 +1,17 @@
+<table>
+  <tr>
+    <th>Vote</th>
+    <th>Name</th>
+    <th>Surname</th>
+    <th>Party</th>
+  </tr>
+
+<% @votes.each do |vote| %>
+  <tr>
+    <td><%=h vote.vote %></td>
+    <td><%=h vote.deputy.firstname %></td>
+    <td><%=h vote.deputy.lastname %></td>
+    <td><%=h vote.party %></td>
+  </tr>
+<% end %>
+</table>

@@ -6,6 +6,12 @@ helper :all
   helper_method :current_user_session, :current_user
   filter_parameter_logging :password, :password_confirmation
   protect_from_forgery
+
+  #before_filter :user_session
+
+#  def user_session
+#    @user_session = UserSession.new
+#  end
   
   private
     def current_user_session

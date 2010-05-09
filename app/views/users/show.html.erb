@@ -1,31 +1,32 @@
+<h1>Profil</h1>
+
 <p>
   <b>Login:</b>
-  <%=h @user.login %>
+  <%=h @user.login %><br />
+  <%= link_to 'Zmeniť údaje', edit_account_path %>
 </p>
 
+<p>
+  <b>Počet hlasovaní:</b>
+  <%=h @voting_count %>
+</p>
 
-  <b>My Votes:</b>
+<% unless @votes.empty? %>
+  <h3>Moje hlasovania:</h3>
 
-<% unless @votes.nil? %>
-<% i = 0%>
-<table id="table">
-   <tr>
-    <th>Vote</th>
-    <th>Voting subject</th>
+  <table>
+  <% i = 0 %>
+  <tr>
+    <th class="first">Hlas</th>
+    <th>Názov</th>
   </tr>
+
 <% @votes.each do |vote| %>
-  <% if (i % 2) == 0 %>
-    <tr>
-  <% else %>
-    <tr class="alt">
-  <% end %>
-    <td><%=h vote.vote %></td>
+  <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
+    <td class="first"><%=h vote.vote %></td>
     <td><%=h vote.voting.subject %></td>
   </tr>
-      <% i += 1 %>
+  <% i += 1 %>
 <% end %>
 </table>
 <% end %>    
-
-
-<%= link_to 'Edit', edit_account_path %>

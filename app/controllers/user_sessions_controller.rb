@@ -12,13 +12,14 @@ class UserSessionsController < ApplicationController
       flash[:notice] = "Login successful!"
       redirect_back_or_default account_url
     else
-      render :action => :new
+      render :action => "new"
+      #redirect_back_or_default root_url
     end
   end
 
   def destroy
     current_user_session.destroy
     flash[:notice] = "Logout successful!"
-    redirect_back_or_default new_user_session_url
+    redirect_back_or_default root_url
   end
 end

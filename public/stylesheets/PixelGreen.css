@@ -122,9 +122,24 @@ tr.row-b {
 
 /* form elements */
 form {
-	margin:10px 15px; padding: 0;
-	border: 1px solid #f2f2f2; 
-	background-color: #FAFAFA; 
+	margin:10px 15px; padding: 0px;
+	/*border: 1px solid #f2f2f2;*/
+	/*background-color: #FAFAFA;*/
+    background-color: #F5F5F5;
+}
+
+input.radio{
+float:left;
+margin:0px 15px;    
+clear:both;
+}
+
+
+form.register {
+    margin:10px 15px; padding: 10px;
+	border: 1px solid #f2f2f2;
+	/*background-color: #FAFAFA;*/
+    background-color: #F5F5F5;
 }
 label {
 	display:block;
@@ -133,7 +148,7 @@ label {
 }
 input {
 	padding: 2px;
-	border:1px solid #eee;
+	border:1px solid #ccc;
 	font: normal 1em "Trebuchet MS", Tahoma, sans-serif;
 	color:#777;
 }
@@ -245,7 +260,7 @@ input.button {
 	background: #65944A;
 	color: #FFF;
 }
-#header-content li a#current  {
+#header-content li a#active  {
 	background: #65944A;
 	color: #FFF;
 }
@@ -293,7 +308,7 @@ input.button {
 	list-style:none;
 	margin: 10px 0 15px 0;
 	padding: 0;
-	background: #F2F2F2;			
+	background: #F5F5F5;
 }
 #sidebar ul.sidemenu li {
 	padding: 0px 10px;
@@ -314,7 +329,12 @@ input.button {
 #sidebar ul.sidemenu a:hover {
 	padding: .3em 0 .3em 10px;
 	border-left: 5px solid  #65944A;
-	color: #65944A;		
+	color: #65944A;
+}
+#sidebar ul.sidemenu a#active {
+	padding: .3em 0 .3em 10px;
+	border-left: 5px solid  #65944A;
+	color: #65944A;
 }
 
 /* main */
@@ -431,4 +451,45 @@ input.button {
     float: left;
 }
 
+a#link {
+    text-decoration:underline;
+}
+
+/* Errors */
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
 

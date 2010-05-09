@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :votes
 
-  map.resources :votings
+  map.resources :votings, :member => {:vote => :put}
 
   map.resources :statutes
 
