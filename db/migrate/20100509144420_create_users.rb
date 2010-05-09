@@ -2,6 +2,7 @@ class CreateUsers < ActiveRecord::Migration
   def self.up
     options = "ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_slovak_ci"
     create_table(:users, :options => options) do |t|
+      t.integer :id
       t.string :login             , :null => false
       t.string :crypted_password  , :null => false
       t.string :password_salt     , :null => false

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100509115038) do
+ActiveRecord::Schema.define(:version => 20100509150147) do
 
   create_table "deputies", :force => true do |t|
     t.string   "degree"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(:version => 20100509115038) do
   add_index "deputy_relations", ["deputy1_id", "deputy2_id"], :name => "index_deputy_relations_on_deputy1_id_and_deputy2_id", :unique => true
   add_index "deputy_relations", ["id"], :name => "index_deputy_relations_on_id", :unique => true
 
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
   create_table "statutes", :force => true do |t|
     t.integer "parent_id"
     t.string  "statute_type"
@@ -45,6 +55,36 @@ ActiveRecord::Schema.define(:version => 20100509115038) do
     t.text    "subject"
     t.date    "date"
     t.string  "doc"
+  end
+
+  create_table "user_relations", :force => true do |t|
+    t.integer "user_id"
+    t.integer "deputy_id"
+    t.integer "relation",  :default => 0
+    t.integer "votes",     :default => 0
+  end
+
+  add_index "user_relations", ["id"], :name => "index_user_relations_on_id", :unique => true
+  add_index "user_relations", ["user_id", "deputy_id"], :name => "index_user_relations_on_user_id_and_deputy_id", :unique => true
+
+  create_table "user_votes", :force => true do |t|
+    t.integer "voting_id"
+    t.integer "user_id"
+    t.string  "vote",      :limit => 10
+  end
+
+  add_index "user_votes", ["id"], :name => "index_user_votes_on_id", :unique => true
+  add_index "user_votes", ["user_id"], :name => "index_user_votes_on_user_id"
+  add_index "user_votes", ["voting_id"], :name => "index_user_votes_on_voting_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "login",             :null => false
+    t.string   "crypted_password",  :null => false
+    t.string   "password_salt",     :null => false
+    t.string   "persistence_token", :null => false
+    t.datetime "last_request_at"
+    t.datetime "current_login_at"
+    t.datetime "last_login_at"
   end
 
   create_table "votes", :force => true do |t|

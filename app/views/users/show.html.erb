@@ -1,3 +1,31 @@
+<p>
+  <b>Login:</b>
+  <%=h @user.login %>
+</p>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+
+  <b>My Votes:</b>
+
+<% unless @votes.nil? %>
+<% i = 0%>
+<table id="table">
+   <tr>
+    <th>Vote</th>
+    <th>Voting subject</th>
+  </tr>
+<% @votes.each do |vote| %>
+  <% if (i % 2) == 0 %>
+    <tr>
+  <% else %>
+    <tr class="alt">
+  <% end %>
+    <td><%=h vote.vote %></td>
+    <td><%=h vote.voting.subject %></td>
+  </tr>
+      <% i += 1 %>
+<% end %>
+</table>
+<% end %>    
+
+
+<%= link_to 'Edit', edit_account_path %>

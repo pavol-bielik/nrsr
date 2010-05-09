@@ -30,6 +30,44 @@ class Deputy < ActiveRecord::Base
     end
   end
 
+  def create_deputy_relations
+    deputies = Deputy.find(:all, :select => "id")
+    deputies.each do |deputy|
+      next if deputy.id == id
+      unless DeputyRelation.exists?(:deputy1_id => id, :deputy2_id => deputy.id) then
+        DeputyRelation.create(:deputy1_id => id,
+                              :deputy2_id => deputy.id)
+      end
+    end
+  end
+
+  def self.create_deputies_relations
+    deputies = Deputy.all(:select => "id")
+    deputies.each do |deputy|
+      deputy.create_deputy_relations
+      puts "#Relations for deputy: #{deputy.id} added"
+    end
+  end
+
+  def self.add_voting_relations(voting_id)
+
+    votes = Vote.find(:all, :conditions => {:voting_id => voting_id})
+    i = 1
+    votes.each do |vote|
+      votes.each do |vote2|
+        next if vote.id == vote2.id
+        relation = DeputyRelation.find(:first, :conditions => ["deputy1_id = ? and deputy2_id = ?", vote.deputy_id, vote2.deputy_id])
+        relation.relation += DeputyRelation::RELATION[vote.vote][vote2.vote]
+        relation.votes += 1
+        relation.save
+      end
+      puts "#Vote #{i} added"
+      i += 1
+    end
+
+    return true
+  end
+
   def photo=(file)
     super(File.basename(file.path))
   end
