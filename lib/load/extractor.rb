@@ -84,7 +84,7 @@ class Extractor
 
     text = voting[:subject]
     text.gsub!("\n", " ")
-    re = /čítanie.(.*)/
+    re = /tanie.(.*)/
     match = re.match(text)
     puts match
     voting[:short_subject] = match[1].strip unless match.nil?
