@@ -81,6 +81,13 @@ class Extractor
     voting = {}
     voting[:subject] = doc.css("#ctl15__hlasHeader__nazovLabel").first.content.to_s
     return nil if voting[:subject] == "(Popis hlasovania)"
+
+    text = voting[:subject]
+    text.gsub!("\n", " ")
+    re = /čítanie.(.*)/
+    match = re.match(text)
+    puts match
+    voting[:short_subject] = match[1].strip unless match.nil?
     
     voting[:meeting_no] = doc.css("#ctl15__hlasHeader__schodzaLink").first.content.match(/\d+/)[0].to_i
     number_raw = doc.css("#ctl15__hlasHeader__cisHlasovaniaLabel").first.content
@@ -95,6 +102,7 @@ class Extractor
     voting[:hold_count] = doc.css("#ctl15__hlasHeader__headerCounterZdrzaloSa").first.content.to_i
     voting[:not_voting_count] = doc.css("#ctl15__hlasHeader__headerCounterNehlasovalo").first.content.to_i
     voting[:not_attending_count] = doc.css("#ctl15__hlasHeader__headerCounterNepritomni").first.content.to_i
+
     puts "voting #{voting[:voting_no]} at meeting:#{voting[:meeting_no]} extracted"
     return voting
   end
