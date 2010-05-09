@@ -19,4 +19,9 @@ class Vote < ActiveRecord::Base
     puts "# #{i} votes created"
   end
 
+  def ==(input_id)
+    return true if deputy_id == input_id
+    false
+  end
+
 end

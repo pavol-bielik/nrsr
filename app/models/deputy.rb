@@ -4,6 +4,7 @@ require 'fileutils'
 
 class Deputy < ActiveRecord::Base
   has_many :votes, :class_name => "Vote"
+  has_many :relations, :class_name => "DeputyRelation", :foreign_key => "deputy1_id" 
 
   def self.create_deputies
     actual_deputies_html = Connector.download_actual_deputies_list_html
