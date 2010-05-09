@@ -12,6 +12,7 @@ namespace :load do
     last_statute_id = Extractor.extract_last_statute_id(last_statute_html)
     return if last_statute_id.nil?
     maximum_statute_id = Statute.maximum('id')
+    return if maximum_statute_id.nil?
 
     (maximum_statute_id + 1).upto(last_statute_id) do |statute_id|
       while true do

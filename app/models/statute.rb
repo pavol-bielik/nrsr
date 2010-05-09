@@ -10,11 +10,12 @@ class Statute < ActiveRecord::Base
     if Statute.exists?(id) then
       statute = Statute.find(id)
       statute.update_attributes(statute_attr)
-#      statute.update_attribute(:type, statute_attr[:type])
       puts "statute #{id} updated"
     else
       statute = Statute.new(statute_attr)
-#      statute.type = statute_attr[:type]
+      return nil if statute[:result] =~ /(NZ vzal navrhovateľ späť)/i
+      return nil if statute[:state] =~ /Evidencia/i
+      return nil if statute[:state] =~ /Rozhodnutie predsedu NR SR/i      
       statute.id = id
       statute.save
       puts "statute #{id} created"
