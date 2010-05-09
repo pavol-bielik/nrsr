@@ -12,17 +12,17 @@
 ActiveRecord::Schema.define(:version => 20100509150147) do
 
   create_table "deputies", :force => true do |t|
-    t.string   "degree"
-    t.string   "lastname"
-    t.string   "firstname"
-    t.string   "party"
-    t.datetime "born"
-    t.string   "nationality"
-    t.string   "domicile"
-    t.string   "region"
-    t.string   "email"
-    t.string   "contact_person"
-    t.string   "photo"
+    t.string "degree"
+    t.string "lastname"
+    t.string "firstname"
+    t.string "party"
+    t.date   "born"
+    t.string "nationality"
+    t.string "domicile"
+    t.string "region"
+    t.string "email"
+    t.string "contact_person"
+    t.string "photo"
   end
 
   add_index "deputies", ["id"], :name => "index_deputies_on_id", :unique => true
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(:version => 20100509150147) do
   create_table "votings", :force => true do |t|
     t.integer  "statute_id"
     t.text     "subject"
+    t.string   "short_subject"
     t.integer  "meeting_no"
     t.integer  "voting_no"
     t.datetime "happened_at"

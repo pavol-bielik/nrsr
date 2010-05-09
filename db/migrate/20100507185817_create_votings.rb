@@ -5,6 +5,7 @@ class CreateVotings < ActiveRecord::Migration
       t.integer :id
       t.integer :statute_id
       t.text :subject, :limit => "1000"
+      t.string :short_subject
       t.integer :meeting_no
       t.integer :voting_no
       t.datetime :happened_at
