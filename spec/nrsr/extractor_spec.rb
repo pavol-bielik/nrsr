@@ -75,10 +75,16 @@ describe Extractor do
 
     it "should parse voting info" do
       voting =  Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_info.html"))
-      voting[:subject].should == "Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch k programu 48. schôdze Národnej rady Slovenskej republiky.\nPodpr. Belousovová, 1. návrh."
+      voting[:subject].should == "Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch k programu 48. schôdze Národnej rady Slovenskej republiky. Podpr. Belousovová, 1. návrh."
+      voting[:short_subject].nil?.should == true
       voting[:meeting_no].should == 48
       voting[:voting_no].should == 3
       voting[:happened_at].should == DateTime.civil(2010, 2, 2, 13, 18)
+    end
+
+    it "should parse voting info with short subject" do
+      voting =  Extractor.extract_voting(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_info_with_short_subject.html"))
+      voting[:short_subject].should == "Hlasovanie o pozmeňujúcich návrhoch zo spoločnej správy výborov - bod 13."
     end
 
     it "should parse voting statistics" do
