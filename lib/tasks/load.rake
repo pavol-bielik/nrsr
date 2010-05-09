@@ -3,6 +3,7 @@ namespace :load do
   desc "Create deputies"
   task(:deputies_create => :environment) do
     Deputy.create_deputies
+    DeputyRelation.create_deputies_relations
   end
 
   desc "Create new statutes with dependecies"
@@ -23,6 +24,7 @@ namespace :load do
           next if Voting.exists?(voting)
           voting_html = Voting.create_voting(voting, statute_id)
           Vote.process_votes(voting_html,voting)
+          DeputyRelation.add_voting_relations(voting)
         end
         break if statute.parent_id.nil?
         statute_id = statute.parent_id
@@ -45,6 +47,7 @@ namespace :load do
           next if Voting.exists?(voting)
           voting_html = Voting.create_voting(voting, statute_id)
           Vote.process_votes(voting_html,voting)
+          DeputyRelation.add_voting_relations(voting)
         end
         break if statute.parent_id.nil?
         statute_id = statute.parent_id

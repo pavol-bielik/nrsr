@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100507191643) do
+ActiveRecord::Schema.define(:version => 20100509115038) do
 
   create_table "deputies", :force => true do |t|
     t.string   "degree"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(:version => 20100507191643) do
   end
 
   add_index "deputies", ["id"], :name => "index_deputies_on_id", :unique => true
+
+  create_table "deputy_relations", :force => true do |t|
+    t.integer "deputy1_id"
+    t.integer "deputy2_id"
+    t.integer "relation",   :default => 0
+    t.integer "votes",      :default => 0
+  end
+
+  add_index "deputy_relations", ["deputy1_id", "deputy2_id"], :name => "index_deputy_relations_on_deputy1_id_and_deputy2_id", :unique => true
+  add_index "deputy_relations", ["id"], :name => "index_deputy_relations_on_id", :unique => true
 
   create_table "statutes", :force => true do |t|
     t.integer "parent_id"
