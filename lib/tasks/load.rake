@@ -25,7 +25,7 @@ namespace :load do
           next if Voting.exists?(voting)
           voting_html = Voting.create_voting(voting, statute_id)
           Vote.process_votes(voting_html,voting)
-          Deputy.add_voting_relations(voting)
+          Deputy.add_voting_relations_2(voting)
         end
         break if statute.parent_id.nil?
         statute_id = statute.parent_id
