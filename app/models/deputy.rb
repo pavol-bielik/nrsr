@@ -57,12 +57,31 @@ class Deputy < ActiveRecord::Base
       votes.each do |vote2|
         next if vote.id == vote2.id
         relation = DeputyRelation.find(:first, :conditions => ["deputy1_id = ? and deputy2_id = ?", vote.deputy_id, vote2.deputy_id])
+        next if relation.nil?
         relation.relation += DeputyRelation::RELATION[vote.vote][vote2.vote]
         relation.votes += 1
         relation.save
       end
       puts "#Vote #{i} added"
       i += 1
+    end
+
+    return true
+  end
+
+  def self.add_voting_relations_2(voting_id)
+    votes = Vote.find(:all, :conditions => {:voting_id => voting_id})
+
+    dep_votes = {}
+
+    votes.each do |vote|
+      dep_votes[vote.deputy_id] = vote.vote
+    end
+
+    DeputyRelation.find_each do |relation|
+      relation.relation += DeputyRelation::RELATION[dep_votes[relation.deputy1_id]][dep_votes[relation.deputy2_id]]
+      relation.votes += 1
+      relation.save
     end
 
     return true

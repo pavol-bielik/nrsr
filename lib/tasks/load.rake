@@ -12,6 +12,7 @@ namespace :load do
     last_statute_id = Extractor.extract_last_statute_id(last_statute_html)
     return if last_statute_id.nil?
     maximum_statute_id = Statute.maximum('id')
+    return if maximum_statute_id.nil?
 
     (maximum_statute_id + 1).upto(last_statute_id) do |statute_id|
       while true do
@@ -24,7 +25,7 @@ namespace :load do
           next if Voting.exists?(voting)
           voting_html = Voting.create_voting(voting, statute_id)
           Vote.process_votes(voting_html,voting)
-          Deputy.add_voting_relations(voting)
+          Deputy.add_voting_relations_2(voting)
         end
         break if statute.parent_id.nil?
         statute_id = statute.parent_id
