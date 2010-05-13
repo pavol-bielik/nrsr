@@ -63,68 +63,99 @@ class DeputiesController < ApplicationController
     @hzds = "["
     @smk = "["
     @kdh = "["
+    @sdku_deputies = "["
+    @smer_deputies = "["
+    @sns_deputies = "["
+    @hzds_deputies = "["
+    @smk_deputies = "["
+    @kdh_deputies = "["
 
-    @deputies = "["
+#    @deputies = "["
 
-    i = 0
+    i = 1
     @relations.each do |relation|
+      value = ((relation.relation*10)/relation.votes).round
       case Deputy::PARTY[relation.deputy2.party]
         when 1
-          @sdku << "[#{i},#{((relation.relation*10)/relation.votes).round}],"
+          @sdku << "[#{i},#{value}],"
+          @sdku_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 2
-          @smer << "[#{i},#{((relation.relation*10)/relation.votes).round}],"
+          @smer << "[#{i},#{value}],"
+          @smer_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 3
-          @sns << "[#{i},#{((relation.relation*10)/relation.votes).round}],"
+          @sns << "[#{i},#{value}],"
+          @sns_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 4
-          @smk << "[#{i},#{((relation.relation*10)/relation.votes).round}],"
+          @smk << "[#{i},#{value}],"
+          @smk_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 5
-          @hzds << "[#{i},#{((relation.relation*10)/relation.votes).round}],"
+          @hzds << "[#{i},#{value}],"
+          @hzds_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 6
-          @kdh << "[#{i},#{((relation.relation*10)/relation.votes).round}],"
+          @kdh << "[#{i},#{value}],"
+          @kdh_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
       end
-      @deputies << "[\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+#      @deputies << "[\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
        i += 1
     end
 
     @sdku.chop!
+    @sdku_deputies.chop!
     @smer.chop!
+    @smer_deputies.chop!
     @sns.chop!
+    @sns_deputies.chop!
     @hzds.chop!
+    @hzds_deputies.chop!
     @smk.chop!
+    @smk_deputies.chop!
     @kdh.chop!
-    @deputies.chop!
-    @deputies << "]"
+    @kdh_deputies.chop!
+#    @deputies.chop!
+#    @deputies << "]"
     @sdku << "]"
+    @sdku_deputies << "]"
     @smer << "]"
+    @smer_deputies << "]"
     @sns << "]"
+    @sns_deputies << "]"
     @hzds << "]"
+    @hzds_deputies << "]"
     @smk << "]"
+    @smk_deputies << "]"
     @kdh << "]"
+    @kdh_deputies << "]"
 
     @datasets = "{
       'SMER – SD': {
             label: 'SMER – SD',
-            data: #{@smer}
+            data: #{@smer},
+            deputies: #{@smer_deputies}
       },
       'SDKÚ – DS': {
             label: 'SDKÚ – DS',
-            data: #{@sdku}
+            data: #{@sdku},
+            deputies: #{@sdku_deputies}
       },
       'SNS': {
             label: 'SNS',
-            data: #{@sns}
+            data: #{@sns},
+            deputies: #{@sns_deputies}
       },
       'SMK – MKP': {
             label: 'SMK – MKP',
-            data: #{@smk}
+            data: #{@smk},
+            deputies: #{@smk_deputies}
       },
       'ĽS – HZDS': {
             label: 'ĽS – HZDS',
-            data: #{@hzds}
+            data: #{@hzds},
+            deputies: #{@hzds_deputies}
       },
       'KDH': {
             label: 'KDH',
-            data: #{@kdh}
+            data: #{@kdh},
+            deputies: #{@kdh_deputies}
       }
 }"
 #    @data.chop!

@@ -85,7 +85,6 @@ Oznacena cast v prehlade sa zobrazi zvacsena v hlavnom okne<br />
    <script id="source" language="javascript" type="text/javascript">
    $(function () {
    var datasets = <%= @datasets %>;
-   var deputies = <%= @deputies %>;
 
    // hard-code color indices to prevent them from shifting as
    // countries are turned on/off
@@ -148,23 +147,23 @@ Oznacena cast v prehlade sa zobrazi zvacsena v hlavnom okne<br />
        //clickaction
 
        function showTooltip(x, y, id, party) {
-        $('<div id="tooltip"><div class="foto" style="border-collapse: collapse;margin: 10px 15px;float: left;"><img alt="243" src="/images/photos/' + deputies[id][0] + '" /></div>\
+        $('<div id="tooltip"><div class="foto" style="border-collapse: collapse;margin: 10px 15px;float: left;"><img alt="243" src="/images/photos/' + datasets[party].deputies[id][1] + '" /></div>\
         <table style ="border-collapse: collapse;margin: 10px 15px;float: right;">\
             <tr class="row-a">\
             <td class="first">Titul:</td>\
-            <td>' + deputies[id][1] +'</td>\
+            <td>' + datasets[party].deputies[id][2] +'</td>\
             </tr>\
            <tr class="row-b">\
             <td class="first">Meno:</td>\
-            <td>' + deputies[id][2] +'</td>\
+            <td>' + datasets[party].deputies[id][3] +'</td>\
           </tr>\
           <tr class="row-a">\
             <td class="first">Priezvisko:</td>\
-            <td>' + deputies[id][3] +'</td>\
+            <td>' + datasets[party].deputies[id][4] +'</td>\
           </tr>\
           <tr class="row-b">\
             <td class="first">Kandidoval(a) za:</td>\
-            <td>' + deputies[id][4] +'</td>\
+            <td>' + datasets[party].deputies[id][5] +'</td>\
           </tr>\
       </table>\
           </div>').css( {
