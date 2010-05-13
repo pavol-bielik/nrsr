@@ -1,5 +1,11 @@
 <h1>Zoznam poslancov</h1>
 
+<% form_tag(deputies_path, :method => "get") do %>
+    <%= label_tag(:party, "Strana") %>
+    <%= select_tag "party", @options %>
+    <%= submit_tag "Zobraz", "class" => "button" %>
+<% end %>
+
 <table>
   <% i = 0 %>
   <tr>

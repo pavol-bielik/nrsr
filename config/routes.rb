@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :statutes
 
-  map.resources :deputies
+  map.resources :deputies, :collection => {:search => :get}
 
   map.root :controller => "pages", :action => "home"
 

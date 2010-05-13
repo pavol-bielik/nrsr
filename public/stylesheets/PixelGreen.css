@@ -134,6 +134,23 @@ margin:0px 15px;
 clear:both;
 }
 
+form.search_left {
+    margin:10px 15px; padding: 0px;
+	/*border: 1px solid #f2f2f2;*/
+	/*background-color: #FAFAFA;*/
+    background-color: #F5F5F5;
+    float: left;
+    width: 40%;
+}
+
+form.search_right {
+    margin:10px 15px; padding: 0px;
+	/*border: 1px solid #f2f2f2;*/
+	/*background-color: #FAFAFA;*/
+    background-color: #F5F5F5;
+    float: right;
+    width: 40%;
+}
 
 form.register {
     margin:10px 15px; padding: 10px;
@@ -141,17 +158,20 @@ form.register {
 	/*background-color: #FAFAFA;*/
     background-color: #F5F5F5;
 }
+
 label {
-	display:block;
+	/*display:block;*/
 	font-weight:bold;
-	margin:5px 0;
+	margin:5px 3px;
 }
+
 input {
 	padding: 2px;
 	border:1px solid #ccc;
 	font: normal 1em "Trebuchet MS", Tahoma, sans-serif;
 	color:#777;
 }
+
 textarea {
 	width:400px;
 	padding:2px;
@@ -444,7 +464,7 @@ input.button {
 .clear { clear: both; }
 .gray  { color: #BFBFBF; }
 
-.poslanec .foto {
+.foto {
     /*border: 5px solid #E5E9EB;*/
     border-collapse: collapse;
 	margin: 10px 15px;

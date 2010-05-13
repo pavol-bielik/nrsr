@@ -6,6 +6,13 @@ class Deputy < ActiveRecord::Base
   has_many :votes, :class_name => "Vote"
   has_many :relations, :class_name => "DeputyRelation", :foreign_key => "deputy1_id" 
 
+  PARTY = { "SMER – SD" => 2,
+            "SDKÚ – DS" => 1,
+            "SNS" => 3,
+            "SMK – MKP" => 4,
+            "ĽS – HZDS" => 5,
+            "KDH" => 6 }
+
   def self.create_deputies
     actual_deputies_html = Connector.download_actual_deputies_list_html
     deputies_ids = Extractor.extract_actual_deputies_ids(actual_deputies_html)
