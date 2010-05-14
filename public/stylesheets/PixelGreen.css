@@ -513,3 +513,19 @@ a#link {
   list-style: square;
 }
 
+
+#placeholder .button {
+    position: absolute;
+    cursor: pointer;
+    border: 2px solid #777;
+}
+#placeholder div.button {
+    font-size: smaller;
+    color: #999;
+    background-color: #eee;
+    padding: 2px;
+}
+.message {
+    padding-left: 50px;
+    font-size: smaller;
+}

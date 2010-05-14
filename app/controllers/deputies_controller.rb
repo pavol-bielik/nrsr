@@ -69,34 +69,37 @@ class DeputiesController < ApplicationController
     @hzds_deputies = "["
     @smk_deputies = "["
     @kdh_deputies = "["
+    @ticks = "["
 
 #    @deputies = "["
 
-    i = 1
+    i = @relations.length
+    len = @relations.length + 1
     @relations.each do |relation|
       value = ((relation.relation*10)/relation.votes).round
       case Deputy::PARTY[relation.deputy2.party]
         when 1
-          @sdku << "[#{i},#{value}],"
+          @sdku << "[#{value},#{i}],"
           @sdku_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 2
-          @smer << "[#{i},#{value}],"
+          @smer << "[#{value},#{i}],"
           @smer_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 3
-          @sns << "[#{i},#{value}],"
+          @sns << "[#{value},#{i}],"
           @sns_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 4
-          @smk << "[#{i},#{value}],"
+          @smk << "[#{value},#{i}],"
           @smk_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 5
-          @hzds << "[#{i},#{value}],"
+          @hzds << "[#{value},#{i}],"
           @hzds_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 6
-          @kdh << "[#{i},#{value}],"
+          @kdh << "[#{value},#{i}],"
           @kdh_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
       end
 #      @deputies << "[\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-       i += 1
+       @ticks << "[#{i + 0.5},\"#{relation.deputy2.firstname} #{relation.deputy2.lastname}, #{ len - i}\"],"
+       i -= 1
     end
 
     @sdku.chop!
@@ -111,8 +114,10 @@ class DeputiesController < ApplicationController
     @smk_deputies.chop!
     @kdh.chop!
     @kdh_deputies.chop!
+    @ticks.chop!
 #    @deputies.chop!
 #    @deputies << "]"
+    @ticks << "]"
     @sdku << "]"
     @sdku_deputies << "]"
     @smer << "]"
