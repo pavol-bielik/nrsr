@@ -72,95 +72,117 @@
 </div>
 
 </div></div>
-
-<h1>Graf zhody poslancov</h1><br />
-<span id="clickdata"></span>
-<form name="jumpopt">
-<p id="choices">Vyberte si, ktore strany sa maju zobrazit:<br /></p>
-
+<div class="content" style="clear:both;">
+<h1>Graf zhody poslancov</h1>
+<form>
+<!--<label>Zobraz strany</label>-->
+<!--<span id="choices"></span><br />-->
+<label for="deputies">Najdi Poslanca</label>
 <select id="deputies" name="select"></select>
-  <!--onchange='OnChange(jumpopt.select.options[selectedIndex].value)'-->
 </form>
+
 <div id="overviewLegend" style="margin-left:10px"></div>
 
-   <div id="placeholder" style="width:530px;height:600px;margin-bottom:15px;float:left"></div>
-    <div id="overview" style="margin-top:22px;width:120px;height:553px;float:left"></div>
+   <div id="placeholder" style="width:530px;height:400px;margin-bottom:15px;float:left"></div>
+    <div id="overview" style="margin-top:14px;width:120px;height:372px;float:left"></div>
 
+</div>
 
+<div class="content" style="clear:both;">
+<h1>Graf Stran</h1>
+<form>
+<label>Zobraz strany</label>
+<span id="choices2"></span><br />
+</form>
+   <div id="partyLegend" style="margin-left:10px"></div>
+   <div id="party" style="width:530px;height:250px;margin-bottom:15px;float:left"></div>
+
+</div>
+
+<div class="content" style="clear:both;">
+<h1>Graf Stran</h1>
+   <div id="party2" style="width:530px;height:250px;margin-bottom:15px;float:left"></div>
+</div>
    <script id="source" language="javascript" type="text/javascript">
-
-
 
    $(function () {
    var datasets = <%= @datasets %>;
-   var y_selection_1 = new Number(126);
-   var y_selection_2 = new Number(150);
+   var partydatasets = <%= @partydatasets %>;
+   var y_selection_1 = 126;
+   var y_selection_2 = 150;
    var plot;
-
-   //horizontal graph
-
-   // insert checkboxes
-   var choiceContainer = $("#choices");
+   var overview;
+   var height = 400;
+   var barsShown = 16;
+   var colors = {'SMER – SD': 'rgb(220,57,18)','SDKÚ – DS': 'rgb(70,132,238)', 'SNS': 'rgb(255,153,0)','SMK – MKP': 'rgb(0,128,0)','ĽS – HZDS': 'rgb(102,102,102)','KDH': 'rgb(73,66,204)'};
    var deputiesContainer = $("#deputies");
-   //deputiesContainer.append('<select id="party" name="party">"');
-   $.each(datasets, function(key, val) {
-       choiceContainer.append('<input type="checkbox" name="' + key +
-                              '" checked="checked" id="id' + key + '">' +
-                              '<label for="id' + key + '">'
-                               + val.label + '</label>' + '| ');
-       val.deputies.forEach(function(item) {
-            deputiesContainer.append('<option id="' + item[0] + '">' + item[3] + " " + item[4] + '</option>');
-       });
-   });
-   choiceContainer.find("input").click(plotAccordingToChoices);
-   $("#deputies").change(OnChange);
-   //deputiesContainer.append('</select>"');
 
+
+   //assing color to graphs
+      $.each(datasets, function(key, val) {
+           val.color = colors[val.label];
+       });
+
+      $.each(partydatasets, function(key, val) {
+           val.color = colors[val.label];
+       });
+
+   deputiesContainer.append('<%= @options %>');
+   deputiesContainer.change(OnChange);
 
      function OnChange()
    {
-//           var myindex  = dropdown.selectedIndex;
-//           var SelValue = dropdown.options[myindex].value;
        deputiesContainer.find("option:selected").each(function(i, selected) {
            var value = selected.text;
-           var poz = parseInt($(this).attr("id"));
-    //      $("#clickdata").text("You clicked " + value + "." + "Pozition is: " + plot.pointOffset({ x: 0, y: poz }).top );
+           var poz = parseInt($(this).attr("id")) + 1;
            var offset = plot.pointOffset({ x: 0, y: poz });
-           offset.top = offset.top - (600 - plot.height());
+           offset.top = offset.top - ((height - plot.height())/2)*1.5;
            plot.pan(offset);
+           y_selection_1 = poz - barsShown;
+           y_selection_2 = poz;
+           setSelection();
        });
-
        return true;
    }
 
-   $("#clickdata").text("You clicked " + ".");
+    //set selection in overview graph
+   function setSelection() {
+       if ( y_selection_2 > 150) {
+            y_selection_1 = 150 - barsShown;
+            y_selection_2 = 150;
+       }
+
+       if ( y_selection_1 < 0) {
+            y_selection_1 = 0;
+            y_selection_2 = barsShown;
+       }
+       overview.setSelection({ y1: y_selection_1, y2: y_selection_2 });
+   }
 
       function plotAccordingToChoices() {
            var data = [];
+           var placeholder = $("#placeholder");
 
-           choiceContainer.find("input:checked").each(function () {
-               var key = $(this).attr("name");
+           $.each(datasets, function(key, val) {
                if (key && datasets[key])
                    data.push(datasets[key]);
        });
 
-          //, ticks: <%= @ticks %>
-          //, tickSize: 1, tickFormatter: formatter
        var options = {
               series: {
                    bars: { show: true, horizontal :true, barWidth: 1, fill: 0.5
                    }
                },
-               grid: { hoverable: true, clickable: true, tickColor: '#fff',
+               grid: { hoverable: true, clickable: true, borderWidth: 2,tickColor: '#fff',
                    markings: function (axes) {
                     var markings = [];
                     for (var x = 20; x < 100; x += 20)
                       markings.push({ xaxis: { from: x, to: x }, yaxis: { from: 1, to: 150 }, color: "#777" });
                     return markings;
               } },
-               yaxis: { labelWidth: 170, min: 1, max: 25, ticks: <%= @ticks %>, panRange: [1, 150] },
-               xaxis: { min: 0, max: 100, panRange: [0,100] },
-               x2axis: { min: 0, max: 100, panRange: [0,100] },
+               yaxis: { labelWidth: 170, min: 1, max: 1 + barsShown, ticks: <%= @ticks %>, panRange: [1, 150] },
+               xaxis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
+               x2axis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
               legend: {
                 show: false
               },
@@ -170,13 +192,11 @@
                markings: [ { xaxis: { from: 0, to: 100 }, yaxis: { from: 1, to: 150 } }]
            };
 
-       var placeholder = $("#placeholder");
-
        plot = $.plot(placeholder, data, options);
 
        //hotizontal
 
-       var overview = $.plot($("#overview"),
+       overview = $.plot($("#overview"),
                 data,{
             series: {
                 bars: { show: true, barWidth: 1, horizontal: true },
@@ -223,10 +243,8 @@
             opacity: 1
         }).appendTo("body").fadeIn(200);
     }
-
+          
     var previousPoint = null;
-
-
     $("#placeholder").bind("plotclick", function (event, pos, item) {
 
             if (item) {
@@ -236,7 +254,6 @@
                     $("#tooltip").remove();
                     $("#clickdata").text("You clicked " + item.series.data[item.dataIndex][1] + ".");
                     showTooltip(item.pageX, item.pageY, item.dataIndex, item.series.label);
-                    //showTooltip(pos.x.toFixed(2), pos.y.toFixed(2), item.dataIndex, item.series.label);
                 }
             }
             else {
@@ -250,55 +267,84 @@
                e.preventDefault();
                plot.pan(offset);
                if (offset.top < 0) {
-                    y_selection_1 = y_selection_1 + 12;
-                    y_selection_2 = y_selection_2 + 12;
+                    y_selection_1 = y_selection_1 + barsShown/2;
+                    y_selection_2 = y_selection_2 + barsShown/2;
                }
                else  {
-                    y_selection_1 = y_selection_1 - 12;
-                    y_selection_2 = y_selection_2 - 12;
+                    y_selection_1 = y_selection_1 - barsShown/2;
+                    y_selection_2 = y_selection_2 - barsShown/2;
                }
-               if ( y_selection_2 > 150) {
-                    y_selection_1 = 126;
-                    y_selection_2 = 150;
-               }
-
-               if ( y_selection_1 < 0) {
-                    y_selection_1 = 0;
-                    y_selection_2 = 24;
-               }
-
-             overview.setSelection({ y1: y_selection_1, y2: y_selection_2 });
+               setSelection();
+//             overview.setSelection({ y1: y_selection_1, y2: y_selection_2 });
            });
        }
 
-       addArrow('up', 20, 245, { top: -(plot.height()/2) });
-       addArrow('down', 20, 295, { top: (plot.height()/2) });
+       addArrow('up', 20, height/2 - 25, { top: -(plot.height()/2) });
+       addArrow('down', 20, height/2 + 25, { top: (plot.height()/2) });
 
 
-       //binding overview to plot
-
-//       $("#placeholder").bind("plotselected", function (event, ranges) {
-//           // do the zooming
-//           plot = $.plot($("#placeholder"), data,
-//                         $.extend(true, {}, options, {
-//                             yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
-//                         }));
-//
-//           // don't fire event on the overview to prevent eternal loop
-//           overview.setSelection(ranges, true);
-//       });
-
-//       $("#overview").bind("plotselected", function (event, ranges) {
-//           overview.setSelection(ranges);
-//       });
-
-          y_selection_1 = 126;
-          y_selection_2 = 150;
+      //set focus on top when after draw
+      y_selection_1 = 150 - barsShown;
+      y_selection_2 = 150;
        overview.setSelection({ y1: y_selection_1, y2: y_selection_2 });
        plot.pan({ top: -9999 });   
    }
 
+       var choice2Container = $("#choices2");
+       $.each(partydatasets, function(key, val) {
+           choice2Container.append(' <input type="checkbox" name="' + key +
+                              '" checked="checked" id="id' + key + '">' +
+                              '<label for="id' + key + '">'
+                               + val.label + '</label>' + ' ');
+       });
+       choice2Container.find("input").click(plot2AccordingToChoices);
+
+
+       function plot2AccordingToChoices() {
+           var data = [];
+
+           choice2Container.find("input:checked").each(function () {
+               var key = $(this).attr("name");
+               if (key && partydatasets[key])
+                   data.push(partydatasets[key]);
+           });
+
+           if (data.length > 0)
+               $.plot($("#party"), data, {
+                   yaxis: { min: 0, max: 100, tickSize: 10 },
+                   xaxis: { ticks: []},
+                   legend: { show: true, noColumns: 6, container: $("#partyLegend") }
+               });
+       }
+
+      function plot3AccordingToChoices() {
+           var avgdatasets = <%= @avgpartydatasets%>;
+           var data = [];
+
+          $.each(avgdatasets, function(key, val) {
+               val.color = colors[val.label];
+           });
+
+           $.each(avgdatasets, function(key, val) {
+               if (key && avgdatasets[key])
+                   data.push(avgdatasets[key]);
+       });
+
+           $.plot($("#party2"), data, {
+             series: {
+                   bars: { show: true , barWidth: 0.8}
+               },
+               yaxis: { min: 0, max: 100, tickSize: 10 },
+               xaxis: { min: 0.5, max: 6.5, ticks: <%= @avgticks %>},
+               legend: { show: false }
+           });
+       }
+
+
    plotAccordingToChoices();
+   plot2AccordingToChoices();
+   plot3AccordingToChoices();
+       
    });
    </script>
 

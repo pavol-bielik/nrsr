@@ -217,7 +217,7 @@ input.button {
 	  LAYOUT
 ------------------------------- */
 
-#header-content, #content, #footer-content {
+#header-content, .content, #footer-content {
 	width: 760px;
 }
 
@@ -300,7 +300,7 @@ input.button {
 	float: left;
 	width: 100%;
 }
-#content {
+.content {
 	text-align: left;	
 	padding: 0;
 	margin: 0 auto;	
@@ -459,6 +459,12 @@ input.button {
 .float-right { float: right; }
 .align-left  { text-align: left; }
 .align-right {	text-align: right; }
+
+.float-left-margin {
+    float: left;
+    margin-left: 5px;
+    margin-right: 25px;
+}
 
 /* additional classes */
 .clear { clear: both; }

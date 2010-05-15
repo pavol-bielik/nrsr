@@ -55,125 +55,102 @@ class DeputiesController < ApplicationController
 
     @relations = DeputyRelation.find(:all, :include => :deputy2, :conditions => ["deputy1_id = ?", @deputy.id], :order => "relation DESC")
 
-    @data = "[]"
-
-    @sdku = "["
-    @smer = "["
-    @sns = "["
-    @hzds = "["
-    @smk = "["
-    @kdh = "["
-    @sdku_deputies = "["
-    @smer_deputies = "["
-    @sns_deputies = "["
-    @hzds_deputies = "["
-    @smk_deputies = "["
-    @kdh_deputies = "["
+    hash = {}
+    dep_options = []
     @ticks = "["
-
-#    @deputies = "["
 
     i = @relations.length
     len = @relations.length + 1
     @relations.each do |relation|
       value = ((relation.relation*10)/relation.votes).round
-      case Deputy::PARTY[relation.deputy2.party]
-        when 1
-          @sdku << "[#{value},#{i}],"
-          @sdku_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-        when 2
-          @smer << "[#{value},#{i}],"
-          @smer_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-        when 3
-          @sns << "[#{value},#{i}],"
-          @sns_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-        when 4
-          @smk << "[#{value},#{i}],"
-          @smk_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-        when 5
-          @hzds << "[#{value},#{i}],"
-          @hzds_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-        when 6
-          @kdh << "[#{value},#{i}],"
-          @kdh_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-      end
-#      @deputies << "[\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+      hash[relation.deputy2.party] = [ 0 ] if hash[relation.deputy2.party].nil?
+      hash[relation.deputy2.party] << [value, i, relation.deputy2.photo, relation.deputy2.degree, relation.deputy2.firstname, relation.deputy2.lastname, relation.deputy2.party]
+      hash[relation.deputy2.party][0] += value
+      dep_options << ["#{i}", "#{relation.deputy2.lastname}, #{relation.deputy2.firstname}"]
        @ticks << "[#{i + 0.5},'<a style=\"font-size:14px;\" href=\"/deputies/#{relation.deputy2.id}\">#{relation.deputy2.firstname} #{relation.deputy2.lastname}</a>, #{ len - i}'],"
        i -= 1
     end
 
-    @sdku.chop!
-    @sdku_deputies.chop!
-    @smer.chop!
-    @smer_deputies.chop!
-    @sns.chop!
-    @sns_deputies.chop!
-    @hzds.chop!
-    @hzds_deputies.chop!
-    @smk.chop!
-    @smk_deputies.chop!
-    @kdh.chop!
-    @kdh_deputies.chop!
     @ticks.chop!
-#    @deputies.chop!
-#    @deputies << "]"
     @ticks << "]"
-    @sdku << "]"
-    @sdku_deputies << "]"
-    @smer << "]"
-    @smer_deputies << "]"
-    @sns << "]"
-    @sns_deputies << "]"
-    @hzds << "]"
-    @hzds_deputies << "]"
-    @smk << "]"
-    @smk_deputies << "]"
-    @kdh << "]"
-    @kdh_deputies << "]"
 
-    @datasets = "{
-      'SMER – SD': {
-            label: 'SMER – SD',
-            data: #{@smer},
-            xaxis: 2,
-            color: 'rgb(220,57,18)',
-            deputies: #{@smer_deputies}
-      },
-      'SDKÚ – DS': {
-            label: 'SDKÚ – DS',
-            data: #{@sdku},
-            color: 'rgb(70,132,238)',
-            deputies: #{@sdku_deputies}
-      },
-      'SNS': {
-            label: 'SNS',
-            data: #{@sns},
-            color: 'rgb(255,153,0)',
-            deputies: #{@sns_deputies}
-      },
-      'SMK – MKP': {
-            label: 'SMK – MKP',
-            data: #{@smk},
-            xaxis: 2,
-            color: 'rgb(0,128,0)',
-            deputies: #{@smk_deputies}
-      },
-      'ĽS – HZDS': {
-            label: 'ĽS – HZDS',
-            data: #{@hzds},
-            color: 'rgb(102,102,102)',
-            deputies: #{@hzds_deputies}
-      },
-      'KDH': {
-            label: 'KDH',
-            data: #{@kdh},
-            xaxis: 2,
-            color: 'rgb(73,66,204)',
-            deputies: #{@kdh_deputies}
-      }
-}"
-#    @data.chop!
-#    @data << "]"
+    dep_options.sort! {|x ,y| x[1] <=> y[1]}
+    @options = ""
+    dep_options.each do |element|
+      @options << "<option id=\"#{element[0]}\">#{element[1]}</option>"
+    end
+
+    avg_relations = []
+    hash.each do |key, value|
+      len = hash[key].length
+      avg_relations << [key, value[0]/len]
+    end
+
+   avg_relations.sort! {|x,y| y[1] <=> x[1]}
+
+    i = 1
+    @avgticks = "["
+    @avgpartydatasets = "{"
+    avg_relations.each do |element|
+        @avgpartydatasets << "
+        '#{element[0]}': {
+          label: '#{element[0]}', data: [[#{i - 0.4}, #{element[1]}]]
+          },"
+        @avgticks << "[#{i},'#{element[0]}'],"
+      i += 1
+    end
+    @avgpartydatasets.chop!
+    @avgticks.chop!
+    @avgpartydatasets << "}"
+    @avgticks << "]"
+
+
+    @datasets = "{"
+    @partydatasets = "{"
+    max = 60.0
+    hash.each do |key, value|
+      i = 1
+      len = hash[key].length
+      data = "["
+      deputies = "["
+      partydata = "["
+      value.each do |element|
+        if i == 1
+          i += 1
+          next
+        end
+        unless i == 2
+          partydata << "[#{(max/len*i).round}, #{element[0]}],"
+        else
+          partydata << "[0, #{element[0]}],"
+        end
+        data << "[#{element[0]}, #{element[1]}],"
+        deputies << "[#{element[1]}, '#{element[2]}','#{element[3]}', '#{element[4]}', '#{element[5]}', '#{element[6]}'],"
+         i += 1
+      end
+      data.chop!
+      deputies.chop!
+      partydata.chop!
+      data << "]"
+      deputies << "]"
+      partydata << "]"
+      @partydatasets << "
+          '#{key}': {
+          label: '#{key}',
+          data: #{partydata}
+          },"
+      @datasets << "
+          '#{key}': {
+          label: '#{key}',
+          data: #{data},
+          deputies: #{deputies}
+          },"
+    end
+    @partydatasets.chop!
+    @datasets.chop!
+    @partydatasets << "}"
+    @datasets << "}"
+
 
 #    unless params[:party].nil? or params[:party] == "Všetky"
 #      relations = DeputyRelation.find(:all, :include => :deputy2, :conditions => ["deputy1_id = ? AND `deputies`.party = ?", @deputy.id, params[:party]], :order => "relation DESC")
