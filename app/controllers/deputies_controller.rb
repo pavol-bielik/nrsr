@@ -80,25 +80,25 @@ class DeputiesController < ApplicationController
       case Deputy::PARTY[relation.deputy2.party]
         when 1
           @sdku << "[#{value},#{i}],"
-          @sdku_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+          @sdku_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 2
           @smer << "[#{value},#{i}],"
-          @smer_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+          @smer_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 3
           @sns << "[#{value},#{i}],"
-          @sns_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+          @sns_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 4
           @smk << "[#{value},#{i}],"
-          @smk_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+          @smk_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 5
           @hzds << "[#{value},#{i}],"
-          @hzds_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+          @hzds_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
         when 6
           @kdh << "[#{value},#{i}],"
-          @kdh_deputies << "[#{value},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
+          @kdh_deputies << "[#{i},\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
       end
 #      @deputies << "[\"#{relation.deputy2.photo}\",\"#{relation.deputy2.degree}\",\"#{relation.deputy2.firstname}\",\"#{relation.deputy2.lastname}\",\"#{relation.deputy2.party}\"],"
-       @ticks << "[#{i + 0.5},\"#{relation.deputy2.firstname} #{relation.deputy2.lastname}, #{ len - i}\"],"
+       @ticks << "[#{i + 0.5},'<a style=\"font-size:14px;\" href=\"/deputies/#{relation.deputy2.id}\">#{relation.deputy2.firstname} #{relation.deputy2.lastname}</a>, #{ len - i}'],"
        i -= 1
     end
 
@@ -135,31 +135,40 @@ class DeputiesController < ApplicationController
       'SMER – SD': {
             label: 'SMER – SD',
             data: #{@smer},
+            xaxis: 2,
+            color: 'rgb(220,57,18)',
             deputies: #{@smer_deputies}
       },
       'SDKÚ – DS': {
             label: 'SDKÚ – DS',
             data: #{@sdku},
+            color: 'rgb(70,132,238)',
             deputies: #{@sdku_deputies}
       },
       'SNS': {
             label: 'SNS',
             data: #{@sns},
+            color: 'rgb(255,153,0)',
             deputies: #{@sns_deputies}
       },
       'SMK – MKP': {
             label: 'SMK – MKP',
             data: #{@smk},
+            xaxis: 2,
+            color: 'rgb(0,128,0)',
             deputies: #{@smk_deputies}
       },
       'ĽS – HZDS': {
             label: 'ĽS – HZDS',
             data: #{@hzds},
+            color: 'rgb(102,102,102)',
             deputies: #{@hzds_deputies}
       },
       'KDH': {
             label: 'KDH',
             data: #{@kdh},
+            xaxis: 2,
+            color: 'rgb(73,66,204)',
             deputies: #{@kdh_deputies}
       }
 }"
