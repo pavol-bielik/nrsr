@@ -106,39 +106,39 @@ class DeputiesController < ApplicationController
 
 
     @datasets = "{"
-    @partydatasets = "{"
-    max = 60.0
+#    @partydatasets = "{"
+#    max = 60.0
     hash.each do |key, value|
       i = 1
-      len = hash[key].length
+#      len = hash[key].length
       data = "["
       deputies = "["
-      partydata = "["
+#      partydata = "["
       value.each do |element|
         if i == 1
           i += 1
           next
         end
-        unless i == 2
-          partydata << "[#{(max/len*i).round}, #{element[0]}],"
-        else
-          partydata << "[0, #{element[0]}],"
-        end
+#        unless i == 2
+#          partydata << "[#{(max/len*i).round}, #{element[0]}],"
+#        else
+#          partydata << "[0, #{element[0]}],"
+#        end
         data << "[#{element[0]}, #{element[1]}],"
         deputies << "[#{element[1]}, '#{element[2]}','#{element[3]}', '#{element[4]}', '#{element[5]}', '#{element[6]}'],"
          i += 1
       end
       data.chop!
       deputies.chop!
-      partydata.chop!
+#      partydata.chop!
       data << "]"
       deputies << "]"
-      partydata << "]"
-      @partydatasets << "
-          '#{key}': {
-          label: '#{key}',
-          data: #{partydata}
-          },"
+#      partydata << "]"
+#      @partydatasets << "
+#          '#{key}': {
+#          label: '#{key}',
+#          data: #{partydata}
+#          },"
       @datasets << "
           '#{key}': {
           label: '#{key}',
@@ -146,9 +146,9 @@ class DeputiesController < ApplicationController
           deputies: #{deputies}
           },"
     end
-    @partydatasets.chop!
+#    @partydatasets.chop!
     @datasets.chop!
-    @partydatasets << "}"
+#    @partydatasets << "}"
     @datasets << "}"
 
 

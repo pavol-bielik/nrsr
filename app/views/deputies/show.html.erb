@@ -88,44 +88,49 @@
 
 </div>
 
+<!--<div class="content" style="clear:both;">-->
+<!--<h1>Graf Stran</h1>-->
+<!--<form>-->
+<!--<label>Zobraz strany</label>-->
+<!--<span id="choices2"></span><br />-->
+<!--</form>-->
+   <!--<div id="partyLegend" style="margin-left:10px"></div>-->
+   <!--<div id="party" style="width:530px;height:250px;margin-bottom:15px;float:left"></div>-->
+
+<!--</div>-->
+
 <div class="content" style="clear:both;">
 <h1>Graf Stran</h1>
-<form>
-<label>Zobraz strany</label>
-<span id="choices2"></span><br />
-</form>
-   <div id="partyLegend" style="margin-left:10px"></div>
-   <div id="party" style="width:530px;height:250px;margin-bottom:15px;float:left"></div>
-
-</div>
-
-<div class="content" style="clear:both;">
-<h1>Graf Stran</h1>
-   <div id="party2" style="width:530px;height:250px;margin-bottom:15px;float:left"></div>
+   <div id="party2" style="width:545px;height:250px;margin-bottom:15px;float:left"></div>
 </div>
    <script id="source" language="javascript" type="text/javascript">
 
    $(function () {
    var datasets = <%= @datasets %>;
-   var partydatasets = <%= @partydatasets %>;
+//   var partydatasets = <%= @partydatasets %>;
    var y_selection_1 = 126;
    var y_selection_2 = 150;
    var plot;
    var overview;
    var height = 400;
    var barsShown = 16;
-   var colors = {'SMER – SD': 'rgb(220,57,18)','SDKÚ – DS': 'rgb(70,132,238)', 'SNS': 'rgb(255,153,0)','SMK – MKP': 'rgb(0,128,0)','ĽS – HZDS': 'rgb(102,102,102)','KDH': 'rgb(73,66,204)'};
+   var colors = {'SMER – SD': 'rgb(220,57,18)','SDKÚ – DS': 'rgb(70,132,238)', 'SNS': 'rgb(255,153,0)','SMK – MKP': 'rgb(0,128,0)','ĽS – HZDS': 'rgb(12,12,12)','KDH': 'rgb(73,66,204)', 'Nezávislý': 'rgb(120,120,120)'};
    var deputiesContainer = $("#deputies");
+   var i = 0;
 
 
    //assing color to graphs
       $.each(datasets, function(key, val) {
            val.color = colors[val.label];
+          if (i == 0) {
+              val.xaxis = 2;
+              i = 1;
+          }
        });
 
-      $.each(partydatasets, function(key, val) {
-           val.color = colors[val.label];
-       });
+//      $.each(partydatasets, function(key, val) {
+//           val.color = colors[val.label];
+//       });
 
    deputiesContainer.append('<%= @options %>');
    deputiesContainer.change(OnChange);
@@ -173,13 +178,14 @@
                    bars: { show: true, horizontal :true, barWidth: 1, fill: 0.5
                    }
                },
-               grid: { hoverable: true, clickable: true, borderWidth: 2,tickColor: '#fff',
-                   markings: function (axes) {
-                    var markings = [];
-                    for (var x = 20; x < 100; x += 20)
-                      markings.push({ xaxis: { from: x, to: x }, yaxis: { from: 1, to: 150 }, color: "#777" });
-                    return markings;
-              } },
+               grid: { hoverable: true, clickable: true, borderWidth: 2
+//                   ,tickColor: '#fff'
+//                   markings: function (axes) {
+//                    var markings = [];
+//                    for (var x = 20; x < 100; x += 20)
+//                      markings.push({ xaxis: { from: x, to: x }, yaxis: { from: 1, to: 150 }, color: "#aaa" });
+//                    return markings;
+               },
                yaxis: { labelWidth: 170, min: 1, max: 1 + barsShown, ticks: <%= @ticks %>, panRange: [1, 150] },
                xaxis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
                x2axis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
@@ -290,39 +296,44 @@
        plot.pan({ top: -9999 });   
    }
 
-       var choice2Container = $("#choices2");
-       $.each(partydatasets, function(key, val) {
-           choice2Container.append(' <input type="checkbox" name="' + key +
-                              '" checked="checked" id="id' + key + '">' +
-                              '<label for="id' + key + '">'
-                               + val.label + '</label>' + ' ');
-       });
-       choice2Container.find("input").click(plot2AccordingToChoices);
+//       var choice2Container = $("#choices2");
+//       $.each(partydatasets, function(key, val) {
+//           choice2Container.append(' <input type="checkbox" name="' + key +
+//                              '" checked="checked" id="id' + key + '">' +
+//                              '<label for="id' + key + '">'
+//                               + val.label + '</label>' + ' ');
+//       });
+//       choice2Container.find("input").click(plot2AccordingToChoices);
 
 
-       function plot2AccordingToChoices() {
-           var data = [];
-
-           choice2Container.find("input:checked").each(function () {
-               var key = $(this).attr("name");
-               if (key && partydatasets[key])
-                   data.push(partydatasets[key]);
-           });
-
-           if (data.length > 0)
-               $.plot($("#party"), data, {
-                   yaxis: { min: 0, max: 100, tickSize: 10 },
-                   xaxis: { ticks: []},
-                   legend: { show: true, noColumns: 6, container: $("#partyLegend") }
-               });
-       }
+//       function plot2AccordingToChoices() {
+//           var data = [];
+//
+//           choice2Container.find("input:checked").each(function () {
+//               var key = $(this).attr("name");
+//               if (key && partydatasets[key])
+//                   data.push(partydatasets[key]);
+//           });
+//
+//           if (data.length > 0)
+//               $.plot($("#party"), data, {
+//                   yaxis: { min: 0, max: 100, tickSize: 10 },
+//                   xaxis: { ticks: []},
+//                   legend: { show: true, noColumns: 6, container: $("#partyLegend") }
+//               });
+//       }
 
       function plot3AccordingToChoices() {
            var avgdatasets = <%= @avgpartydatasets%>;
            var data = [];
 
+          i = 0;
           $.each(avgdatasets, function(key, val) {
                val.color = colors[val.label];
+            if (i == 0) {
+              val.yaxis = 2;
+              i = 1;
+              }
            });
 
            $.each(avgdatasets, function(key, val) {
@@ -334,15 +345,16 @@
              series: {
                    bars: { show: true , barWidth: 0.8}
                },
-               yaxis: { min: 0, max: 100, tickSize: 10 },
-               xaxis: { min: 0.5, max: 6.5, ticks: <%= @avgticks %>},
+               yaxis: { labelWidth: 15, min: 0, max: 100, tickSize: 10 },
+               y2axis: { labelWidth: 15, min: 0, max: 100, tickSize: 10 },
+               xaxis: { min: 0.5, max: 7.5, ticks: <%= @avgticks %>},
                legend: { show: false }
            });
        }
 
 
    plotAccordingToChoices();
-   plot2AccordingToChoices();
+//   plot2AccordingToChoices();
    plot3AccordingToChoices();
        
    });
