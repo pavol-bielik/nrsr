@@ -16,7 +16,7 @@ class VotingsController < ApplicationController
   def show
     @title = "Hlasovania"    
     @voting = Voting.find(params[:id])
-    @votes = @voting.votes.all(:include => :deputy)
+    @votes = @voting.votes.all(:include => :deputy, :order => "vote")
 
     @user_vote = @voting.user_votes.find_or_initialize_by_user_id(current_user.id) if current_user
 

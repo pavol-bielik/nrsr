@@ -33,6 +33,8 @@ class StatutesController < ApplicationController
     @statute = Statute.find(params[:id])
     @votings = Voting.find(:all, :conditions => ["statute_id = ?", @statute.id], :order => "popularity DESC")
 
+    @parent = Statute.find(@statute.parent_id) unless @statute.parent_id.nil?
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @statute }

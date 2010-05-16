@@ -23,6 +23,12 @@
 
 <% end %>
 
+<% unless @parent.nil? %>
+<p>
+    <%= link_to("Pôvodný návrh", @parent, :id => "link")%> 
+</p>
+<% end %>
+
 <h1>Zoznam hlasovani</h1>
 
 <table>
@@ -35,7 +41,7 @@
 <% @votings.each do |voting| %>
   <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
     <td class="first"><%= "#{voting.happened_at.day}.#{voting.happened_at.month}.#{voting.happened_at.year}" %></td>
-    <td><%= voting.short_subject.nil? ? voting.subject : voting.short_subject %></td>
+    <td><%= voting.short_subject.nil? ? voting.subject : voting.short_subject %><br/></td>
     <td><%= link_to 'Info', voting %></td>
   </tr>
   <% i += 1 %>
