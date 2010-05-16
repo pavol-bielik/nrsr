@@ -1,68 +1,65 @@
+<h1>Hlasovanie poslancov</h1>
 <p>
-  <b>Subject:</b>
+  <b>Názov:</b>
   <%=h @voting.subject %>
 </p>
 
 <p>
-  <b>Meeting number:</b>
-  <%=h @voting.meeting_no %>
-</p>
-
-<p>
-  <b>Number:</b>
-  <%=h @voting.voting_no %>
-</p>
-
-<p>
-  <b>Happened at:</b>
-  <%=h @voting.happened_at %>
-</p>
-
-<p>
-  <b>Attending count:</b>
-  <%=h @voting.attending_count %>
-</p>
-
-<p>
-  <b>Attending count:</b>
-  <%=h @voting.voting_count %>
-</p>
-
-<p>
-  <b>Attending count:</b>
-  <%=h @voting.pro_count %>
-</p>
-
-
-<p>
-  <b>Attending count:</b>
-  <%=h @voting.against_count %>
-</p>
-
-<p>
-  <b>Attending count:</b>
-  <%=h @voting.hold_count %>
-</p>
-
-<p>
-  <b>Attending count:</b>
-  <%=h @voting.not_voting_count %>
-</p>
-
-<p>
-  <b>Attending count:</b>
-  <%=h @voting.not_attending_count %>
+  <b>Dátum hlasovania:</b>
+  <%=h "#{@voting.happened_at.day}.#{@voting.happened_at.month}.#{@voting.happened_at.year}" %>
 </p>
 
 <% if current_user %>
+  <h3>Vas nazor?</h3>
     <% form_tag(vote_voting_path(@voting), :method => :put) do %>
-      <h3>Vas nazor?</h3>
-      <%= @user_vote.vote == "Z" ? radio_button_tag(:my_vote, "Z", true, "class" => "radio") : radio_button_tag(:my_vote, "Z", false, "class" => "radio") %>
-      <%= label_tag(:za, "Za") %>
-      <%= @user_vote.vote == "P" ? radio_button_tag(:my_vote, "P", true, "class" => "radio") : radio_button_tag(:my_vote, "P", false, "class" => "radio") %>
-      <%= label_tag(:proti, "Proti") %>
-      <%= submit_tag "Vote", "class" => "button" %>
+      <%= @user_vote.vote == "Z" ? radio_button_tag(:my_vote, "Z", true) : radio_button_tag(:my_vote, "Z", false) %>
+      <%= label_tag(:za, "Za") %><br />
+      <%= @user_vote.vote == "P" ? radio_button_tag(:my_vote, "P", true) : radio_button_tag(:my_vote, "P", false) %>
+      <%= label_tag(:proti, "Proti") %><br />
+      <%= submit_tag "Hlasuj", "class" => "button" %>
     <% end %>
 <% end %>
+
+<h3>Výsledok hlasovania</h3>
+
+<table>
+
+  <tr class="row-a">
+    <td class="first">Prítomných:</td>
+    <td><%=h @voting.attending_count %></td>
+  </tr>
+
+  <tr class="row-b">
+    <td class="first">Hlasujúcich:</td>
+    <td><%=h @voting.voting_count %></td>
+  </tr>
+
+  <tr class="row-a">
+    <td class="first">[Z] Za hlasovalo:</td>
+    <td><%=h @voting.pro_count %></td>
+  </tr>
+
+  <tr class="row-b">
+    <td class="first">[P] Proti hlasovalo:</td>
+    <td><%=h @voting.against_count %></td>
+  </tr>
+
+  <tr class="row-a">
+    <td class="first">[?] Zdržalo sa hlasovania:</td>
+    <td><%=h @voting.hold_count %></td>
+  </tr>
+
+  <tr class="row-b">
+    <td class="first">[N] Nehlasovalo:</td>
+    <td><%=h @voting.not_voting_count %></td>
+  </tr>
+
+  <tr class="row-a">
+    <td class="first">[0] Neprítomní:</td>
+    <td><%=h @voting.not_attending_count %></td>
+  </tr>
+
+
+</table>
 
 <%= render :partial => "votes", :object => @votes %>

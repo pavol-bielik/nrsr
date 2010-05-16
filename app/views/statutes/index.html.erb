@@ -1,5 +1,13 @@
 <h1>Zoznam návrhov zákonov</h1>
 
+<% form_tag(statutes_path, :method => "get") do %>
+    <%= label_tag(:statute_type, "Typ zákona") %>
+    <%= select_tag "statute_type", @options %>
+    <%= submit_tag "Zobraz", "class" => "button" %>
+<% end %>
+
+<%= will_paginate @statutes %>
+
 <table>
   <% i = 0 %>
   <tr>

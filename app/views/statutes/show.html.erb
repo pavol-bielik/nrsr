@@ -1,25 +1,18 @@
-<p>
-  <b>Type:</b>
-  <%=h @statute.statute_type %>
-</p>
+<h1><%= @statute.statute_type%></h1>
 
 <p>
-  <b>Subject:</b>
+  <b>Názov:</b>
   <%=h @statute.subject %>
 </p>
 
 <p>
-  <b>State:</b>
-  <%=h @statute.state %>
+  <b>Aktuálny stav:</b>
+  <%=h @statute.state %> <%=h @statute.result %>
 </p>
 
-<p>
-  <b>Result:</b>
-  <%=h @statute.result %>
-</p>
 
 <p>
-  <b>Date:</b>
+  <b>Dátum doručenia:</b>
   <%=h @statute.date %>
 </p>
 
@@ -41,8 +34,8 @@
 
 <% @votings.each do |voting| %>
   <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
-    <td class="first"><%= "#{voting.happened_at.year}-#{voting.happened_at.month}-#{voting.happened_at.day}" %></td>
-    <td><%= voting.subject %></td>
+    <td class="first"><%= "#{voting.happened_at.day}.#{voting.happened_at.month}.#{voting.happened_at.year}" %></td>
+    <td><%= voting.short_subject.nil? ? voting.subject : voting.short_subject %></td>
     <td><%= link_to 'Info', voting %></td>
   </tr>
   <% i += 1 %>

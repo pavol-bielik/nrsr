@@ -6,21 +6,28 @@ class DeputiesController < ApplicationController
   def index
     @title = "Poslanci"
 
-    @options = "<option>Všetky</option>
-                <option>SDKÚ – DS</option>
-                <option>SMER – SD</option>
-                <option>SNS</option>
-                <option>SMK – MKP</option>
-                <option>ĽS – HZDS</option>
-                <option>KDH</option>"
-
-    @options.gsub!(">#{params[:party]}", " selected='selected'>#{params[:party]}" ) unless params[:party].nil?
+    @options = "<option>Všetky</option>"
+#                <option>SDKÚ – DS</option>
+#                <option>SMER – SD</option>
+#                <option>SNS</option>
+#                <option>SMK – MKP</option>
+#                <option>ĽS – HZDS</option>
+#                <option>KDH</option>
+#                <option>Nezávislý</option>
 
     unless params[:party].nil? or params[:party] == "Všetky"
       @deputies = Deputy.all(:conditions => ["party = ?", params[:party]]) 
     else
       @deputies = Deputy.all
     end
+
+    @parties = Deputy.all(:select => "DISTINCT(party)")
+
+    @parties.each do |deputy|
+       @options << "<option>#{deputy.party}</option>"
+    end
+
+    @options.gsub!(">#{params[:party]}", " selected='selected'>#{params[:party]}" ) unless params[:party].nil?    
 
     respond_to do |format|
       format.html # index.html.erb

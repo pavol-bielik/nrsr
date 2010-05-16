@@ -2,8 +2,24 @@ class StatutesController < ApplicationController
   # GET /statutes
   # GET /statutes.xml
   def index
-    #@statutes = Statute.all
-    @statutes = Statute.find(:all, :conditions => "state <> 'Evidencia'")
+    @title = "Návrhy zákonov"
+
+#    unless params[:statute_type].nil? or params[:statute_type] == "Všetky"
+#      @statutes = Statute.all(:conditions => ["statute_type = ?", params[:statute_type]])
+#    else
+#      @statutes = Statute.all
+#    end
+    @statutes = Statute.search(params[:page], params[:statute_type])
+
+    @types = Statute.all(:select => "DISTINCT(statute_type)")
+
+    @options = "<option>Všetky</option>"
+    @types.each do |value|
+       @options << "<option>#{value.statute_type}</option>"
+    end
+
+    @options.gsub!(">#{params[:statute_type]}", " selected='selected'>#{params[:statute_type]}" ) unless params[:statute_type].nil?
+
 
     respond_to do |format|
       format.html # index.html.erb

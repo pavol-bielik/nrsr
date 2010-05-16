@@ -24,4 +24,12 @@ class Statute < ActiveRecord::Base
 #    return statute_html  
   end
 
+  def self.search(page, statute_type)
+    unless statute_type.nil? or statute_type == "Všetky"
+      paginate :per_page => 10, :page => page, :order => 'id DESC', :conditions => ["statute_type = ?",statute_type]
+    else
+      paginate :per_page => 10, :page => page, :order => 'id DESC'
+    end
+  end
+
 end
