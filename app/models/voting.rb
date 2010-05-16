@@ -13,8 +13,10 @@ class Voting < ActiveRecord::Base
     voting.statute_id = statute unless statute.nil?
     voting.subject =~ /Hlasovanie o návrhu zákona ako o celku/i ? popularity = id + 1000 : popularity = id
     popularity += voting_attr[:voting_count]
-    ratio = (voting.pro_count - voting.against_count - voting.hold_count)
-    ratio.abs == 0 ? popularity += 2000 : popularity += 2000/ratio.abs 
+    if voting.voting_count > 80
+      ratio = (voting.pro_count - voting.against_count - voting.hold_count)
+      ratio.abs == 0 ? popularity += 2000 : popularity += 2000/ratio.abs
+    end
     voting.popularity = popularity.round
     voting.save
     puts "voting #{id} created"
