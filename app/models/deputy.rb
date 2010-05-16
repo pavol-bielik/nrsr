@@ -94,6 +94,36 @@ class Deputy < ActiveRecord::Base
     return true
   end
 
+    def self.add_voting_relations_list(voting_ids)
+
+      votes = []
+      voting_ids.each do |voting_id|
+        votes += Vote.find(:all, :conditions => {:voting_id => voting_id})
+      end
+
+      dep_votes = {}
+
+      votes.each do |vote|
+        dep_votes[vote.deputy_id] = [] if dep_votes[vote.deputy_id].nil?
+        dep_votes[vote.deputy_id] << vote.vote
+      end
+
+      len = voting_ids.length
+
+      DeputyRelation.find_each do |relation|
+        value = 0
+        (0).upto(len - 1) do |i|
+          value += DeputyRelation::RELATION[dep_votes[relation.deputy1_id][i]][dep_votes[relation.deputy2_id][i]]
+        end
+        relation.relation += value
+        relation.votes += len
+        relation.save
+      end
+
+      puts "##{votes.length} relations added"
+    return true
+  end
+
   def photo=(file)
     super(File.basename(file.path))
   end
