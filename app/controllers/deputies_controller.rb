@@ -75,7 +75,7 @@ class DeputiesController < ApplicationController
       hash[relation.deputy2.party] << [value, i, relation.deputy2.id, relation.deputy2.degree, relation.deputy2.firstname, relation.deputy2.lastname, relation.deputy2.party]
       hash[relation.deputy2.party][0] += value
       dep_options << ["#{i}", "#{relation.deputy2.lastname}, #{relation.deputy2.firstname}"]
-       @ticks << "[#{i + 0.5},'<a style=\"font-size:14px;\" href=\"/deputies/#{relation.deputy2.id}\">#{relation.deputy2.firstname} #{relation.deputy2.lastname}</a>, #{ len - i}'],"
+       @ticks << "[#{i + 0.5},'<a style=\"font-size:150%;\" href=\"/deputies/#{relation.deputy2.id}\">#{relation.deputy2.firstname} #{relation.deputy2.lastname}</a>, #{ len - i}'],"
        i -= 1
     end
 

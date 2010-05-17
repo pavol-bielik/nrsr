@@ -41,7 +41,7 @@ class UsersController < ApplicationController
         hash[relation.deputy.party] << [value, i, relation.deputy.id, relation.deputy.degree, relation.deputy.firstname, relation.deputy.lastname, relation.deputy.party]
         hash[relation.deputy.party][0] += value
         dep_options << ["#{i}", "#{relation.deputy.lastname}, #{relation.deputy.firstname}"]
-         @ticks << "[#{i + 0.5},'<a style=\"font-size:14px;\" href=\"/deputies/#{relation.deputy.id}\">#{relation.deputy.firstname} #{relation.deputy.lastname}</a>, #{ len - i}'],"
+         @ticks << "[#{i + 0.5},'<a style=\"font-size:150%;\" href=\"/deputies/#{relation.deputy.id}\">#{relation.deputy.firstname} #{relation.deputy.lastname}</a>, #{ len - i}'],"
          i -= 1
       end
 
