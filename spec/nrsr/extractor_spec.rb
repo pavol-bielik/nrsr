@@ -17,7 +17,7 @@ describe Extractor do
       deputy[:lastname].should == "Mikloško"
       deputy[:firstname].should == "František"
       deputy[:born].should == DateTime.civil(1947, 6, 2)
-      deputy[:party].should == "KDH"
+      deputy[:elected_for].should == "KDH"
       deputy[:nationality].should == "slovenská"
       deputy[:domicile].should == "Bratislava"
       deputy[:region].should == "Bratislavský"
@@ -31,7 +31,7 @@ describe Extractor do
       deputy[:lastname].should == "Bastrnák"
       deputy[:firstname].should == "Tibor"
       deputy[:born].should == DateTime.civil(1964, 11, 17)
-      deputy[:party].should == "SMK – MKP"
+      deputy[:elected_for].should == "SMK – MKP"
       deputy[:nationality].should == "maďarská"
       deputy[:domicile].should == "Komárno"
       deputy[:region].should == "Nitriansky"
@@ -45,7 +45,7 @@ describe Extractor do
       deputy[:lastname].should == "Hradecký"
       deputy[:firstname].should == "Boris"
       deputy[:born].should == DateTime.civil(1944, 3, 30)
-      deputy[:party].should == "SMER – SD"
+      deputy[:elected_for].should == "SMER – SD"
       deputy[:nationality].should == "slovenská"
       deputy[:domicile].should == "Bratislava"
       deputy[:region].should == "Bratislavský"
