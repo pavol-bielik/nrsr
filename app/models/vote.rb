@@ -10,10 +10,18 @@ class Vote < ActiveRecord::Base
     all_votes.each do |party, votes|
       votes.each do |vote|
          i += 1
+         
+         if party =~ /Poslanci/i
+            n_party = "Nezávislý"
+            vote.deputy.update_party(n_party, voting)
+         else
+            n_party = party
+         end
+
          Vote.create(:voting_id => voting,
                        :deputy_id => vote[1],
                        :vote => vote[0],
-                       :party => party)
+                       :party => n_party)
       end
     end
     puts "# #{i} votes created"

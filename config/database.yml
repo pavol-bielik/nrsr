@@ -18,7 +18,7 @@ development:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: nrsr_development
+  database: nrsr_development_new
   pool: 5
   username: root
   password: ruby

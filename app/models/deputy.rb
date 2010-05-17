@@ -121,6 +121,14 @@ class Deputy < ActiveRecord::Base
     super(File.basename(file.path))
   end
 
+  def update_party(n_party, n_voting_id=nil)
+    unless (n_party == party or n_voting_id.nil?)
+      n_voting = Voting.find(n_voting_id)
+      party_since > n_voting.happened_at.to_date ? n_party_since = n_voting.happened_at.to_date : n_party_since = party_since
+      self.update_attributes(:party => n_party, :party_since => n_party_since)
+    end
+  end
+
 #  def photo
 #    return File.open("data/photos/#{super()}", "rb")
 #  end
