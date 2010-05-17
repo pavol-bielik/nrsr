@@ -23,6 +23,7 @@ class Deputy < ActiveRecord::Base
         deputy_attr = Extractor.extract_deputy(text)
         next if deputy_attr.nil?
         deputy = Deputy.new(deputy_attr)
+        deputy.party = deputy.elected_for
         deputy.id = id
         if File.file?("#{PHOTOS_DIR}/#{deputy.id}.jpeg") then
           photofile = File.new("#{PHOTOS_DIR}/#{deputy.id}.jpeg", "rb")
@@ -127,5 +128,21 @@ class Deputy < ActiveRecord::Base
   def photo=(file)
     super(File.basename(file.path))
   end
+
+  def update_party(n_party, n_voting_id=nil)
+    unless (n_party == party or n_voting_id.nil?)
+      n_voting = Voting.find(n_voting_id)
+      unless (party_since.nil? or party_since > n_voting.happened_at.to_date)
+        n_party_since = party_since
+      else
+        n_party_since = n_voting.happened_at.to_date
+      end
+      self.update_attributes(:party => n_party, :party_since => n_party_since)
+    end
+  end
+
+#  def photo
+#    return File.open("data/photos/#{super()}", "rb")
+#  end
 
 end

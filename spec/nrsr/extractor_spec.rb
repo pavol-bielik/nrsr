@@ -17,7 +17,7 @@ describe Extractor do
       deputy[:lastname].should == "Mikloško"
       deputy[:firstname].should == "František"
       deputy[:born].should == DateTime.civil(1947, 6, 2)
-      deputy[:party].should == "KDH"
+      deputy[:elected_for].should == "KDH"
       deputy[:nationality].should == "slovenská"
       deputy[:domicile].should == "Bratislava"
       deputy[:region].should == "Bratislavský"
@@ -31,7 +31,7 @@ describe Extractor do
       deputy[:lastname].should == "Bastrnák"
       deputy[:firstname].should == "Tibor"
       deputy[:born].should == DateTime.civil(1964, 11, 17)
-      deputy[:party].should == "SMK – MKP"
+      deputy[:elected_for].should == "SMK – MKP"
       deputy[:nationality].should == "maďarská"
       deputy[:domicile].should == "Komárno"
       deputy[:region].should == "Nitriansky"
@@ -45,7 +45,7 @@ describe Extractor do
       deputy[:lastname].should == "Hradecký"
       deputy[:firstname].should == "Boris"
       deputy[:born].should == DateTime.civil(1944, 3, 30)
-      deputy[:party].should == "SMER – SD"
+      deputy[:elected_for].should == "SMER – SD"
       deputy[:nationality].should == "slovenská"
       deputy[:domicile].should == "Bratislava"
       deputy[:region].should == "Bratislavský"
@@ -100,16 +100,16 @@ describe Extractor do
 
     it "should parse all votes with parties" do
       votes = Extractor.extract_votes(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/voting_info.html"))
-      votes["Klub KDH"].should == [
+      votes["KDH"].should == [
               ["N", 226, "Abrhan, Pavol"], ["?", 21, "Brocka, Július"], ["?", 196, "Fronc, Martin"], ["?", 657, "Gibalová, Monika"],
               ["?", 55, "Hrušovský, Pavol"], ["N", 635, "Kahanec, Stanislav"], ["0", 280, "Lipšic, Daniel"], ["?", 115, "Sabolová, Mária"],
               ["0", 291, "Šimko, Jozef"],
       ]
-      votes["Klub ĽS – HZDS"].size.should == 15
-      votes["Klub SDKÚ – DS"].size.should == 28
-      votes["Klub SMER – SD"].size.should == 50
-      votes["Klub SMK – MKP"].size.should == 15
-      votes["Klub SNS"].size.should == 19
+      votes["ĽS – HZDS"].size.should == 15
+      votes["SDKÚ – DS"].size.should == 28
+      votes["SMER – SD"].size.should == 50
+      votes["SMK – MKP"].size.should == 15
+      votes["SNS"].size.should == 19      
       votes["Poslanci, ktorí nie sú členmi poslaneckých klubov"].size.should == 14
       votes["Poslanci, ktorí nie sú členmi poslaneckých klubov"].last.should == ["?", 697, "Simon, Zsolt"]
     end
