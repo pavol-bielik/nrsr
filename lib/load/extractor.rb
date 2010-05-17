@@ -116,7 +116,8 @@ class Extractor
       party = nil
       doc.css("#ctl15__resultsTable tr td").each do |row|
         if row["class"] == "h3"
-          party = row.content
+          match = row.content.to_s.match(/Klub (.*)/)
+          match.nil? ? party = row.content : party = match[1]
         else
           spans = row.css("span")
           unless spans.empty?
