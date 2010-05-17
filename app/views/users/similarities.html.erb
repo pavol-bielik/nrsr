@@ -110,8 +110,8 @@ Aby ste videli vašu zhodu musíte najskôr zahlasovať
 //                    return markings;
                },
                yaxis: { labelWidth: 170, min: 1, max: 1 + barsShown, ticks: <%= @ticks %>, panRange: [1, 151] },
-               xaxis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
-               x2axis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
+               xaxis: { labelHeight: 10, min: 0, max: 100, tickSize: 10, panRange: [0,100] },
+               x2axis: { labelHeight: 10, min: 0, max: 100, tickSize: 10, panRange: [0,100] },
               legend: {
                 show: false
               },
@@ -157,7 +157,7 @@ Aby ste videli vašu zhodu musíte najskôr zahlasovať
             <td>' + datasets[party].deputies[id][4] +'</td>\
           </tr>\
           <tr class="row-b">\
-            <td class="first">Kandidoval(a) za:</td>\
+            <td class="first">Klub:</td>\
             <td>' + datasets[party].deputies[id][5] +'</td>\
           </tr>\
       </table>\

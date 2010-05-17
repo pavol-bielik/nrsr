@@ -6,4 +6,8 @@ module ApplicationHelper
       @title
     end
 
+    def format_date(date)
+      "#{date.day}.#{date.month}.#{date.year}"
+    end
+
 end

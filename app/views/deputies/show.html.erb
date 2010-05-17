@@ -26,12 +26,19 @@
 
   <tr class="row-b">
     <td class="first">Kandidoval(a) za:</td>
-    <td><%= @deputy.party %></td>
+    <td><%= @deputy.elected_for %></td>
   </tr>
+
+<% unless @deputy.elected_for == @deputy.party %>
+  <tr class="row-b">
+    <td class="first">Klub:</td>
+    <td><%= @deputy.party %> <%= "(od #{format_date(@deputy.party_since)})" unless @deputy.party_since.nil?%></td>
+  </tr>
+<% end %>
 
   <tr class="row-a">
     <td class="first">Dátum narodenia:</td>
-    <td><%= @deputy.born %></td>
+    <td><%= format_date(@deputy.born) %></td>
   </tr>
 
   <tr class="row-b">
@@ -232,10 +239,10 @@
             <td>' + datasets[party].deputies[id][4] +'</td>\
           </tr>\
           <tr class="row-b">\
-            <td class="first">Kandidoval(a) za:</td>\
+            <td class="first">Klub:</td>\
             <td>' + datasets[party].deputies[id][5] +'</td>\
           </tr>\
-      </table>\
+          </table>\
           </div>').css( {
             position: 'absolute',
             display: 'none',

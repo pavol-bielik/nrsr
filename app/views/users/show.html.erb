@@ -12,7 +12,7 @@
   <%=h @voting_count %>
 </p>
 
-<% unless @votes.empty? %>
+<% unless (@votes.nil? or @votes.empty?) %>
   <h3>Moje hlasovania:</h3>
 
   <table>
