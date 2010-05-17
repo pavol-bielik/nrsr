@@ -63,7 +63,7 @@ class Extractor
       deputy[:firstname] = doc.css("#ctl15_ctlMeno").first.content.to_s.strip
       time = doc.css("#ctl15_ctlNarodeny").first.content.match(/(\d+)\. (\d+)\. (\d+)/)
       deputy[:born] = DateTime.civil(time[3].to_i, time[2].to_i, time[1].to_i)
-      deputy[:party] = doc.css("#ctl15_ctlKandidovalZa").first.content.to_s.strip
+      deputy[:elected_for] = doc.css("#ctl15_ctlKandidovalZa").first.content.to_s.strip
       deputy[:nationality] = doc.css("#ctl15_ctlNarodnost").first.content.to_s.strip
       deputy[:domicile] = doc.css("#ctl15_ctlBydlisko").first.content.to_s.strip
       deputy[:region] = doc.css("#ctl15_ctlKraj").first.content.to_s.strip
