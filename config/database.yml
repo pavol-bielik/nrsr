@@ -18,10 +18,10 @@ development:
   adapter: mysql
   encoding: utf8
   reconnect: false
-  database: nrsr_development_new
+  database:
   pool: 5
-  username: root
-  password: ruby
+  username: vos
+  password: VoSatRelaX
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
