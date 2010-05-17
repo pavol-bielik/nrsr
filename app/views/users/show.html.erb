@@ -26,6 +26,7 @@
   <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
     <td class="first"><%=h vote.vote %></td>
     <td><%=h vote.voting.subject %></td>
+    <td><%= link_to 'Info', vote.voting %></td>
   </tr>
   <% i += 1 %>
 <% end %>

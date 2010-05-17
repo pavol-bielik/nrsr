@@ -30,14 +30,31 @@ class VotingsController < ApplicationController
     if ( (@user = current_user) )
       @voting = Voting.find(params[:id])
 
-      user_vote = @voting.user_votes.find_or_initialize_by_user_id(@user.id)
-      user_vote.vote = params[:my_vote]
-      user_vote.voting = @voting
-      user_vote.user = @user
-      user_vote.save
+      user_vote = UserVote.find(:first, :conditions => ["voting_id = ? and user_id = ?", @voting.id , @user.id])
 
-      @user.add_voting_relations(params[:id])
-      
+      if user_vote.nil?
+         user_vote = UserVote.new(:user_id => @user.id, :voting_id => @voting.id)
+         old_vote = nil
+      else
+         old_vote = user_vote.vote
+      end
+
+#      user_vote = @voting.user_votes.find_or_initialize_by_user_id(@user.id)
+      user_vote.vote = params[:my_vote]
+#      user_vote.voting = @voting
+#      user_vote.user = @user
+      unless user_vote.save
+         flash[:error] = "Chyba pri hlasovani."
+         redirect_to @voting
+         return
+      end
+
+      unless old_vote.nil?
+        @user.add_voting_relations(params[:id], old_vote)
+      else
+        @user.add_voting_relations(params[:id])
+      end
+
       flash[:notice] = "Vase hlasovanie bolo uspesne: " + params[:my_vote]
       redirect_to @voting
     end

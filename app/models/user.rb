@@ -16,19 +16,20 @@ class User < ActiveRecord::Base
     end
   end
 
-  def add_voting_relations(voting_id)
+  def add_voting_relations(voting_id, old_vote="0")
 
     votes = Vote.find(:all, :conditions => {:voting_id => voting_id})
-    user_vote = UserVote.find(:first, :conditions => {:user_id => id})
+    user_vote = UserVote.find(:first, :conditions => ["voting_id = ? and user_id = ?", voting_id , id])
 
     votes.each do |vote|
+        value = DeputyRelation::RELATION[user_vote.vote][vote.vote] - DeputyRelation::RELATION[old_vote][vote.vote]
         relation = UserRelation.find(:first, :conditions => ["user_id = ? and deputy_id = ?", id, vote.deputy_id])
-        relation.relation += DeputyRelation::RELATION[user_vote.vote][vote.vote]
-        relation.votes += 1
+        relation.relation += value
+        relation.votes += 1 if old_vote == "0"
         relation.save
     end
 
-    puts "#User relations for voting #{voting_id} added"
+    puts "#User relations for voting #{voting_id} added "
     return true
   end
 

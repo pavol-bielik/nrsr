@@ -1,5 +1,6 @@
 class DeputiesController < ApplicationController
-  auto_complete_for :deputy, :lastname
+#  auto_complete_for :deputy, :lastname
+  before_filter :require_user, :only => [:comparison]
 
   # GET /deputies
   # GET /deputies.xml
@@ -71,7 +72,7 @@ class DeputiesController < ApplicationController
     @relations.each do |relation|
       value = ((relation.relation*10)/relation.votes).round
       hash[relation.deputy2.party] = [ 0 ] if hash[relation.deputy2.party].nil?
-      hash[relation.deputy2.party] << [value, i, relation.deputy2.photo, relation.deputy2.degree, relation.deputy2.firstname, relation.deputy2.lastname, relation.deputy2.party]
+      hash[relation.deputy2.party] << [value, i, relation.deputy2.id, relation.deputy2.degree, relation.deputy2.firstname, relation.deputy2.lastname, relation.deputy2.party]
       hash[relation.deputy2.party][0] += value
       dep_options << ["#{i}", "#{relation.deputy2.lastname}, #{relation.deputy2.firstname}"]
        @ticks << "[#{i + 0.5},'<a style=\"font-size:14px;\" href=\"/deputies/#{relation.deputy2.id}\">#{relation.deputy2.firstname} #{relation.deputy2.lastname}</a>, #{ len - i}'],"
@@ -256,6 +257,29 @@ class DeputiesController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @deputy }
     end
+  end
+
+  def comparison
+    @deputy = Deputy.find(params[:id])
+    @user = @current_user
+    @title = "Poslanec | " + @deputy.firstname + " " + @deputy.lastname
+
+    @user_votes = UserVote.find(:all, :include => :voting, :conditions => ["user_id = ?", @user.id], :order => "vote DESC")
+    @relation = UserRelation.find(:first, :conditions => ["user_id = ? and deputy_id = ?", @user.id, @deputy.id])
+
+    vote_ids = []
+    @user_votes.each do |vote|
+      vote_ids << vote.voting_id
+    end
+
+    votes = Vote.find(:all, :conditions => ["deputy_id = ? and voting_id IN (?)",@deputy.id ,vote_ids] )
+
+    @deputy_votes = {}
+
+    votes.each do |vote|
+      @deputy_votes[vote.voting_id] = vote.vote
+    end
+
   end
 
 

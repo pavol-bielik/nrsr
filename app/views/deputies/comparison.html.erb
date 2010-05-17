@@ -1,0 +1,40 @@
+<h1><%= @deputy.firstname + " " + @deputy.lastname %></h1>
+<% unless @user_votes.empty? %>
+    <p>
+      Zhoda s poslancom: <b><%= (@relation.relation/@relation.votes*10).round %>%</b>
+
+    </p>
+    <p>
+  <b>[Z]</b> Za, <b>[P]</b> Proti, <b>[?]</b> Zdržal sa, <b>[N]</b> Nehlasoval, <b>[0]</b> Neprítomní
+    </p>
+  <table>
+  <% i = 0 %>
+  <tr>
+    <th class="first"></th>
+    <th>Môj hlas</th>
+    <th><%= @deputy.firstname + " " + @deputy.lastname %></th>
+    <th>Názov hlasovania</th>
+  </tr>
+
+<% @user_votes.each do |vote| %>
+  <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
+    
+    <td class="first"><%=
+        relation = DeputyRelation::RELATION[vote.vote][@deputy_votes[vote.voting_id]]
+        relation > 5 ? color = "green" : color = "red"
+        (relation == 0 or relation == 10) ? size = "double" : size = "single"
+        image_tag("#{size}_#{color}.png")
+    %></td>
+    <td><%=h vote.vote %></td>
+    <td><%=h @deputy_votes[vote.voting_id] %></td>
+    <td><%=h vote.voting.subject %></td>
+    <td><%= link_to 'Info', vote.voting %></td>
+  </tr>
+  <% i += 1 %>
+<% end %>
+</table>
+<% else %>
+    <p>
+Nemáte spoločné žiadne hlasovania.
+</p>
+<% end %>

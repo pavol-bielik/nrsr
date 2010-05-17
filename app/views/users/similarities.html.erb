@@ -1,75 +1,12 @@
-<h1><%= @deputy.firstname + " " + @deputy.lastname %></h1>
 
-<div class="poslanec">
-
-    <div class="foto">
-        <%= image_tag("/images/photos/#{@deputy.photo}") %>
-    </div>
-
-
-<table>
-
-  <tr class="row-a">
-    <td class="first">Titul:</td>
-    <td><%= @deputy.degree %></td>
-  </tr>
-
-  <tr class="row-b">
-    <td class="first">Meno:</td>
-    <td><%= @deputy.firstname %></td>
-  </tr>
-
-  <tr class="row-a">
-    <td class="first">Priezvisko:</td>
-    <td><%= @deputy.lastname %></td>
-  </tr>
-
-  <tr class="row-b">
-    <td class="first">Kandidoval(a) za:</td>
-    <td><%= @deputy.party %></td>
-  </tr>
-
-  <tr class="row-a">
-    <td class="first">Dátum narodenia:</td>
-    <td><%= @deputy.born %></td>
-  </tr>
-
-  <tr class="row-b">
-    <td class="first">Národnosť:</td>
-    <td><%= @deputy.nationality %></td>
-  </tr>
-
-  <tr class="row-a">
-    <td class="first">Bydlisko:</td>
-    <td><%= @deputy.domicile %></td>
-  </tr>
-
-  <tr class="row-b">
-    <td class="first">Región:</td>
-    <td><%= @deputy.region %></td>
-  </tr>
-
-  <% unless @deputy.email.nil? %>
-  <tr class="row-a">
-    <td class="first">Email:</td>
-    <td><%= @deputy.email %></td>
-  </tr>
-  <% end %>
-
-  <% unless @deputy.contact_person.nil? %>
-  <tr class="row-a">
-    <td class="first">Kont. osoba:</td>
-    <td><%= @deputy.contact_person %></td>
-  </tr>
-  <% end %>
-  
-</table>
+<% if @avgpartydatasets.nil? %>
 <p>
-  <%= link_to "Porovnanie mojich hlasovani s poslancom", comparison_deputy_path(@deputy) %>
+Aby ste videli vašu zhodu musíte najskôr zahlasovať
 </p>
+<% else %>
 </div>
-
 </div></div>
+
 <div class="content" style="clear:both;">
 <h1>Graf zhody poslancov</h1>
 <form>
@@ -86,26 +23,17 @@
 
 </div>
 
-<!--<div class="content" style="clear:both;">-->
-<!--<h1>Graf Stran</h1>-->
-<!--<form>-->
-<!--<label>Zobraz strany</label>-->
-<!--<span id="choices2"></span><br />-->
-<!--</form>-->
-   <!--<div id="partyLegend" style="margin-left:10px"></div>-->
-   <!--<div id="party" style="width:530px;height:250px;margin-bottom:15px;float:left"></div>-->
-
-<!--</div>-->
-
 <div class="content" style="clear:both;">
-<h1>Graf Stran</h1>
-   <div id="party2" style="width:545px;height:250px;margin-bottom:15px;float:left"></div>
+<h1>Moja zhoda zo stranami</h1>
+
+<div id="party2" style="width:545px;height:250px;margin-bottom:15px;float:left"></div>
+
 </div>
-   <script id="source" language="javascript" type="text/javascript">
+
+<script id="source" language="javascript" type="text/javascript">
 
    $(function () {
    var datasets = <%= @datasets %>;
-//   var partydatasets = <%= @partydatasets %>;
    var y_selection_1 = 126;
    var y_selection_2 = 150;
    var plot;
@@ -126,9 +54,6 @@
           }
        });
 
-//      $.each(partydatasets, function(key, val) {
-//           val.color = colors[val.label];
-//       });
 
    deputiesContainer.append('<%= @options %>');
    deputiesContainer.change(OnChange);
@@ -184,7 +109,7 @@
 //                      markings.push({ xaxis: { from: x, to: x }, yaxis: { from: 1, to: 150 }, color: "#aaa" });
 //                    return markings;
                },
-               yaxis: { labelWidth: 170, min: 1, max: 1 + barsShown, ticks: <%= @ticks %>, panRange: [1, 150] },
+               yaxis: { labelWidth: 170, min: 1, max: 1 + barsShown, ticks: <%= @ticks %>, panRange: [1, 151] },
                xaxis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
                x2axis: { labelHeight: 10, min: 0, max: 100, panRange: [0,100] },
               legend: {
@@ -208,7 +133,7 @@
             },
             xaxis: { ticks: [], min: 0, max: 120 },
             x2axis: { ticks: [], min: 0, max: 120 },
-            yaxis: { ticks: [], min: 1, max: 150 },
+            yaxis: { ticks: [], min: 1, max: 151 },
             grid: { show: false },
             selection: { mode: "y", color: '#999' },
             legend: { show: true, noColumns: 6, container: $("#overviewLegend") }
@@ -236,7 +161,7 @@
             <td>' + datasets[party].deputies[id][5] +'</td>\
           </tr>\
       </table>\
-          </div>').css( {
+          <p><a href="/deputies/' + datasets[party].deputies[id][1] + '/comparison">Porovnanie hlasovani s poslancom</a></p></div>').css( {
             position: 'absolute',
             display: 'none',
             top: y + 5,
@@ -247,7 +172,7 @@
             opacity: 1
         }).appendTo("body").fadeIn(200);
     }
-          
+
     var previousPoint = null;
     $("#placeholder").bind("plotclick", function (event, pos, item) {
 
@@ -291,35 +216,8 @@
       y_selection_1 = 150 - barsShown;
       y_selection_2 = 150;
        overview.setSelection({ y1: y_selection_1, y2: y_selection_2 });
-       plot.pan({ top: -9999 });   
+       plot.pan({ top: -9999 });
    }
-
-//       var choice2Container = $("#choices2");
-//       $.each(partydatasets, function(key, val) {
-//           choice2Container.append(' <input type="checkbox" name="' + key +
-//                              '" checked="checked" id="id' + key + '">' +
-//                              '<label for="id' + key + '">'
-//                               + val.label + '</label>' + ' ');
-//       });
-//       choice2Container.find("input").click(plot2AccordingToChoices);
-
-
-//       function plot2AccordingToChoices() {
-//           var data = [];
-//
-//           choice2Container.find("input:checked").each(function () {
-//               var key = $(this).attr("name");
-//               if (key && partydatasets[key])
-//                   data.push(partydatasets[key]);
-//           });
-//
-//           if (data.length > 0)
-//               $.plot($("#party"), data, {
-//                   yaxis: { min: 0, max: 100, tickSize: 10 },
-//                   xaxis: { ticks: []},
-//                   legend: { show: true, noColumns: 6, container: $("#partyLegend") }
-//               });
-//       }
 
       function plot3AccordingToChoices() {
            var avgdatasets = <%= @avgpartydatasets%>;
@@ -352,10 +250,10 @@
 
 
    plotAccordingToChoices();
-//   plot2AccordingToChoices();
    plot3AccordingToChoices();
-       
+
    });
    </script>
 
 <div><div>
+<% end %>    

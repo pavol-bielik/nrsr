@@ -7,6 +7,7 @@
         <h1 class="clear"><%=h current_user.login%></h1>
         <ul class="sidemenu">
             <li><%= link_to "Profil", account_path, :class => "top" %></li>
+            <li><%= link_to "Moja Zhoda", similarities_account_path %></li>
             <li><%= link_to "Odhlásenie", user_sessions_path, :method => :delete%></li>
         </ul>
       </div>
