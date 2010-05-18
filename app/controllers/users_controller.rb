@@ -7,7 +7,18 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    if params[:type].nil?
+      @user = User.new(params[:user])
+    else
+      last_guest = User.find(:last, :conditions => "login like 'guest%'")
+      if last_guest.nil?
+          id = 1
+      else
+          match = last_guest.login.match(/guest(\d+)/)
+          id = match[1].to_i + 1
+      end
+      @user = User.new(:login => "guest#{id}", :password => "guest", :password_confirmation => "guest")
+    end
     if @user.save  
       @user.create_relations
       flash[:notice] = "Account registered!"

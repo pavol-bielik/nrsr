@@ -16,6 +16,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def delete_relations
+    relations = []
+    self.user_relations.each do |rel|
+      relations << rel.id
+    end
+    UserRelation.delete(relations)
+  end
+
   def add_voting_relations(voting_id, old_vote="0")
 
     votes = Vote.find(:all, :conditions => {:voting_id => voting_id})

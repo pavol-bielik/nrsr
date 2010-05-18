@@ -18,6 +18,8 @@ class UserSessionsController < ApplicationController
   end
 
   def destroy
+    @user = @current_user
+    @user.delete_relations if @user.login =~ /guest/
     current_user_session.destroy
     flash[:notice] = "Logout successful!"
     redirect_back_or_default root_url

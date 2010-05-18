@@ -22,6 +22,9 @@
 
 <h3>Výsledok hlasovania</h3>
 
+<p id="choices"></p>
+<div id="error-message" style="display:none;">
+
 <table>
 
   <tr class="row-a">
@@ -62,4 +65,20 @@
 
 </table>
 
-<%= render :partial => "votes", :object => @votes %>
+    <%= render :partial => "votes", :object => @votes %>
+</div>
+
+
+<script id="source" language="javascript" type="text/javascript">
+
+  function show() {
+
+      $("#error-message").toggle();
+
+  }
+
+var choiceContainer = $("#choices");
+    choiceContainer.append('<input type="checkbox" name="votings" id="show_votings"><label for="show_votings">Zobraz Hlasovania poslancov</label>');
+    choiceContainer.find("input").click(show);
+
+</script>
