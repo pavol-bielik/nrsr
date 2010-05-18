@@ -8,6 +8,7 @@ class CreateStatutes < ActiveRecord::Migration
       t.string :state
       t.string :result
       t.text :subject, :limit => "1000"
+      t.string :short_subject
       t.date :date
       t.string :doc
     end
