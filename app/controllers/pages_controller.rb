@@ -3,4 +3,8 @@ class PagesController < ApplicationController
     @title = "Úvod"    
   end
 
+  def how_to
+    @title = "Navod"
+  end
+
 end

@@ -55,7 +55,7 @@ class VotingsController < ApplicationController
         @user.add_voting_relations(params[:id])
       end
 
-      flash[:notice] = "Vase hlasovanie bolo uspesne: " + params[:my_vote]
+      flash[:success] = "Vase hlasovanie bolo uspesne: " + params[:my_vote]
       redirect_to @voting
     end
   end

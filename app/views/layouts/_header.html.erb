@@ -6,7 +6,7 @@
 		<!-- Menu Tabs -->
 		<ul>
 			<li><%= /Úvod/i =~ title ? link_to("Domov", root_url, :id => "active") : link_to("Domov", root_url)%></li>
-			<li><a href="index.html">News</a></li>
+			<li><%= link_to "Navod", :controller => "pages", :action => "how_to" %></li>
 			<li><a href="index.html">Downloads</a></li>
 			<li><a href="index.html">Support</a></li>
 			<li><a href="index.html">About</a></li>

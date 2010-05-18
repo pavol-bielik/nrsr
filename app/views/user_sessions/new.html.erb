@@ -1,3 +1,4 @@
+<div class="post">
 <h1>Login</h1>
 
 <% form_for @user_session, :url => user_sessions_path, :html => { :class => "register" } do |f| %>
@@ -12,3 +13,4 @@
   <%= link_to 'Prihlásiť sa ako Hosť', account_path(:type => "guest"), :method => :post, :id => "link" %><br />
   <%= link_to 'Vytvorit Nový účet', new_account_path, :id => "link" %>
 </p>
+</div>    

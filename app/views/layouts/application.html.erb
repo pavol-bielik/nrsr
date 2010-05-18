@@ -24,13 +24,18 @@
     <div id="content-wrap"><div class="content">
     <%= render 'layouts/sidebar' %>
 
-<p style="color: green"><%= flash[:notice] %></p>
-<p style="color: red"><%= flash[:error] %></p>
+
+<!--<p style="color: green"><%= flash[:notice] %></p>-->
+<!--<p style="color: red"><%= flash[:error] %></p>-->
 
         <div id="main">
-           <div class="post">
+
+        <% flash.each do |key, value| %>
+         <%= content_tag(:div, value, :class => "flash #{key}") %>
+        <% end %>
+
             <%= yield  %>
-           </div>
+
 
         </div>
     </div></div>
