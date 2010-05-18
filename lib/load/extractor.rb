@@ -29,7 +29,41 @@ class Extractor
     statute[:parent_id] = doc.css("#ctl15_ctl00__LastCptLink").first.content.to_i unless (doc.css("#ctl15_ctl00__LastCptLink").first.nil? or doc.css("#ctl15_ctl00__LastCptLink").first.content.to_s.strip.empty?)
     statute[:doc] = doc.xpath('//*[(@id = "ctl15_ctl06__documentsList__sslpListPanel")]//a').first[:href].to_s unless doc.xpath('//*[(@id = "ctl15_ctl06__documentsList__sslpListPanel")]//a').first.nil?
     #statute[:votings_link] = doc.css("#ctl15__hlasovaniaLink").first[:href].to_s
-    
+
+    text = statute[:subject]
+    text.gsub!("\n", " ")
+
+    case statute[:subject]
+      when  /vrátený prezidentom/i      #Zákon vrátený prezidentom
+        re = /(.*)Z. z. (.*), vrátený(.*)/i
+        poz = 2
+        type = "Zákon"
+        match = re.match(text)
+        if match.nil?
+           re = /(.*), vrátený(.*)/i
+           poz = 1
+           type = ""
+        end
+      when /Vládny návrh zákona,/i
+        re = /(.*)Z. z. (.*)/i
+        poz = 2
+        type = "Vládny návrh zákona"
+      when /Návrh (.*) na vydanie zákona,/i
+        re = /(.*)Z. z. (.*)/i
+        poz = 2
+        type = "Návrh na vydanie zákona"
+    end
+
+    if defined?(re)
+      match = re.match(text)
+      unless match.nil?
+        short_sub = type + " " + match[poz].strip
+        short_sub.gsub!(/v znení neskorších predpisov/, '')
+        short_sub.gsub!(/a o zmene a doplnení niektorých zákonov/, '')
+        statute[:short_subject] = short_sub.strip
+      end
+    end
+
     puts "statute info id:#{statute[:id]} extracted"
     return statute
   end
