@@ -11,6 +11,8 @@ class CreateStatutes < ActiveRecord::Migration
       t.string :short_subject
       t.date :date
       t.string :doc
+      t.integer :popularity
+      t.text :info, :limit => "2000"
     end
   end
 

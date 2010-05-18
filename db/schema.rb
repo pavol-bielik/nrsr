@@ -55,8 +55,11 @@ ActiveRecord::Schema.define(:version => 20100509150147) do
     t.string  "state"
     t.string  "result"
     t.text    "subject"
+    t.string  "short_subject"
     t.date    "date"
     t.string  "doc"
+    t.integer "popularity"
+    t.text    "info"
   end
 
   create_table "user_relations", :force => true do |t|
@@ -115,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20100509150147) do
     t.integer  "not_voting_count",    :limit => 3, :precision => 3, :scale => 0
     t.integer  "not_attending_count", :limit => 3, :precision => 3, :scale => 0
     t.integer  "popularity"
+    t.text     "info"
   end
 
   add_index "votings", ["popularity"], :name => "index_votings_on_popularity"

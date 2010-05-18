@@ -33,6 +33,7 @@ class Extractor
     text = statute[:subject]
     text.gsub!("\n", " ")
 
+    re = nil
     case statute[:subject]
       when  /vrátený prezidentom/i      #Zákon vrátený prezidentom
         re = /(.*)Z. z. (.*), vrátený(.*)/i
@@ -44,23 +45,31 @@ class Extractor
            poz = 1
            type = ""
         end
-      when /Vládny návrh zákona,/i
+      when /Vládny návrh zákona/i
         re = /(.*)Z. z. (.*)/i
         poz = 2
         type = "Vládny návrh zákona"
-      when /Návrh (.*) na vydanie zákona,/i
+        match = re.match(text)
+        if match.nil?
+           re = /(.*)/i
+           poz = 1
+           type = ""
+        end
+      when /Návrh (.*) na vydanie zákona/i
         re = /(.*)Z. z. (.*)/i
         poz = 2
         type = "Návrh na vydanie zákona"
     end
 
-    if defined?(re)
+    unless re.nil?
       match = re.match(text)
       unless match.nil?
         short_sub = type + " " + match[poz].strip
         short_sub.gsub!(/v znení neskorších predpisov/, '')
         short_sub.gsub!(/a o zmene a doplnení niektorých zákonov/, '')
         statute[:short_subject] = short_sub.strip
+      else
+        statute[:short_subject] = statute[:subject]
       end
     end
 

@@ -17,6 +17,7 @@ class CreateVotings < ActiveRecord::Migration
       t.decimal :not_voting_count   , :precision => 3, :scale => 0
       t.decimal :not_attending_count, :precision => 3, :scale => 0
       t.integer :popularity
+      t.text :info, :limit => "2000"
     end
 
     add_index :votings, :statute_id
