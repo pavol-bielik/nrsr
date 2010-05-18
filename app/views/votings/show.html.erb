@@ -18,6 +18,10 @@
       <%= label_tag(:proti, "Proti") %><br />
       <%= submit_tag "Hlasuj", "class" => "button" %>
     <% end %>
+<% else %>
+    <p class="flash notice">
+Aby ste mohli hlasovať musíte byť prihlásený.
+</p>
 <% end %>
 
 <h3>Výsledok hlasovania</h3>

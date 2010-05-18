@@ -19,7 +19,7 @@
 <% @statutes.each do |statute| %>
   <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
     <td class="first"><%= statute.statute_type %></td>
-    <td><%= statute.subject %></td>
+    <td><%= statute.short_subject %></td>
     <td><%= link_to 'Info', statute %></td>
   </tr>
   <% i += 1 %>

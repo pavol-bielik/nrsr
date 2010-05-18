@@ -330,6 +330,11 @@ input.button {
 	padding: 0;
 	background: #F5F5F5;
 }
+
+#sidebar a {
+    text-decoration:underline;
+}
+
 #sidebar ul.sidemenu li {
 	padding: 0px 10px;
 }
@@ -363,6 +368,11 @@ input.button {
 	width: 68%;
 	margin: 0 0 10px 0; padding: 0;	
 }
+
+#main a {
+    text-decoration:underline;
+}
+
 #main h1 {
 	padding: 10px 0px 0px 5px;
 	margin: 0 0 0 10px;
@@ -444,7 +454,15 @@ input.button {
 
 #footer-content .col {
 	width: 240px;
-	padding: 0 5px 30px 0;	
+	padding: 0 5px 30px 0;
+}
+#footer-content .col-sites {
+	width: 260px;
+	padding: 0 5px 30px 0;
+}
+#footer-content .col-author {
+	width: 220px;
+	padding: 0 5px 30px 0;
 }
 #footer-content .col2 {
 	width: 230px;
@@ -477,7 +495,7 @@ input.button {
     float: left;
 }
 
-a#link {
+a.link {
     text-decoration:underline;
 }
 

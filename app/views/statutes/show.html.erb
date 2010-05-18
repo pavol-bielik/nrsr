@@ -17,12 +17,11 @@
   <%=h @statute.date %>
 </p>
 
-<% unless @statute.doc.nil? %>
-<p>
-  <a href="<%=h "http://www.nrsr.sk/" + @statute.doc %>" id="link" >Plné znenie zákona</a>
-</p>
 
-<% end %>
+<p>
+  <%= "<a href=\"http://www.nrsr.sk/#{@statute.doc}\" >Plné znenie zákona</a>" unless @statute.doc.nil? %><br />
+  <a href="<%=h "http://www.nrsr.sk/Default.aspx?sid=zakony/zakon&ZakZborID=13&CisObdobia=4&CPT=#{@statute.id}" %>" >Podrobný priebeh legislatívneho procesu</a> (Stránka NRSR)
+</p>
 
 <% unless @parent.nil? %>
 <p>
