@@ -170,6 +170,7 @@ describe Extractor do
               :id => 1526,
               :parent_id => 1440,
               :subject => "Zákon z 10. marca 2010, ktorým sa zriaďuje Slovenský historický ústav v Ríme, vrátený prezidentom Slovenskej republiky na opätovné prerokovanie Národnou radou Slovenskej republiky",
+              :short_subject => "Zákon z 10. marca 2010, ktorým sa zriaďuje Slovenský historický ústav v Ríme",
               :statute_type => "Zákon vrátený prezidentom",
               :state => "Uzavretá úloha",
               :result => "(NZ nebol schválený)",
@@ -182,6 +183,7 @@ describe Extractor do
       statute.should == {
               :id => 1528,
               :subject => "Vládny návrh zákona, ktorým sa mení zákon č. 313/2009 Z. z. o vinohradníctve a vinárstve",
+              :short_subject => "Vládny návrh zákona o vinohradníctve a vinárstve",
               :statute_type => "Novela zákona",
               :state => "Redakcia",
               :result => "(NZ postúpil do redakcie)",
@@ -213,6 +215,16 @@ describe Extractor do
     it "should get last statute id" do
       statute_id = Extractor.extract_last_statute_id(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/statute_list.html"))
       statute_id.should == 1534      
+    end
+
+    it "should parse short info from rejected by president" do
+      statute = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/statute_info_rejected_by_president.html"))
+      statute[:short_subject].should == "Zákon o konkurze a reštrukturalizácii"
+    end
+
+    it "should parse short info from statute" do
+      statute = Extractor.extract_statute(File.read(RAILS_ROOT + "/spec/nrsr/fixtures/statute_info.html"))
+      statute[:short_subject].should == "Návrh na vydanie zákona o službách zamestnanosti"
     end
 
   end
