@@ -1,3 +1,4 @@
+<div class="post">
 <h1><%= @deputy.firstname + " " + @deputy.lastname %></h1>
 <% unless @user_votes.empty? %>
     <p>
@@ -34,7 +35,9 @@
 <% end %>
 </table>
 <% else %>
-    <p>
+    <p class="flash error">
 Nemáte spoločné žiadne hlasovania.
 </p>
 <% end %>
+
+</div>    

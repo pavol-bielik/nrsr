@@ -1,6 +1,15 @@
-
+<div class="post">
+<h1>Porovnanie hlasovani</h1>
+  <h3>Graf zhody s poslancami</h3>
+  <p>Zobrazuje porovnanie Vašich hlasovaní s tým, ako hlasovali poslanci.<br />Graf poskytuje tieto možnosti:</p>
+  <ul>
+    <li><b>Zobrazenie poslanca v novom okne.</b> Kliknutím na meno poslanca sa zobrazí stránka o danom poslancovi</li>
+    <li class="justify"><b>Zobrazenie poslanca v aktuálnom okne.</b> Klinutím na stĺpec prislúchajúci k poslancovi sa v malom okne zobrazia jeho stručné informácie. V tomto okne môžete kliknutím na "Porovanie hlasovaní s poslancom" získať podrobné porovnanie vašich hlasovaní. Okno sa zatvorí kliknutím na biele miesto v grafe.</li>
+    <li class="justify"><b>Vyhľadanie poslanca v grafe.</b> Vybratím poslanca z ponuky, ktorá sa nachádza nad grafom.</li>
+  </ul>
+</div>  
 <% if @avgpartydatasets.nil? %>
-<p>
+<p class="flash error">
 Aby ste videli vašu zhodu musíte najskôr zahlasovať
 </p>
 <% else %>
@@ -8,7 +17,7 @@ Aby ste videli vašu zhodu musíte najskôr zahlasovať
 </div></div>
 
 <div class="content" style="clear:both;">
-<h1>Graf zhody poslancov</h1>
+<h1>Graf zhody s poslancami</h1>
 <form>
 <!--<label>Zobraz strany</label>-->
 <!--<span id="choices"></span><br />-->

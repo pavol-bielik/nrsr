@@ -2,11 +2,11 @@
     <h1>Úvod</h1>
     <p class="justify">Táto stránka umožnuje vyskúšať si hlasovanie o jednotlivých zákonoch a následné porovnanie vašich hlasovaní s poslancami Národnej rady Slovenskej republiky.</p>
     <h3>Ako používať stránku?</h3>
-    <p class="justify">V menu "Návrhy zákonov" sa vyberte zákon alebo novelu zákona, ktorá vás zaujala. Následne sa zobrazia jednotlivé hlasovania ktoré sú spojené s daným zákonom. Vyberte si hlasovanie a môžete hlasovať. Na to aby ste mohli hlasovať musíte byť prihlásený.</p>
+    <p class="justify">V menu "Návrhy zákonov" sa vyberte zákon alebo novelu zákona, ktorá vás zaujala. Následne sa zobrazia jednotlivé hlasovania, ktoré sú spojené s daným zákonom. Vyberte si hlasovanie a môžete hlasovať. Na to, aby ste mohli hlasovať, musíte byť prihlásený.</p>
     <p>Prihlásiť sa dá nasledovným spôsobom:</p>
         <ul>
-          <li><%= link_to 'Vytvorením nového účtu', new_account_path, :id => "link" %></li>
-          <li><%= link_to 'Prihlásením sa ako Hosť', account_path(:type => "guest"), :method => :post, :id => "link" %></li>
+          <li class="justify"><%= link_to 'Vytvorením nového účtu', new_account_path, :id => "link" %>, ktorý môžete využiť pri opakovanom navštívení stránky. Hlasovania sa uchovávajú vo vašom profile.</li>
+          <li class="justify"><%= link_to 'Prihlásením sa ako Hosť', account_path(:type => "guest"), :method => :post, :id => "link" %>, ak chcete stránku iba vyskúšať. Hlasovania sa neuchovávajú.</li>
         </ul>
-    <p >Svoje porovnanie s poslancami môžete vidieť kliknutím na menu "Porovnanie hlasovaní"</p>
+    <p class="justify">Svoje porovnanie s poslancami môžete vidieť kliknutím na menu "Porovnanie hlasovaní", ktoré je prístupné po vašom prihlásení.</p>
 </div>
