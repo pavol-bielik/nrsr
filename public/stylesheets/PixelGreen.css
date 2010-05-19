@@ -134,6 +134,11 @@ margin:0px 15px;
 clear:both;
 }
 
+form.no_margin {
+    background-color: #F5F5F5;
+    margin:0px 0px; padding: 0px;
+}
+
 form.search_left {
     margin:10px 15px; padding: 0px;
 	/*border: 1px solid #f2f2f2;*/
@@ -218,7 +223,7 @@ input.button {
 ------------------------------- */
 
 #header-content, .content, #footer-content {
-	width: 760px;
+	width: 950px;
 }
 
 /* header */
@@ -303,13 +308,13 @@ input.button {
 .content {
 	text-align: left;	
 	padding: 0;
-	margin: 0 auto;	
+	margin: 0 auto;
 }
 
 /* sidebar */
 #sidebar {
 	float: right;
-	width: 30%;
+	width: 23%;
 	margin: 0 0 10px 0; padding: 0;	
 }	
 #sidebar h1 {
@@ -365,7 +370,7 @@ input.button {
 /* main */
 #main {
 	float: left;
-	width: 68%;
+	width: 74%;
 	margin: 0 0 10px 0; padding: 0;	
 }
 
@@ -540,10 +545,11 @@ a.link {
 
 /*Flash*/
 
-.error, .notice, .success {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+.error, .notice, .success, .help {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
 .error {background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;}
 .notice {background:#FFF6BF;color:#514721;border-color:#FFD324;}
 .success {background:#E6EFC2;color:#264409;border-color:#C6D880;}
+.help {background:#eee;color:#264409;border-color:#DADADA;}  
 .error a {color:#8a1f11;}
 .notice a {color:#514721;}
 .success a {color:#264409;}

@@ -26,9 +26,9 @@ class Statute < ActiveRecord::Base
 
   def self.search(page, statute_type)
     unless statute_type.nil? or statute_type == "Všetky"
-      paginate :per_page => 10, :page => page, :order => 'id DESC', :conditions => ["statute_type = ?",statute_type]
+      paginate :per_page => 10, :page => page, :order => 'id DESC', :conditions => ["statute_type = ?",statute_type], :include => :votings
     else
-      paginate :per_page => 10, :page => page, :order => 'id DESC'
+      paginate :per_page => 10, :page => page, :order => 'id DESC', :include => :votings
     end
   end
 

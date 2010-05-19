@@ -1,3 +1,14 @@
+<div id="help-message" style="display:none;">
+  <div class="help">
+    <h3>Nápoveda</h3>
+    <p class="justify">Aktuálna stránka obsahuje zoznam poslancov NRSR a poskytuje tieto možnosti:.</p>    
+  <ul>
+    <li><b>Zobrazenie poslancov podľa straníckej prislušnoti.</b> Vybratím požadovanej strany a kliknutím na tlačidlo "Zobraz" sa zobrazia poslanci danej strany</li>
+    <li><b>Zobrazenie podrobných informácii o poslancovi</b> v novej stránke, kliknutím na meno poslanca.</li>
+  </ul>
+    </div>
+</div>
+
 <div class="post">
 <h1>Zoznam poslancov</h1>
 
@@ -7,22 +18,54 @@
     <%= submit_tag "Zobraz", "class" => "button" %>
 <% end %>
 
-<table>
+<% len = @deputies.length %>
+<table class="float-left">
   <% i = 0 %>
   <tr>
-    <th class="first">Meno</th>
-    <th>Priezvisko</th>
+    <th class="first">Poslanec</th>
     <th>Strana</th>
   </tr>
 
-<% @deputies.each do |deputy| %>
+<% @deputies.values_at(0..(len/3 - 1)).each do |deputy| %>
   <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
-    <td class="first"><%= deputy.firstname %></td>
-    <td><%= deputy.lastname %></td>
-    <td><%= deputy.party %></td>
-    <td><%= link_to 'Info', deputy %></td>
+    <td class="first"><%= link_to "#{deputy.firstname} #{deputy.lastname}", deputy  %></td>
+    <td><%=h deputy.party %></td>
   </tr>
   <% i += 1 %>
 <% end %>
 </table>
+
+<table class="float-left">
+  <% i = 0 %>
+  <tr>
+    <th class="first">Poslanec</th>
+    <th>Strana</th>
+  </tr>
+
+<% @deputies.values_at((len/3)..(len*2/3 - 1)).each do |deputy| %>
+  <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
+    <td class="first"><%= link_to "#{deputy.firstname} #{deputy.lastname}", deputy  %></td>
+    <td><%=h deputy.party %></td>
+  </tr>
+  <% i += 1 %>
+<% end %>
+</table>
+
+<table >
+  <% i = 0 %>
+  <tr>
+    <th class="first">Poslanec</th>
+    <th>Strana</th>
+  </tr>
+
+<% @deputies.values_at((len*2/3)..(len-1)).each do |deputy| %>
+  <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
+    <td class="first"><%= link_to "#{deputy.firstname} #{deputy.lastname}", deputy  %></td>
+    <td><%=h deputy.party %></td>
+  </tr>
+  <% i += 1 %>
+<% end %>
+</table>
+
+  
 </div>    

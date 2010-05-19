@@ -7,12 +7,16 @@ helper :all
   filter_parameter_logging :password, :password_confirmation
   protect_from_forgery
 
-  #before_filter :user_session
+  before_filter :site_init
 
 #  def user_session
 #    @user_session = UserSession.new
 #  end
-  
+
+  def site_init
+    @site_root = ""
+  end
+
   private
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
@@ -49,5 +53,11 @@ helper :all
     def redirect_back_or_default(default)
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
+    end
+
+    def redirect_back_or(path)
+      redirect_to :back
+      rescue ActionController::RedirectBackError
+      redirect_to path
     end
 end

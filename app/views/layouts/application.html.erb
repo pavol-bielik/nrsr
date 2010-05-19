@@ -14,9 +14,6 @@
   <%= javascript_include_tag "jquery.flot.selection.js" %>
   <%= javascript_include_tag "jquery.flot.navigate.js" %>
 
- <%= @chart unless @chart.nil? %>
-
-
 </head>
 <body >
 <div id="wrap">
@@ -68,5 +65,21 @@
 <!-- footer ends here -->  
 
 </div>
+
+  <script id="source" language="javascript" type="text/javascript">
+
+  function show() {
+
+      $("#help-message").toggle();
+
+  }
+
+var choiceContainer = $("#help_checkbox");
+    choiceContainer.append('<input type="checkbox" name="help" id="show_help" <%= 'checked="checked"' unless current_user %>><label for="show_help"> Zobraziť nápovedu</label>');
+    choiceContainer.find("input").click(show);
+
+  <%= "show();" unless current_user %>        
+</script>
+
 </body>
 </html>

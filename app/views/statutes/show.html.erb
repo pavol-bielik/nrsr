@@ -40,8 +40,8 @@
 
 <% @votings.each do |voting| %>
   <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
-    <td class="first"><%= "#{voting.happened_at.day}.#{voting.happened_at.month}.#{voting.happened_at.year}" %></td>
-    <td><%= voting.short_subject.nil? ? voting.subject : voting.short_subject %><br/></td>
+    <td class="first"><%=h "#{voting.happened_at.day}.#{voting.happened_at.month}.#{voting.happened_at.year}" %></td>
+    <td><%=h voting.short_subject.nil? ? voting.subject : voting.short_subject %><br/></td>
     <td><%= link_to 'Info', voting %></td>
   </tr>
   <% i += 1 %>

@@ -1,8 +1,8 @@
 <div class="post">
-<h1><%= @deputy.firstname + " " + @deputy.lastname %></h1>
+<h1><%=h @deputy.firstname + " " + @deputy.lastname %></h1>
 <% unless @user_votes.empty? %>
     <p>
-      Zhoda s poslancom: <b><%= (@relation.relation/@relation.votes*10).round %>%</b>
+      Zhoda s poslancom: <b><%=h (@relation.relation/@relation.votes*10).round %>%</b>
 
     </p>
     <p>
@@ -13,7 +13,7 @@
   <tr>
     <th class="first"></th>
     <th>Môj hlas</th>
-    <th><%= @deputy.firstname + " " + @deputy.lastname %></th>
+    <th><%=h @deputy.firstname + " " + @deputy.lastname %></th>
     <th>Názov hlasovania</th>
   </tr>
 

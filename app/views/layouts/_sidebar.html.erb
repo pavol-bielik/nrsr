@@ -1,6 +1,8 @@
 <div id="sidebar" >
 
-
+    <div class="help">
+<span id="help_checkbox"></span>
+      </div>
 
     <% if current_user %>
       <div class="sidebox">
@@ -13,7 +15,7 @@
       </div>
     <% else %>
 
-        <% unless defined?(@user_session) %>
+   
           <div class="sidebox">
           <h1>Prihlásenie</h1>
            <% @user_session = UserSession.new %>
@@ -25,12 +27,13 @@
               <%= f.password_field :password %><br /><br />
               <%= f.submit "Login", "class" => "button" %>
             <% end %>
-            <p>
-            <%= link_to 'Prihlásiť sa ako Hosť', account_path(:type => "guest"), :method => :post, :id => "link" %><br />  
-            <%= link_to 'Vytvorit Nový účet', new_account_path, :id => "link" %>
-            </p>
+            <h3>Nemáte účet?</h3>
+            <ul>
+            <li><%= link_to 'Prihlásiť sa ako Hosť', account_path(:type => "guest"), :method => :post, :id => "link" %></li>
+            <li><%= link_to 'Vytvoriť nový účet', new_account_path, :id => "link" %></li>
+            </ul>
           </div>
-        <%end%>
+
     <%end%>
 
     <div class="sidebox">

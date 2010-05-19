@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if @user.save  
       @user.create_relations
       flash[:success] = "Account registered!"
-      redirect_back_or_default account_url
+      redirect_back_or account_url
     else
       render :action => :new
     end

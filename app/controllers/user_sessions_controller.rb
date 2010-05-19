@@ -10,7 +10,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:success] = "Login successful!"
-      redirect_back_or_default account_url
+      redirect_back_or account_url
     else
       render :action => "new"
       #redirect_back_or_default root_url
@@ -22,6 +22,6 @@ class UserSessionsController < ApplicationController
     @user.delete_relations if @user.login =~ /guest/
     current_user_session.destroy
     flash[:success] = "Logout successful!"
-    redirect_back_or_default root_url
+    redirect_back_or root_url
   end
 end

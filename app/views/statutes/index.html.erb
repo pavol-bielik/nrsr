@@ -1,3 +1,13 @@
+<div id="help-message" style="display:none;">
+  <div class="help">
+    <h3>Úvod</h3>
+<p class="justify">Táto stránka umožnuje vyskúšať si hlasovanie o jednotlivých zákonoch a následné porovnanie vašich hlasovaní s poslancami Národnej rady Slovenskej republiky.</p>
+    <h3>Ako používať stránku?</h3>
+    <p class="justify">Vyberte si zákon alebo novelu zákona, ktorá vás zaujala. Následne môžete za daný zákon hlasovať. Klinutím na Názov zákona sa zobrazia podrobnejšie informácie o zákone, a dalšie hlasovania týkajúce sa zákona.</p>
+    <p class="justify">Po to ako ste zahlasovali, je možné pozrieť si vašu zhodu s poslancami NRSR.Porovnanie je možné vidieť kliknutím na menu "Porovnanie hlasovaní", ktoré je prístupné po vašom prihlásení.</p>    
+    </div>
+</div>
+
 <div class="post">
 <h1>Zoznam návrhov zákonov</h1>
 
@@ -14,13 +24,34 @@
   <tr>
     <th class="first">Typ</th>
     <th>Názov</th>
+    <th >Hlasuj o zákone ako celku</th>
   </tr>
 
 <% @statutes.each do |statute| %>
   <tr <%= i%2 == 0 ? ' class="row-a"' : 'class="row-b"' %>>
-    <td class="first"><%= statute.statute_type %></td>
-    <td><%= statute.short_subject %></td>
-    <td><%= link_to 'Info', statute %></td>
+    <td class="first"><%=h statute.statute_type %></td>
+    <td><%= link_to statute.short_subject, statute %></td>
+    <td><% if current_user %>
+          <% if statute.state =~ /Uzavretá úloha/ %>
+            <% form_tag(vote_statute_path(statute), :method => :put, :class => "no_margin" ) do %>
+              <% user_vote = @user_votes[statute.id] %>
+              <%= user_vote.vote == "Z" ? radio_button_tag(:my_vote, "Z", true) : radio_button_tag(:my_vote, "Z", false) %>
+              <%= label_tag(:za, "Za") %><br />
+              <%= user_vote.vote == "P" ? radio_button_tag(:my_vote, "P", true) : radio_button_tag(:my_vote, "P", false) %>
+              <%= label_tag(:proti, "Proti") %><br />
+              <%= submit_tag "Hlasuj", "class" => "button" %>
+            <% end %>
+          <% else %>
+            <p class="notice">
+                Zákon ešte nebol schválený.
+            </p>
+          <% end %>
+    <% else %>
+        <p class="notice">
+        Musíte byť prihlásený.
+        </p>
+    <% end %></td>
+    
   </tr>
   <% i += 1 %>
 <% end %>

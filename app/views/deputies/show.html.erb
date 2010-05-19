@@ -1,5 +1,22 @@
+<div id="help-message" style="display:none;">
+<div class="help">
+  <p>Stránka poskytuje podrobné informácie o poslancovi a grafické vyhodnotenie jeho hlasovaní</p>
+
+  <h3>Graf zhody s ostanými poslancami</h3>
+  <p>Zobrazuje porovnanie hlasovaní poslanca s tým, ako hlasovali ostatný poslanci.<br />Graf poskytuje tieto možnosti:</p>
+  <ul>
+    <li><b>Zobrazenie poslanca v novom okne.</b> Kliknutím na meno poslanca sa zobrazí stránka o danom poslancovi</li>
+    <li class="justify"><b>Zobrazenie poslanca v aktuálnom okne.</b> Klinutím na stĺpec prislúchajúci k poslancovi sa v malom okne zobrazia jeho stručné informácie. V tomto okne môžete kliknutím na "Porovanie hlasovaní s poslancom" získať podrobné porovnanie vašich hlasovaní. Okno sa zatvorí kliknutím na biele miesto v grafe.</li>
+    <li class="justify"><b>Vyhľadanie poslanca v grafe.</b> Vybratím poslanca z ponuky, ktorá sa nachádza nad grafom.</li>
+  </ul>
+
+  <h3>Graf zhody s politickými Stranami</h3>
+  <p>Zobrazuje porovnanie hlasovaní poslanca s tým, ako hlasovali politické strany ako celok</p>
+</div>
+</div>
+
 <div class="post">
-<h1><%= @deputy.firstname + " " + @deputy.lastname %></h1>
+<h1><%=h @deputy.firstname + " " + @deputy.lastname %></h1>
 
 <div class="poslanec">
 
@@ -12,74 +29,73 @@
 
   <tr class="row-a">
     <td class="first">Titul:</td>
-    <td><%= @deputy.degree %></td>
+    <td><%=h @deputy.degree %></td>
   </tr>
 
   <tr class="row-b">
     <td class="first">Meno:</td>
-    <td><%= @deputy.firstname %></td>
+    <td><%=h @deputy.firstname %></td>
   </tr>
 
   <tr class="row-a">
     <td class="first">Priezvisko:</td>
-    <td><%= @deputy.lastname %></td>
+    <td><%=h @deputy.lastname %></td>
   </tr>
 
   <tr class="row-b">
     <td class="first">Kandidoval(a) za:</td>
-    <td><%= @deputy.elected_for %></td>
+    <td><%=h @deputy.elected_for %></td>
   </tr>
 
 <% unless @deputy.elected_for == @deputy.party %>
   <tr class="row-b">
     <td class="first">Klub:</td>
-    <td><%= @deputy.party %> <%= "(od #{format_date(@deputy.party_since)})" unless @deputy.party_since.nil?%></td>
+    <td><%=h @deputy.party %> <%=h "(od #{format_date(@deputy.party_since)})" unless @deputy.party_since.nil?%></td>
   </tr>
 <% end %>
 
   <tr class="row-a">
     <td class="first">Dátum narodenia:</td>
-    <td><%= format_date(@deputy.born) %></td>
+    <td><%=h format_date(@deputy.born) %></td>
   </tr>
 
   <tr class="row-b">
     <td class="first">Národnosť:</td>
-    <td><%= @deputy.nationality %></td>
+    <td><%=h @deputy.nationality %></td>
   </tr>
 
   <tr class="row-a">
     <td class="first">Bydlisko:</td>
-    <td><%= @deputy.domicile %></td>
+    <td><%=h @deputy.domicile %></td>
   </tr>
 
   <tr class="row-b">
     <td class="first">Región:</td>
-    <td><%= @deputy.region %></td>
+    <td><%=h @deputy.region %></td>
   </tr>
 
   <% unless @deputy.email.nil? %>
   <tr class="row-a">
     <td class="first">Email:</td>
-    <td><%= @deputy.email %></td>
+    <td><%=h @deputy.email %></td>
   </tr>
   <% end %>
 
   <% unless @deputy.contact_person.nil? %>
   <tr class="row-a">
     <td class="first">Kont. osoba:</td>
-    <td><%= @deputy.contact_person %></td>
+    <td><%=h @deputy.contact_person %></td>
   </tr>
   <% end %>
   
 </table>
-<p>
+<h3>
   <%= link_to "Porovnanie mojich hlasovani s poslancom", comparison_deputy_path(@deputy) %>
-</p>
-</div>
+</h3>
+</div></div>
 
-</div>
-<div class="content" style="clear:both;">
-<h1>Graf zhody poslancov</h1>
+<div class="post" style="clear:both;">
+<h1>Graf zhody s ostanými poslancami</h1>
 <form>
 <!--<label>Zobraz strany</label>-->
 <!--<span id="choices"></span><br />-->
@@ -92,6 +108,7 @@
    <div id="placeholder" style="width:530px;height:400px;margin-bottom:15px;float:left"></div>
     <div id="overview" style="margin-top:14px;width:120px;height:372px;float:left"></div>
 
+<div style="clear:both;">
 </div>
 
 <!--<div class="content" style="clear:both;">-->
@@ -105,10 +122,13 @@
 
 <!--</div>-->
 
-<div class="content" style="clear:both;">
-<h1>Graf Stran</h1>
+<div class="post" style="clear:both;">
+<h1>Graf zhody s politickými Stranami</h1>
    <div id="party2" style="width:545px;height:250px;margin-bottom:15px;float:left"></div>
+
+<div style="clear:both;">
 </div>
+
    <script id="source" language="javascript" type="text/javascript">
 
    $(function () {
@@ -225,7 +245,7 @@
        //clickaction
 
        function showTooltip(x, y, id, party) {
-        $('<div id="tooltip"><div class="foto" style="border-collapse: collapse;margin: 10px 15px;float: left;"><img alt="243" src="/images/photos/' + datasets[party].deputies[id][1] + '.jpeg" /></div>\
+        $('<div id="tooltip"><div class="foto" style="border-collapse: collapse;margin: 10px 15px;float: left;"><img alt="243" src="<%= @site_root %>/images/photos/' + datasets[party].deputies[id][1] + '.jpeg" /></div>\
         <table style ="border-collapse: collapse;margin: 10px 15px;float: right;">\
             <tr class="row-a">\
             <td class="first">Titul:</td>\
@@ -264,7 +284,7 @@
                     previousPoint = item.datapoint;
 
                     $("#tooltip").remove();
-                    $("#clickdata").text("You clicked " + item.series.data[item.dataIndex][1] + ".");
+//                    $("#clickdata").text("You clicked " + item.series.data[item.dataIndex][1] + ".");
                     showTooltip(item.pageX, item.pageY, item.dataIndex, item.series.label);
                 }
             }
@@ -275,7 +295,7 @@
     });
 
    function addArrow(dir, right, top, offset) {
-           $('<img class="button" src="/images/arrow-' + dir + '.gif" style="right:' + right + 'px;top:' + top + 'px;">').appendTo(placeholder).click(function (e) {
+           $('<img class="button" src="<%= @site_root %>/images/arrow-' + dir + '.gif" style="right:' + right + 'px;top:' + top + 'px;">').appendTo(placeholder).click(function (e) {
                e.preventDefault();
                plot.pan(offset);
                if (offset.top < 0) {
