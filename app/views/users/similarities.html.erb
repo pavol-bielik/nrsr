@@ -1,5 +1,5 @@
-<div class="post">
-<h1>Porovnanie hlasovani</h1>
+<div id="help-message" style="display:none;">
+<div class="help">
   <h3>Graf zhody s poslancami</h3>
   <p>Zobrazuje porovnanie Vašich hlasovaní s tým, ako hlasovali poslanci.<br />Graf poskytuje tieto možnosti:</p>
   <ul>
@@ -7,16 +7,16 @@
     <li class="justify"><b>Zobrazenie poslanca v aktuálnom okne.</b> Klinutím na stĺpec prislúchajúci k poslancovi sa v malom okne zobrazia jeho stručné informácie. V tomto okne môžete kliknutím na "Porovanie hlasovaní s poslancom" získať podrobné porovnanie vašich hlasovaní. Okno sa zatvorí kliknutím na biele miesto v grafe.</li>
     <li class="justify"><b>Vyhľadanie poslanca v grafe.</b> Vybratím poslanca z ponuky, ktorá sa nachádza nad grafom.</li>
   </ul>
-</div>  
+</div>
+</div>
+
 <% if @avgpartydatasets.nil? %>
 <p class="flash error">
 Aby ste videli vašu zhodu musíte najskôr zahlasovať
 </p>
 <% else %>
-</div>
-</div></div>
 
-<div class="content" style="clear:both;">
+<div class="post" style="clear:both;">
 <h1>Graf zhody s poslancami</h1>
 <form>
 <!--<label>Zobraz strany</label>-->
@@ -29,15 +29,19 @@ Aby ste videli vašu zhodu musíte najskôr zahlasovať
 
    <div id="placeholder" style="width:530px;height:400px;margin-bottom:15px;float:left"></div>
     <div id="overview" style="margin-top:14px;width:120px;height:372px;float:left"></div>
-
+<div style="clear:both;"></div>
 </div>
 
-<div class="content" style="clear:both;">
+    
+<div class="post" style="clear:both;">
 <h1>Moja zhoda zo stranami</h1>
 
 <div id="party2" style="width:545px;height:250px;margin-bottom:15px;float:left"></div>
 
+<div style="clear:both;"></div>
 </div>
+
+
 
 <script id="source" language="javascript" type="text/javascript">
 
@@ -151,7 +155,7 @@ Aby ste videli vašu zhodu musíte najskôr zahlasovať
        //clickaction
 
        function showTooltip(x, y, id, party) {
-        $('<div id="tooltip"><div class="foto" style="border-collapse: collapse;margin: 10px 15px;float: left;"><img alt="243" src="/images/photos/' + datasets[party].deputies[id][1] + '.jpeg" /></div>\
+        $('<div id="tooltip"><div class="foto" style="border-collapse: collapse;margin: 10px 15px;float: left;"><img alt="243" src="<%= @site_root %>/images/photos/' + datasets[party].deputies[id][1] + '.jpeg" /></div>\
         <table style ="border-collapse: collapse;margin: 10px 15px;float: right;">\
             <tr class="row-a">\
             <td class="first">Titul:</td>\
@@ -170,7 +174,7 @@ Aby ste videli vašu zhodu musíte najskôr zahlasovať
             <td>' + datasets[party].deputies[id][5] +'</td>\
           </tr>\
       </table>\
-          <p><a href="/deputies/' + datasets[party].deputies[id][1] + '/comparison">Porovnanie hlasovani s poslancom</a></p></div>').css( {
+          <p><a href="<%= @site_root %>/deputies/' + datasets[party].deputies[id][1] + '/comparison">Porovnanie hlasovani s poslancom</a></p></div>').css( {
             position: 'absolute',
             display: 'none',
             top: y + 5,
@@ -201,7 +205,7 @@ Aby ste videli vašu zhodu musíte najskôr zahlasovať
     });
 
    function addArrow(dir, right, top, offset) {
-           $('<img class="button" src="/images/arrow-' + dir + '.gif" style="right:' + right + 'px;top:' + top + 'px;">').appendTo(placeholder).click(function (e) {
+           $('<img class="button" src="<%= @site_root %>/images/arrow-' + dir + '.gif" style="right:' + right + 'px;top:' + top + 'px;">').appendTo(placeholder).click(function (e) {
                e.preventDefault();
                plot.pan(offset);
                if (offset.top < 0) {

@@ -7,11 +7,11 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :votings, :member => {:vote => :put}
 
-  map.resources :statutes
+  map.resources :statutes, :member => {:vote => :put} 
 
   map.resources :deputies, :member => {:comparison => :get}  
 
-  map.root :controller => "pages", :action => "home"
+  map.root :controller => "statutes", :action => "index"
 
   # The priority is based upon order of creation: first created -> highest priority.
 

@@ -1,14 +1,12 @@
 	<div id="header"><div id="header-content">
 
-		<h1 id="logo"><a href="/" title="">moja<span class="gray">Voľba</span></a></h1>
+		<h1 id="logo"><a href="<%= @site_root %>" title="">moja<span class="gray">Voľba</span></a></h1>
 		<h2 id="slogan">Porovnajte svoj názor s politikmy..</h2>
 
 		<!-- Menu Tabs -->
 		<ul>
 			<li><%= /Úvod/i =~ title ? link_to("Domov", root_url, :id => "active") : link_to("Domov", root_url)%></li>
 			<li><%= link_to "Návod", :controller => "pages", :action => "how_to" %></li>
-			<li><a href="index.html">Downloads</a></li>
-			<li><a href="index.html">Support</a></li>
 			<li><a href="index.html">About</a></li>
 		</ul>
 

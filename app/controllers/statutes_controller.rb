@@ -1,6 +1,40 @@
 class StatutesController < ApplicationController
   # GET /statutes
   # GET /statutes.xml
+
+  def vote
+    if ( (@user = current_user) )
+      @voting = Voting.find(:last, :conditions => ["statute_id = ?",params[:id]])
+
+      user_vote = UserVote.find(:first, :conditions => ["voting_id = ? and user_id = ?", @voting.id , @user.id])
+
+      if user_vote.nil?
+         user_vote = UserVote.new(:user_id => @user.id, :voting_id => @voting.id)
+         old_vote = nil
+      else
+         old_vote = user_vote.vote
+      end
+
+      user_vote.vote = params[:my_vote]
+
+      unless user_vote.save
+         flash[:error] = "Chyba pri hlasovani."
+         redirect_back_or @voting
+         return
+      end
+
+      unless old_vote.nil?
+        @user.add_voting_relations(@voting.id, old_vote)
+      else
+        @user.add_voting_relations(@voting.id)
+      end
+
+      flash[:success] = "Vase hlasovanie bolo uspesne: " + params[:my_vote]
+      redirect_back_or @voting
+    end
+
+  end
+  
   def index
     @title = "Návrhy zákonov"
 
@@ -10,6 +44,12 @@ class StatutesController < ApplicationController
 #      @statutes = Statute.all
 #    end
     @statutes = Statute.search(params[:page], params[:statute_type])
+
+
+    @user_votes = {}
+    @statutes.each do |statute|
+      @user_votes[statute.id] = statute.votings.last.user_votes.find_or_initialize_by_user_id(current_user.id) if current_user 
+    end
 
     @types = Statute.all(:select => "DISTINCT(statute_type)")
 
