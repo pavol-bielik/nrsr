@@ -80,17 +80,16 @@ namespace :load do
         voting_list = Connector.download_statute_votings_list_html(statute_id)
         break if voting_list.nil?
         voting_ids = Extractor.extract_voting_ids(voting_list)
+        processed_votings_ids = []
         voting_ids.each do |voting|
-#          next if Voting.exists?(voting)
+          next if Voting.exists?(voting)
           voting_html = Voting.create_voting(voting, statute_id)
-          if voting_html.nil?
-            voting_ids.delete(voting)
-          else
+          unless voting_html.nil?
             Vote.process_votes(voting_html,voting)
+            processed_votings_ids << voting
           end  
-#          Deputy.add_voting_relations_2(voting)
         end
-        Deputy.add_voting_relations_list_2(voting_ids)
+        Deputy.add_voting_relations_list_2(processed_votings_ids) unless processed_votings_ids.empty?
         break if statute.parent_id.nil?
         statute_id = statute.parent_id
       end
