@@ -4,7 +4,7 @@ require 'fileutils'
 
 class Deputy < ActiveRecord::Base
   has_many :votes, :class_name => "Vote"
-  has_many :relations, :class_name => "DeputyRelation", :foreign_key => "deputy1_id" 
+  has_many :relations, :class_name => "DeputyRelation", :foreign_key => "deputy1_id"
 
   PARTY = { "SMER – SD" => 2,
             "SDKÚ – DS" => 1,
@@ -38,21 +38,23 @@ class Deputy < ActiveRecord::Base
     end
   end
 
-  def create_deputy_relations
-    deputies = Deputy.find(:all, :select => "id")
+  def create_deputy_relations(deputies)
+
+    new_relations = []
     deputies.each do |deputy|
       next if deputy.id == id
-      unless DeputyRelation.exists?(:deputy1_id => id, :deputy2_id => deputy.id) then
-        DeputyRelation.create(:deputy1_id => id,
-                              :deputy2_id => deputy.id)
-      end
+      new_relations << "(0, 0, #{id}, #{deputy.id})"
     end
+
+    db_con = DeputyRelation.connection
+    db_con.insert_sql("INSERT INTO `deputy_relations` (`votes`, `relation`, `deputy1_id`, `deputy2_id`) VALUES#{new_relations.join(",")}")
+
   end
 
   def self.create_deputies_relations
     deputies = Deputy.all(:select => "id")
     deputies.each do |deputy|
-      deputy.create_deputy_relations
+      deputy.create_deputy_relations(deputies)
       puts "#Relations for deputy: #{deputy.id} added"
     end
   end
@@ -177,7 +179,7 @@ class Deputy < ActiveRecord::Base
 #    return File.open("data/photos/#{super()}", "rb")
 #  end
 #
-  
+
   def ==(dep_id)
     return true if dep_id == id
     return false
