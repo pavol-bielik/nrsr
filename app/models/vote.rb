@@ -7,21 +7,32 @@ class Vote < ActiveRecord::Base
     return nil if all_votes.empty?
     i = 0
 
+    deputies = Deputy.all
+    new_votes = []
+
     all_votes.each do |party, votes|
       votes.each do |vote|
          i += 1
          
          party =~ /Poslanci/i ? n_party = "Nezávislý" : n_party = party
 
-         n_vote = Vote.create(:voting_id => voting,
-                       :deputy_id => vote[1],
-                       :vote => vote[0],
-                       :party => n_party)
+        new_votes << "(#{voting}, #{vote[1]}, '#{vote[0]}', '#{n_party}')"
 
-         n_vote.deputy.update_party(n_party, voting)
+#         n_vote = Vote.create(:voting_id => voting,
+#                       :deputy_id => vote[1],
+#                       :vote => vote[0],
+#                       :party => n_party)
+
+#         n_vote.deputy.update_party(n_party, voting)
+          deputies[deputies.index(vote[1])].update_party(n_party, voting)
 
       end
     end
+
+#    Vote.create(new_votes)
+    db_con = Vote.connection
+    db_con.insert_sql("INSERT INTO `votes` (`voting_id`, `deputy_id`,`vote`, `party`) VALUES#{new_votes.join(",")}")
+    
     puts "# #{i} votes created"
   end
 
