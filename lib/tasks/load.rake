@@ -86,7 +86,7 @@ namespace :load do
           Vote.process_votes(voting_html,voting)
 #          Deputy.add_voting_relations_2(voting)
         end
-        Deputy.add_voting_relations_list(voting_ids)
+        Deputy.add_voting_relations_list_2(voting_ids)
         break if statute.parent_id.nil?
         statute_id = statute.parent_id
       end
