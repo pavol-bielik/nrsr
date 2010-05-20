@@ -8,6 +8,7 @@ class Voting < ActiveRecord::Base
     voting_html = Connector.download_voting_info_html(id)
     voting_attr = Extractor.extract_voting(voting_html)
     return nil if voting_attr.nil?
+    return nil if voting_attr[:voting_no].nil? #Tajne hlasovanie
     voting = Voting.new(voting_attr)
     voting.id = id
     voting.statute_id = statute unless statute.nil?

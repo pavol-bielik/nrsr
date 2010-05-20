@@ -125,6 +125,38 @@ class Deputy < ActiveRecord::Base
     return true
   end
 
+  def self.add_voting_relations_list_2(voting_ids)
+
+      votes = []
+      voting_ids.each do |voting_id|
+        votes += Vote.find(:all, :conditions => {:voting_id => voting_id})
+      end
+
+      dep_votes = {}
+
+      votes.each do |vote|
+        dep_votes[vote.deputy_id] = [] if dep_votes[vote.deputy_id].nil?
+        dep_votes[vote.deputy_id] << vote.vote
+      end
+
+      len = voting_ids.length
+      deputy_relations = DeputyRelation.all
+      update = {}
+      deputy_relations.each do |relation|
+         value = 0
+        (0).upto(len - 1) do |i|
+          value += DeputyRelation::RELATION[dep_votes[relation.deputy1_id][i]][dep_votes[relation.deputy2_id][i]]
+        end
+        update[value] ||= []
+        update[value] << relation.id
+      end
+
+      update.each do |key, value|
+         DeputyRelation.update_all("relation = relation + #{key}, votes = votes + #{len}", "id IN (#{value.join(",")})")
+      end
+
+  end
+
   def photo=(file)
     super(File.basename(file.path))
   end
@@ -144,5 +176,11 @@ class Deputy < ActiveRecord::Base
 #  def photo
 #    return File.open("data/photos/#{super()}", "rb")
 #  end
+#
+  
+  def ==(dep_id)
+    return true if dep_id == id
+    return false
+  end
 
 end
