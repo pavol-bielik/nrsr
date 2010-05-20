@@ -19,14 +19,14 @@
 body {
 	margin: 0; 	padding: 0;
 	font: normal 73%/1.6em 'Trebuchet MS', Tahoma, sans-serif;
-	color: #555;
+	color: #333;
 	background: #FFF url(images/bg.jpg) repeat-x;
 	text-align: center;		
 }
 
 /* links */
-a:link, a:visited { background: inherit; color: #72A545; text-decoration: none; }
-a:hover { background: inherit; color: #006699; text-decoration: underline; }
+a:link, a:visited { background: inherit; color: #077000; text-decoration: none; }
+a:hover { background: inherit; color: #003000; text-decoration: underline; }
 
 /* headers */
 h1, h2, h3 { font: bold 1em 'Trebuchet MS', Tahoma, Sans-serif; }

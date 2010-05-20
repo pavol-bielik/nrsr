@@ -8,12 +8,16 @@ class User < ActiveRecord::Base
 
   def create_relations
     deputies = Deputy.find(:all, :select => "id")
+    user_relations = UserRelation.find(:all, :conditions => ["user_id = ?", id])
+
+    new_relations = []
     deputies.each do |deputy|
-      unless UserRelation.exists?(:user_id => id, :deputy_id => deputy.id) then
-        UserRelation.create(:user_id => id,
-                              :deputy_id => deputy.id)
-      end
+      new_relations << "(0, 0, #{id}, #{deputy.id})" if user_relations.index(deputy.id).nil?
     end
+
+    db_con = UserRelation.connection
+    db_con.insert_sql("INSERT INTO `user_relations` (`votes`, `relation`, `user_id`, `deputy_id`) VALUES#{new_relations.join(",")}")
+
   end
 
   def delete_relations
@@ -29,12 +33,15 @@ class User < ActiveRecord::Base
     votes = Vote.find(:all, :conditions => {:voting_id => voting_id})
     user_vote = UserVote.find(:first, :conditions => ["voting_id = ? and user_id = ?", voting_id , id])
 
+    update = {}
     votes.each do |vote|
         value = DeputyRelation::RELATION[user_vote.vote][vote.vote] - DeputyRelation::RELATION[old_vote][vote.vote]
-        relation = UserRelation.find(:first, :conditions => ["user_id = ? and deputy_id = ?", id, vote.deputy_id])
-        relation.relation += value
-        relation.votes += 1 if old_vote == "0"
-        relation.save
+        update[value] ||= []
+        update[value] << vote.deputy_id
+    end
+
+    update.each do |key, value|
+       UserRelation.update_all("relation = relation + #{key}, votes = votes + 1", ["user_id = ? and deputy_id IN (#{value.join(",")})",id])
     end
 
     puts "#User relations for voting #{voting_id} added "

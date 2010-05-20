@@ -67,6 +67,7 @@ class Extractor
         short_sub = type + " " + match[poz].strip
         short_sub.gsub!(/v znení neskorších predpisov/, '')
         short_sub.gsub!(/a o zmene a doplnení niektorých zákonov/, '')
+        short_sub.gsub!(/a o zmene a doplnení niektorých ďalších zákonov/, '')
         statute[:short_subject] = short_sub.strip
       else
         statute[:short_subject] = statute[:subject]
