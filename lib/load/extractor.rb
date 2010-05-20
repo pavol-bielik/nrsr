@@ -59,6 +59,16 @@ class Extractor
         re = /(.*)Z. z. (.*)/i
         poz = 2
         type = "Návrh na vydanie zákona"
+        match = re.match(text)
+        if match.nil?
+           re = /(.*)Zb. (.*)/i
+           poz = 2
+           type = "Návrh na vydanie zákona"
+        end
+      when /Návrh (.*) na vydanie ústavného zákona/i
+        re = /(.*)poslanca Národnej rady Slovenskej republiky (.*)/i
+        poz = 2
+        type = "Návrh "
     end
 
     unless re.nil?

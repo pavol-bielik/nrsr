@@ -15,7 +15,10 @@ class Statute < ActiveRecord::Base
       statute = Statute.new(statute_attr)
       return nil if statute[:result] =~ /(NZ vzal navrhovateľ späť)/i
       return nil if statute[:state] =~ /Evidencia/i
-      return nil if statute[:state] =~ /Rozhodnutie predsedu NR SR/i      
+      return nil if statute[:state] =~ /Rozhodnutie predsedu NR SR/i
+      return nil if statute[:statute_type] =~ /Iný typ/i
+      return nil if statute[:statute_type] =~ /Správa/i
+      return nil if statute[:statute_type] =~ /Informácia/i
       statute.id = id
       statute.save
       puts "statute #{id} created"
