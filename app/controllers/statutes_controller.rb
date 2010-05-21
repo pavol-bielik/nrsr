@@ -23,14 +23,17 @@ class StatutesController < ApplicationController
          return
       end
 
-      unless old_vote.nil?
-        @user.add_voting_relations(@voting.id, old_vote)
-      else
-        @user.add_voting_relations(@voting.id)
-      end
+#      unless (user_vote.vote == "?" and old_vote.nil?)
+        unless old_vote.nil?
+          @user.add_voting_relations(@voting.id, old_vote)
+        else
+          @user.add_voting_relations(@voting.id)
+        end
+#      end
 
+      @back = request.env["HTTP_REFERER"]
       flash[:success] = "Vase hlasovanie bolo uspesne: " + params[:my_vote]
-      redirect_back_or @voting
+      redirect_to(:controller => "votings", :action => "show", :id => @voting.id, :path => @back, :anchor => "result")
     end
 
   end
@@ -74,6 +77,11 @@ class StatutesController < ApplicationController
     @votings = Voting.find(:all, :conditions => ["statute_id = ?", @statute.id], :order => "popularity DESC")
 
     @parent = Statute.find(@statute.parent_id) unless @statute.parent_id.nil?
+
+    @user_votes = {}
+    @votings.each do |voting|
+      @user_votes[voting.id] = voting.user_votes.find_or_initialize_by_user_id(current_user.id) if current_user
+    end
 
     respond_to do |format|
       format.html # show.html.erb

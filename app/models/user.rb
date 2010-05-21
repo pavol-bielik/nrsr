@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def add_voting_relations(voting_id, old_vote="0")
+    old_vote == "0" ? inc = 0 : inc = 1
 
     votes = Vote.find(:all, :conditions => {:voting_id => voting_id})
     user_vote = UserVote.find(:first, :conditions => ["voting_id = ? and user_id = ?", voting_id , id])
@@ -41,7 +42,7 @@ class User < ActiveRecord::Base
     end
 
     update.each do |key, value|
-       UserRelation.update_all("relation = relation + #{key}, votes = votes + 1", ["user_id = ? and deputy_id IN (#{value.join(",")})",id])
+       UserRelation.update_all("relation = relation + #{key}, votes = votes + #{inc}", ["user_id = ? and deputy_id IN (#{value.join(",")})",id])
     end
 
     puts "#User relations for voting #{voting_id} added "

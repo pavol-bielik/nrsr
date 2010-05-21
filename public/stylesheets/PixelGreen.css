@@ -134,9 +134,9 @@ margin:0px 15px;
 clear:both;
 }
 
-form.no_margin {
+form.small_margin {
     background-color: #F5F5F5;
-    margin:0px 0px; padding: 0px;
+    margin:7px 7px; padding: 0px;
 }
 
 form.search_left {

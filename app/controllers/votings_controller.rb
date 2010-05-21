@@ -16,9 +16,38 @@ class VotingsController < ApplicationController
   def show
     @title = "Hlasovania"    
     @voting = Voting.find(params[:id])
-    @votes = @voting.votes.all(:include => :deputy, :order => "vote")
+    @votes = @voting.votes.all(:include => :deputy, :order => "vote DESC")
+
+    @back = @back
 
     @user_vote = @voting.user_votes.find_or_initialize_by_user_id(current_user.id) if current_user
+
+    @chart = "
+<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
+    <script type=\"text/javascript\">
+      google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Hlas');
+        data.addColumn('number', 'Počet');
+        data.addRows(5);
+        data.setValue(0, 0, 'Za');
+        data.setValue(0, 1, #{@voting.pro_count});
+        data.setValue(1, 0, 'Proti');
+        data.setValue(1, 1, #{@voting.against_count});
+        data.setValue(2, 0, 'Zdržalo sa');
+        data.setValue(2, 1, #{@voting.hold_count});
+        data.setValue(3, 0, 'Nehlasovalo');
+        data.setValue(3, 1, #{@voting.not_voting_count});
+        data.setValue(4, 0, 'Neprítomní');
+        data.setValue(4, 1, #{@voting.not_attending_count});
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, {colors: ['green', 'red', 'orange', 'yellow', 'black'], width: 450, height: 230, title: 'Hlasovanie poslancov'});
+      }
+    </script>
+"
 
     respond_to do |format|
       format.html # show.html.erb
@@ -39,24 +68,24 @@ class VotingsController < ApplicationController
          old_vote = user_vote.vote
       end
 
-#      user_vote = @voting.user_votes.find_or_initialize_by_user_id(@user.id)
       user_vote.vote = params[:my_vote]
-#      user_vote.voting = @voting
-#      user_vote.user = @user
       unless user_vote.save
          flash[:error] = "Chyba pri hlasovani."
-         redirect_to @voting
+         redirect_back_or @voting
          return
       end
 
-      unless old_vote.nil?
-        @user.add_voting_relations(params[:id], old_vote)
-      else
-        @user.add_voting_relations(params[:id])
-      end
+#      unless (user_vote.vote == "?" and old_vote.nil?)
+        unless old_vote.nil?
+          @user.add_voting_relations(params[:id], old_vote)
+        else
+          @user.add_voting_relations(params[:id])
+        end
+#      end
 
+      @back = request.env["HTTP_REFERER"]
       flash[:success] = "Vase hlasovanie bolo uspesne: " + params[:my_vote]
-      redirect_to @voting
+      redirect_to(:controller => "votings", :action => "show", :id => @voting.id, :path => @back, :anchor => "result")
     end
   end
 

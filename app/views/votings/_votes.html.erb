@@ -1,17 +1,86 @@
-<table>
+<div class="clear;">
+<% if (!defined?(@user_vote) or @user_vote.vote.nil?) %>
+   <% len = @votes.length %>
+<table class="float-left">
   <tr>
-    <th>Vote</th>
-    <th>Name</th>
-    <th>Surname</th>
-    <th>Party</th>
+    <th></th>
+    <th>Hlas</th>
+    <th>Poslanec</th>
+    <th>Strana</th>
   </tr>
 
-<% @votes.each do |vote| %>
+<% @votes.values_at(0..(len/2 - 1)).each do |vote| %>
   <tr>
+    <td></td>
     <td><%=h vote.vote %></td>
-    <td><%=h vote.deputy.firstname %></td>
-    <td><%=h vote.deputy.lastname %></td>
+    <td><%= link_to "#{vote.deputy.firstname} #{vote.deputy.lastname}", vote.deputy  %></td>
+    <td><%=h vote.party %></td>
+  </tr>
+  <% end %>
+</table>
+
+<table>
+  <tr>
+    <th></th>
+    <th>Hlas</th>
+    <th>Poslanec</th>
+    <th>Strana</th>
+  </tr>
+
+<% @votes.values_at((len/2)..(len - 1)).each do |vote| %>  
+  <tr>
+    <td></td>
+    <td><%=h vote.vote %></td>
+    <td><%= link_to "#{vote.deputy.firstname} #{vote.deputy.lastname}", vote.deputy  %></td>
     <td><%=h vote.party %></td>
   </tr>
 <% end %>
 </table>
+
+
+
+<% else %>
+<table class="float-left">
+  <tr>
+    <th></th>
+    <th>Hlas</th>
+    <th>Poslanec</th>
+    <th>Strana</th>
+  </tr>
+
+<% @votes.each do |vote| %>
+  <% relation = DeputyRelation::RELATION[@user_vote.vote][vote.vote]
+     unless relation < 5 %>
+  <tr>
+    <td><%= image_tag("up2.png") %></td>
+    <td><%=h vote.vote %></td>
+    <td><%= link_to "#{vote.deputy.firstname} #{vote.deputy.lastname}", vote.deputy  %></td>
+    <td><%=h vote.party %></td>
+  </tr>
+  <% end %>
+<% end %>
+</table>
+
+<table>
+  <tr>
+    <th></th>
+    <th>Hlas</th>
+    <th>Poslanec</th>
+    <th>Strana</th>
+  </tr>
+
+<% @votes.each do |vote| %>
+  <%
+     relation = DeputyRelation::RELATION[@user_vote.vote][vote.vote]
+     unless relation > 5 %>
+  <tr>
+    <td><%= image_tag("down2.png") %></td>
+    <td><%=h vote.vote %></td>
+    <td><%= link_to "#{vote.deputy.firstname} #{vote.deputy.lastname}", vote.deputy  %></td>
+    <td><%=h vote.party %></td>
+  </tr>
+  <% end %>
+<% end %>
+</table>
+<% end %>
+</div>    
