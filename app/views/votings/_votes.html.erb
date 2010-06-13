@@ -1,4 +1,4 @@
-<div class="clear;">
+
 <% if (!defined?(@user_vote) or @user_vote.vote.nil?) %>
    <% len = @votes.length %>
 <table class="float-left">
@@ -19,7 +19,7 @@
   <% end %>
 </table>
 
-<table>
+<table class="float-right">
   <tr>
     <th></th>
     <th>Hlas</th>
@@ -61,7 +61,7 @@
 <% end %>
 </table>
 
-<table>
+<table class="float-right">
   <tr>
     <th></th>
     <th>Hlas</th>
@@ -83,4 +83,4 @@
 <% end %>
 </table>
 <% end %>
-</div>    
+ 
