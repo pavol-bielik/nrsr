@@ -223,7 +223,7 @@ input.button {
 ------------------------------- */
 
 #header-content, .content, #footer-content {
-	width: 950px;
+	width: 980px;
 }
 
 /* header */
@@ -314,7 +314,7 @@ input.button {
 /* sidebar */
 #sidebar {
 	float: right;
-	width: 23%;
+	width: 21%;
 	margin: 0 0 10px 0; padding: 0;	
 }	
 #sidebar h1 {
@@ -370,7 +370,7 @@ input.button {
 /* main */
 #main {
 	float: left;
-	width: 74%;
+	width: 76%;
 	margin: 0 0 10px 0; padding: 0;	
 }
 

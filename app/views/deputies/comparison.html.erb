@@ -22,9 +22,8 @@
     
     <td class="first"><%=
         relation = DeputyRelation::RELATION[vote.vote][@deputy_votes[vote.voting_id]]
-        relation > 5 ? color = "green" : color = "red"
-        (relation == 0 or relation == 10) ? size = "double" : size = "single"
-        image_tag("#{size}_#{color}.png")
+        relation > 5 ? type = "up2" : type = "down2"
+        image_tag("#{type}.png")
     %></td>
     <td><%=h vote.vote %></td>
     <td><%=h @deputy_votes[vote.voting_id] %></td>
