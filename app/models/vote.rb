@@ -17,9 +17,12 @@ class Vote < ActiveRecord::Base
          party =~ /Poslanci/i ? n_party = "Nezávislý" : n_party = party
 
         new_votes << "(#{voting}, #{vote[1]}, '#{vote[0]}', '#{n_party}')"
+        #vote[0] = vote //"Z", "P", ...
+        #vote[1] = deputy_id
 
         deputies[deputies.index(vote[1])].update_party(n_party, voting)
-
+        #deputies.index(vote[1]) vrati index poslanca s id = vote[1]
+        #update_party zaznamena zmenu strany poslanca
       end
     end
 

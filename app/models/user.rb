@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
     update = {}
     votes.each do |vote|
         value = DeputyRelation::RELATION[user_vote.vote][vote.vote] - DeputyRelation::RELATION[old_vote][vote.vote]
+        #V pripade ze uzivatel predtym nehlasoval, je old_vote="0" a hodnota RELATION[old_vote][vote.vote] = 0
         update[value] ||= []
         update[value] << vote.deputy_id
     end

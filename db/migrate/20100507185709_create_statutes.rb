@@ -10,8 +10,8 @@ class CreateStatutes < ActiveRecord::Migration
       t.text :subject, :limit => "1000"
       t.string :short_subject
       t.date :date
-      t.string :doc
-      t.integer :popularity
+      t.string :doc                 #url na dokument o zakone v pripade, ze je dostupny
+      t.integer :popularity         #momentalne nepouzite, pripadne pouzitie rovnake ako pri votings
       t.text :info, :limit => "2000"
     end
   end

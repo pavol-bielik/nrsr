@@ -6,9 +6,9 @@ class CreateDeputies < ActiveRecord::Migration
       t.string :degree
       t.string :lastname
       t.string :firstname
-      t.string :elected_for
-      t.string :party
-      t.date :party_since
+      t.string :elected_for    #za koho kandidoval
+      t.string :party          #aktualna strana
+      t.date :party_since      #datum posobenia v aktualnej strane
       t.date :born
       t.string :nationality
       t.string :domicile
