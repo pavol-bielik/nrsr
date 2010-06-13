@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def add_voting_relations(voting_id, old_vote="0")
-    old_vote == "0" ? inc = 0 : inc = 1
+    old_vote == "0" ? inc = 1 : inc = 0
 
     votes = Vote.find(:all, :conditions => {:voting_id => voting_id})
     user_vote = UserVote.find(:first, :conditions => ["voting_id = ? and user_id = ?", voting_id , id])

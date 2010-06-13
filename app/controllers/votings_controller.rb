@@ -1,6 +1,6 @@
 class VotingsController < ApplicationController
-  # GET /votings
-  # GET /votings.xml
+  before_filter :require_user, :only => [:vote]
+
   def index
     @title = "Hlasovania"
     @votings = Voting.all(:order => "popularity DESC")
@@ -22,6 +22,7 @@ class VotingsController < ApplicationController
 
     @user_vote = @voting.user_votes.find_or_initialize_by_user_id(current_user.id) if current_user
 
+    #google chart ucasti poslancov na hlasovani
     @chart = "
 <script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
     <script type=\"text/javascript\">
@@ -52,40 +53,6 @@ class VotingsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @voting }
-    end
-  end
-
-  def vote
-    if ( (@user = current_user) )
-      @voting = Voting.find(params[:id])
-
-      user_vote = UserVote.find(:first, :conditions => ["voting_id = ? and user_id = ?", @voting.id , @user.id])
-
-      if user_vote.nil?
-         user_vote = UserVote.new(:user_id => @user.id, :voting_id => @voting.id)
-         old_vote = nil
-      else
-         old_vote = user_vote.vote
-      end
-
-      user_vote.vote = params[:my_vote]
-      unless user_vote.save
-         flash[:error] = "Chyba pri hlasovani."
-         redirect_back_or @voting
-         return
-      end
-
-#      unless (user_vote.vote == "?" and old_vote.nil?)
-        unless old_vote.nil?
-          @user.add_voting_relations(params[:id], old_vote)
-        else
-          @user.add_voting_relations(params[:id])
-        end
-#      end
-
-      @back = request.env["HTTP_REFERER"]
-      flash[:success] = "Vase hlasovanie bolo uspesne: " + params[:my_vote]
-      redirect_to(:controller => "votings", :action => "show", :id => @voting.id, :path => @back, :anchor => "result")
     end
   end
 

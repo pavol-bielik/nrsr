@@ -12,7 +12,8 @@
 
 <% if current_user %>
   <h3>Vas nazor?</h3>
-    <% form_tag(vote_voting_path(@voting), :method => :put) do %>
+    <% form_tag(vote_vote_path(@voting), :method => :put) do %>
+      <%= hidden_field_tag 'voting', @voting.id %>    
       <%= @user_vote.vote == "Z" ? radio_button_tag(:my_vote, "Z", true) : radio_button_tag(:my_vote, "Z", false) %>
       <%= label_tag(:za, "Za") %><br />
       <%= @user_vote.vote == "P" ? radio_button_tag(:my_vote, "P", true) : radio_button_tag(:my_vote, "P", false) %>

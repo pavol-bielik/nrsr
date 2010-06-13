@@ -18,27 +18,20 @@ class Vote < ActiveRecord::Base
 
         new_votes << "(#{voting}, #{vote[1]}, '#{vote[0]}', '#{n_party}')"
 
-#         n_vote = Vote.create(:voting_id => voting,
-#                       :deputy_id => vote[1],
-#                       :vote => vote[0],
-#                       :party => n_party)
-
-#         n_vote.deputy.update_party(n_party, voting)
-          deputies[deputies.index(vote[1])].update_party(n_party, voting)
+        deputies[deputies.index(vote[1])].update_party(n_party, voting)
 
       end
     end
 
-#    Vote.create(new_votes)
     db_con = Vote.connection
     db_con.insert_sql("INSERT INTO `votes` (`voting_id`, `deputy_id`,`vote`, `party`) VALUES#{new_votes.join(",")}")
     
     puts "# #{i} votes created"
   end
 
-  def ==(input_id)
-    return true if deputy_id == input_id
-    false
-  end
+#  def ==(input_id)
+#    return true if deputy_id == input_id
+#    false
+#  end
 
 end

@@ -3,11 +3,11 @@ ActionController::Routing::Routes.draw do |map|
 #  map.resources :users
   map.resource :user_sessions
 
-  map.resources :votes
+  map.resources :votes, :member => {:vote => :put}
 
-  map.resources :votings, :member => {:vote => :put}
+  map.resources :votings
 
-  map.resources :statutes, :member => {:vote => :put} 
+  map.resources :statutes 
 
   map.resources :deputies, :member => {:comparison => :get}  
 

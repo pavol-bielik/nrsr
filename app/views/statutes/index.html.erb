@@ -33,8 +33,11 @@
     <td><%= link_to statute.short_subject, statute %></td>
     <td><% if current_user %>
           <% if statute.state =~ /Uzavretá úloha/ or statute.state =~ /Redakcia/ %>
-            <% form_tag(vote_statute_path(statute), :method => :put, :class => "small_margin" ) do %>
-              <% user_vote = @user_votes[statute.id] %>
+            <% form_tag(vote_vote_path(statute), :method => :put, :class => "small_margin") do %>
+
+              <% user_vote = @user_votes[statute.votings.last.id] %>
+              <% user_vote = UserVote.new if user_vote.nil? %>
+              <%= hidden_field_tag 'statute', statute.id %>
               <%= user_vote.vote == "Z" ? radio_button_tag(:my_vote, "Z", true) : radio_button_tag(:my_vote, "Z", false) %>
               <%= label_tag(:za, "Za") %><br />
               <%= user_vote.vote == "P" ? radio_button_tag(:my_vote, "P", true) : radio_button_tag(:my_vote, "P", false) %>

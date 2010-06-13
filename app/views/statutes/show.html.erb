@@ -44,8 +44,10 @@
     <td class="first"><%=h "#{voting.happened_at.day}.#{voting.happened_at.month}.#{voting.happened_at.year}" %></td>
     <td><%= link_to voting.short_subject.nil? ? voting.subject : voting.short_subject, voting %><br/></td>
     <td><% if current_user %>
-            <% form_tag(vote_voting_path(voting), :method => :put, :class => "small_margin" ) do %>
+            <% form_tag(vote_vote_path(voting), :method => :put, :class => "small_margin") do %>
               <% user_vote = @user_votes[voting.id] %>
+              <% user_vote = UserVote.new if user_vote.nil? %>
+              <%= hidden_field_tag 'voting', voting.id %>
               <%= user_vote.vote == "Z" ? radio_button_tag(:my_vote, "Z", true) : radio_button_tag(:my_vote, "Z", false) %>
               <%= label_tag(:za, "Za") %><br />
               <%= user_vote.vote == "P" ? radio_button_tag(:my_vote, "P", true) : radio_button_tag(:my_vote, "P", false) %>
