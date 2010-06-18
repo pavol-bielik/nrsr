@@ -86,7 +86,7 @@ helper :all
         parties[relation.deputy_compare.party] << [value, i, relation.deputy_compare.id, relation.deputy_compare.degree, relation.deputy_compare.firstname, relation.deputy_compare.lastname]
         parties[relation.deputy_compare.party][0] += value
         dep_options << ["#{i}", "#{relation.deputy_compare.lastname}, #{relation.deputy_compare.firstname}"]
-         ticks << "[#{i + 0.5},'<a style=\"font-size:150%;\" href=\"/deputies/#{relation.deputy_compare.id}\">#{relation.deputy_compare.firstname} #{relation.deputy_compare.lastname}</a>, #{ len - i}'],"
+         ticks << "[#{i + 0.5},'<a style=\"font-size:150%;\" href=\"/Poslanci/#{relation.deputy_compare.id}-#{relation.deputy_compare.firstname}-#{relation.deputy_compare.lastname}\">#{relation.deputy_compare.firstname} #{relation.deputy_compare.lastname}</a>, #{ len - i}'],"
          i -= 1
       end
 

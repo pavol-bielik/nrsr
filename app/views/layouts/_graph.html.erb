@@ -122,7 +122,7 @@
             <td>' + party +'</td>\
           </tr>\
           </table>\
-          <%= "<p><a href=\"#{@site_root}/deputies/' + datasets[party].deputies[id][1] + '/comparison\">Porovnanie hlasovani s poslancom</a></p>" if current_user %>\
+          <%= "<p><a href=\"#{@site_root}/Poslanci/' + datasets[party].deputies[id][1] + '-' + datasets[party].deputies[id][3] + '-' + datasets[party].deputies[id][4] + '/comparison\">Porovnanie hlasovani s poslancom</a></p>" if current_user %>\
             </div>').css( {
             position: 'absolute',
             display: 'none',

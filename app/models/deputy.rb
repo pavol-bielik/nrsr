@@ -13,6 +13,10 @@ class Deputy < ActiveRecord::Base
             "ĽS – HZDS" => 5,
             "KDH" => 6 }
 
+  def to_param
+    "#{id}-#{firstname}-#{lastname}"
+  end
+
   def self.create_deputies
     actual_deputies_html = Connector.download_actual_deputies_list_html
     deputies_ids = Extractor.extract_actual_deputies_ids(actual_deputies_html)

@@ -5,11 +5,11 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :votes, :member => {:vote => :put}
 
-  map.resources :votings
+  map.resources :votings, :as => "Hlasovania"
 
-  map.resources :statutes 
+  map.resources :statutes, :as => "Zakony" 
 
-  map.resources :deputies, :member => {:comparison => :get}  
+  map.resources :deputies, :member => {:comparison => :get}, :as => "Poslanci"
 
   map.root :controller => "statutes", :action => "index"
 
